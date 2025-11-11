@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us | Hawaa Hawaai Decor</title>
+  <meta name="title" content="Hawaa Hawaii Balloon Decor | Birthday, Anniversary, Baby Shower">
+<meta name="description" content="We bring color and joy to your celebrations with premium balloon decorations for birthdays, anniversaries, baby showers and more. Affordable and creative balloon decor in your city!">
+<meta name="keywords" content="hawahawaidecor, hawahawai, hawa hawai, hawa hawai decor, Balloon Decoration,hawaa hawaai decor, hawaahawaaidecor, hawaa hawaii, Birthday Party, Baby Shower, Anniversary Decor, Hawaa Hawaii, Balloon Decor India,balloon decoration Delhi, balloon decoration Gurugram, balloon decoration Gurgaon, balloon decoration Noida, balloon decoration Meerut, balloon decoration Uttar Pradesh, balloon decoration Haryana, balloon decoration New Delhi, balloon decoration NCR, birthday balloon decoration Delhi NCR, baby shower balloon decoration Gurugram, wedding balloon decoration Gurgaon, anniversary balloon decoration Delhi, theme party balloon decoration Haryana, surprise home decoration balloons Noida">
+<meta name="author" content="Hawaa Hawaii Team">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+</head>
+<body class="bg-pink-50 text-gray-800">
+
+  <!-- Instagram Floating Button -->
+  <a href="https://instagram.com/hawaahawaaidecor" target="_blank" class="fixed bottom-20 right-6 bg-gradient-to-br from-pink-500 to-yellow-400 text-white rounded-full p-4 shadow-lg hover:scale-110 transition z-50">
+    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm4.5 3.5a4.5 4.5 0 1 1 0 9a4.5 4.5 0 0 1 0-9ZM12 10a2 2 0 1 0 0 4a2 2 0 0 0 0-4Zm4.75-1.5a.75.75 0 1 1 0 1.5a.75.75 0 0 1 0-1.5Z"/>
+    </svg>
+  </a>
+
+  <!-- Navbar -->
+  <header class="bg-white shadow-md sticky top-0 z-40" x-data="{ open: false }" @keydown.escape="open = false">
+  <div class="container mx-auto flex items-center py-3 px-4">
+    
+    <!-- Hamburger Icon (left aligned, larger size) -->
+    <button @click="open = !open" class="md:hidden focus:outline-none mr-4 z-50">
+      <svg x-show="!open" class="w-8 h-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h16M4 16h16" />
+      </svg>
+      <svg x-show="open" x-cloak class="w-8 h-8 text-pink-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <!-- Logo -->
+     <img src="favicon.ico" alt="logo" style="width:60px;height:60px;">
+    <h1 class="text-xl font-bold text-pink-600">Hawaa Hawaai Decor</h1>
+
+    <!-- Desktop Nav -->
+    <nav class="hidden md:flex ml-auto space-x-6 text-base font-semibold">
+      <a href="index.html" class="hover:text-pink-500">Home</a>
+      <a href="services.html" class="hover:text-pink-500">Services</a>
+      <a href="index.html#gallery" class="hover:text-pink-500">Gallery</a>
+      <a href="about.html" class="hover:text-pink-500">About</a>
+      <a href="contact.html" class="hover:text-pink-500">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Mobile Popup Menu -->
+  <div
+    x-show="open"
+    x-transition:enter="transition ease-out duration-300"
+    x-transition:enter-start="opacity-0 -translate-x-4"
+    x-transition:enter-end="opacity-100 translate-x-0"
+    x-transition:leave="transition ease-in duration-200"
+    x-transition:leave-start="opacity-100 translate-x-0"
+    x-transition:leave-end="opacity-0 -translate-x-4"
+    class="fixed top-4 left-3 bg-white/90 backdrop-blur-md rounded-xl z-40 flex flex-col p-5 space-y-4 shadow-xl md:hidden"
+    style="width: max-content"
+    @click.away="open = false"
+    x-cloak
+  >
+    <a href="index.html" class="text-base font-semibold hover:text-pink-500">Home</a>
+    <a href="services.html" class="text-base font-semibold hover:text-pink-500">Services</a>
+    <a href="index.html#gallery" class="text-base font-semibold hover:text-pink-500">Gallery</a>
+    <a href="about.html" class="text-base font-semibold hover:text-pink-500">About</a>
+    <a href="contact.html" class="text-base font-semibold hover:text-pink-500">Contact</a>
+  </div>
+
+  <!-- Lock body scroll when open -->
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('nav', () => ({
+        open: false,
+        init() {
+          this.$watch('open', value => {
+            document.body.style.overflow = value ? 'hidden' : '';
+          });
+        }
+      }));
+    });
+  </script>
+</header>
+
+
+
+  <!-- About Section -->
+  <section class="py-16 container mx-auto px-6 text-center" data-aos="fade-up">
+    <h2 class="text-4xl font-bold mb-4">About Hawaa Hawaai Decor</h2>
+    <p class="text-lg max-w-2xl mx-auto mb-6">We bring your celebrations to life with vibrant, joyful balloon decorations for every occasion. From birthdays and anniversaries to baby showers and corporate events, our focus is on creating beautiful, memorable moments affordably.</p>
+    <img src="images/team.jpg" alt="Team" class="rounded-lg shadow mx-auto mb-6 max-w-md w-full" loading="lazy">
+    <p class="text-lg max-w-2xl mx-auto">Our passion for colors, creativity, and detail helps us transform simple venues into magical spaces, making your celebrations unforgettable.</p>
+  </section>
+
+  <!-- Embedded Instagram Post -->
+  <section class="py-8 container mx-auto px-4 text-center" data-aos="fade-up">
+    <h3 class="text-3xl font-bold mb-4">See Our Work on Instagram</h3>
+    <div class="flex justify-center">
+    <blockquote class="instagram-media mx-auto" data-instgrm-permalink="https://www.instagram.com/hawaahawaaidecor?utm_source=ig_web_button_share_sheet&igsh=MWJhcnJ4NGQyNWp2ZA==" data-instgrm-version="14" style="width:100%; max-width:540px; margin:auto;"></blockquote>
+    <script async src="//www.instagram.com/embed.js"></script>
+  </div>
+  </section>
+
+  <!-- Feedback Section -->
+  <section class="py-12 container mx-auto px-4 text-center" data-aos="fade-up">
+    <h3 class="text-3xl font-bold mb-6">Leave Your Feedback</h3>
+    <a href="https://forms.gle/ydanoz54DjGbQ9pP6" target="_blank" class="inline-block bg-pink-500 text-white px-6 py-3 rounded-full hover:bg-pink-600 transition">Leave Feedback</a>
+  </section>
+
+  <footer class="bg-white text-center py-6">
+    <p class="text-gray-500">&copy; 2025 Hawaa Hawaai Decors. All rights reserved.</p>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>AOS.init();</script>
+</body>
+</html>
