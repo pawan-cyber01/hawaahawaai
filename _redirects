@@ -1,0 +1,4 @@
+http://www.hawaahawaai.com/*           https://hawaahawaai.com/:splat   301!
+https://www.hawaahawaai.com/*          https://hawaahawaai.com/:splat   301!
+https://hawaahawaai.netlify.app/*      https://hawaahawaai.com/:splat   301!
+http://hawaahawaai.com/*               https://hawaahawaai.com/:splat   301!
