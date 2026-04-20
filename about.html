@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Hawaa Hawai – About us</title>
+  <title>About Hawaa Hawaai Decor – Our Mission & Passion</title>
   
   <!-- SEO Meta Description -->
-  <meta name="description" content="Hawaa Hawai offers premium balloon decoration services in Delhi NCR, Gurugram, Gurgaon, Noida, Meerut, Haryana & Uttar Pradesh. Perfect for birthdays, weddings, baby showers, surprises & corporate events.">
+  <meta name="description" content="Learn about Hawaa Hawaai, the leading balloon decoration service in Delhi NCR. Discover our mission to bring joy to your celebrations.">
   
   <!-- SEO Keywords -->
-  <meta name="keywords" content="about hawaa hawaai balloon decoration | Hawaa Hawaai Decor">"
+  <meta name="keywords" content="about hawaa hawaai, balloon decoration story, event planners delhi">
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png">
 
@@ -24,11 +24,17 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 </head>
-<body class="bg-pink-50 text-gray-800">
+<body class="bg-[#faf5f6] text-gray-800 font-['Outfit'] pb-20">
 
   <!-- Instagram Floating Button -->
-  <a href="https://instagram.com/hawaahawaaidecor" target="_blank" class="fixed bottom-20 right-6 bg-gradient-to-br from-pink-500 to-yellow-400 text-white rounded-full p-4 shadow-lg hover:scale-110 transition z-50">
+  <a href="https://instagram.com/hawaahawaaidecor" target="_blank" class="fixed bottom-24 right-6 bg-gradient-to-br from-pink-500 to-yellow-400 text-white rounded-full p-4 shadow-lg hover:scale-110 transition z-50">
     <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
       <path d="M7.5 2h9A5.5 5.5 0 0 1 22 7.5v9A5.5 5.5 0 0 1 16.5 22h-9A5.5 5.5 0 0 1 2 16.5v-9A5.5 5.5 0 0 1 7.5 2Zm0 2A3.5 3.5 0 0 0 4 7.5v9A3.5 3.5 0 0 0 7.5 20h9a3.5 3.5 0 0 0 3.5-3.5v-9A3.5 3.5 0 0 0 16.5 4h-9Zm4.5 3.5a4.5 4.5 0 1 1 0 9a4.5 4.5 0 0 1 0-9ZM12 10a2 2 0 1 0 0 4a2 2 0 0 0 0-4Zm4.75-1.5a.75.75 0 1 1 0 1.5a.75.75 0 0 1 0-1.5Z"/>
     </svg>
@@ -45,20 +51,38 @@
     <!-- Desktop Nav -->
     <nav class="hidden md:flex ml-auto space-x-6 text-base font-semibold">
       <a href="index.html" class="hover:text-pink-500">Home</a>
-      <a href="cart.html" class="relative hover:text-pink-500">
-        Cart
+      <a href="cart.html" class="relative hover:text-pink-500 flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-          d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6h12.8l1.2-6H7z"/>
-  </svg>
-  <span id="cartCountDesktop" 
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6h12.8l1.2-6H7z"/>
+        </svg>
+        Cart
+        <span id="cartCountDesktop" 
         class="absolute -top-2 -right-3 bg-pink-600 text-white text-xs font-bold rounded-full px-2 py-0.5 transition transform">0</span>
-</a>
+      </a>
       <a href="gallery.html" class="hover:text-pink-500">Gallery</a>
       <a href="about.html" class="hover:text-pink-500">About</a>
       <a href="contact.html" class="hover:text-pink-500">Contact</a>
     </nav>
   </div>
 
+
+
+
+
+  <!-- Lock body scroll when open -->
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('nav', () => ({
+        open: false,
+        init() {
+          this.$watch('open', value => {
+            document.body.style.overflow = value ? 'hidden' : '';
+          });
+        }
+      }));
+    });
+  </script>
 <!-- Bottom Navigation Bar (Transparent BG) -->
 <div class="fixed bottom-2 left-2 right-2 bg-white/80 backdrop-blur-md border border-gray-200 shadow-lg flex justify-around items-center py-2 px-4 md:hidden z-50 rounded-2xl" style="height: 60px;">
 
@@ -149,22 +173,6 @@
     }
   });
 </script>
-
-
-
-  <!-- Lock body scroll when open -->
-  <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('nav', () => ({
-        open: false,
-        init() {
-          this.$watch('open', value => {
-            document.body.style.overflow = value ? 'hidden' : '';
-          });
-        }
-      }));
-    });
-  </script>
 </header>
 
 
@@ -172,15 +180,15 @@
 
   <!-- About Section -->
   <section class="py-16 container mx-auto px-6 text-center" data-aos="fade-up">
-    <h2 class="text-4xl font-bold mb-4">About Hawaa Hawaai Decor</h2>
+    <h2 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-400 mb-8 tracking-tight drop-shadow-sm">About Hawaa Hawaai Decor</h2>
     <p class="text-lg max-w-2xl mx-auto mb-6">We bring your celebrations to life with vibrant, joyful balloon decorations for every occasion. From birthdays and anniversaries to baby showers and corporate events, our focus is on creating beautiful, memorable moments affordably.</p>
-    <img src="images/team.jpg" alt="Team" class="rounded-lg shadow mx-auto mb-6 max-w-md w-full" loading="lazy">
+    <!-- <img src="images/team.jpg" alt="Team" class="rounded-lg shadow mx-auto mb-6 max-w-md w-full" loading="lazy"> -->
     <p class="text-lg max-w-2xl mx-auto">Our passion for colors, creativity, and detail helps us transform simple venues into magical spaces, making your celebrations unforgettable.</p>
   </section>
 
   <!-- Embedded Instagram Post -->
   <section class="py-8 container mx-auto px-4 text-center" data-aos="fade-up">
-    <h3 class="text-3xl font-bold mb-4">See Our Work on Instagram</h3>
+    <h3 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-400 mb-8 tracking-tight drop-shadow-sm">See Our Work on Instagram</h3>
     <div class="flex justify-center">
     <blockquote class="instagram-media mx-auto" data-instgrm-permalink="https://www.instagram.com/hawaahawaaidecor?utm_source=ig_web_button_share_sheet&igsh=MWJhcnJ4NGQyNWp2ZA==" data-instgrm-version="14" style="width:100%; max-width:540px; margin:auto;"></blockquote>
     <script async src="//www.instagram.com/embed.js"></script>
@@ -189,17 +197,17 @@
 
   <!-- Feedback Section -->
   <section class="py-12 container mx-auto px-4 text-center" data-aos="fade-up">
-    <h3 class="text-3xl font-bold mb-6">Leave Your Feedback</h3>
+    <h3 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-400 mb-8 tracking-tight drop-shadow-sm">Leave Your Feedback</h3>
     <a href="https://forms.gle/ydanoz54DjGbQ9pP6" target="_blank" class="inline-block bg-pink-500 text-white px-6 py-3 rounded-full hover:bg-pink-600 transition">Leave Feedback</a>
   </section>
 
-  <section class="max-w-4xl mx-auto px-6 py-12">
-  <h1 class="text-4xl font-extrabold mb-6">About Hawaahawaai Balloon Decorations</h1>
+  <section class="max-w-4xl mx-auto px-8 py-14 bg-white rounded-[2rem] shadow-xl shadow-pink-100/50 border border-pink-50 my-12 relative overflow-hidden">
+  <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-400 mb-8 tracking-tight drop-shadow-sm">About Hawaahawaai Balloon Decorations</h1>
   <p class="text-lg mb-6 leading-relaxed">
     Hawaahawaai is a trusted name in <strong>balloon decoration services</strong> across India, known for transforming ordinary spaces into extraordinary celebrations. From <em>birthday balloon decorations</em> at home to <em>wedding stage decorations</em> and <em>corporate event balloon setups</em>, we create unforgettable experiences for every occasion. Our creative team ensures that your event looks stunning, colorful, and full of joy.
   </p>
   
-  <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
+  <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">Our Mission</h2>
   <p class="text-lg mb-6 leading-relaxed">
     Our mission is to provide <strong>affordable balloon decoration</strong> without compromising on quality or aesthetics. We believe that celebrations should be beautiful, memorable, and stress-free for our clients. That’s why we handle everything — from planning and theme selection to decoration setup — so you can simply enjoy your event.
   </p>
@@ -209,7 +217,7 @@
 </p>
 
 
-  <h2 class="text-3xl font-bold mb-4">Why Choose Hawaahawaai?</h2>
+  <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">Why Choose Hawaahawaai?</h2>
   <p class="text-lg leading-relaxed">
     With thousands of satisfied clients, Hawaahawaai has become one of the most reliable names in balloon decoration services. We offer:
   </p>
@@ -232,5 +240,6 @@
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>AOS.init();</script>
+
 </body>
 </html>

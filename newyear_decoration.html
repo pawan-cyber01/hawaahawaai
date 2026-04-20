@@ -173,12 +173,18 @@ newyear balloon decoration services
 </style>
 
   
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 </head>
 
-<body class="bg-pink-50 text-gray-800 transition-colors duration-300 ease-in-out">
+<body class="bg-[#faf5f6] text-gray-800 transition-colors duration-300 ease-in-out font-['Outfit'] pb-20">
 
   <!-- WhatsApp Floating Button -->
-  <a href="https://wa.me/919389835280?text=Hi,%20I%20want%20to%20book%20balloon%20decorations%20for%20my%20event!" target="_blank" class="fixed bottom-20 right-4 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition z-50">
+  <a href="https://wa.me/919389835280?text=Hi,%20I%20want%20to%20book%20balloon%20decorations%20for%20my%20event!" target="_blank" class="fixed bottom-24 right-4 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition z-50">
     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.9 11.9 0 0012 0C5.37 0 .06 5.31 0 11.93c0 2.1.55 4.17 1.59 5.99L0 24l6.3-1.65a12 12 0 0011.4-2.86c5.05-5.05 5.05-13.26 0-18.31zM12 22c-1.9 0-3.74-.5-5.35-1.45l-.38-.22-3.74.98.99-3.64-.24-.38C2.49 15.6 2 13.8 2 12c0-5.52 4.48-10 10-10s10 4.48 10 10-4.48 10-10 10zm5.14-7.15c-.28-.14-1.66-.82-1.91-.92-.25-.09-.43-.14-.61.14s-.7.92-.86 1.11c-.16.18-.32.2-.6.07-.28-.14-1.18-.43-2.25-1.39-.83-.74-1.39-1.66-1.56-1.94-.16-.28-.02-.43.12-.57.13-.13.28-.32.42-.48.14-.16.18-.28.28-.46.09-.18.05-.34-.02-.48-.07-.14-.61-1.47-.84-2.02-.22-.54-.45-.46-.61-.47-.16-.01-.34-.01-.52-.01s-.48.07-.73.34c-.25.27-.97.95-.97 2.31s.99 2.68 1.13 2.87c.14.18 1.94 2.96 4.7 4.15.66.28 1.17.44 1.57.56.66.21 1.27.18 1.75.11.53-.08 1.66-.68 1.89-1.33.23-.65.23-1.2.16-1.33-.07-.13-.25-.2-.52-.34z"/></svg>
   </a>
 
@@ -207,6 +213,23 @@ newyear balloon decoration services
     </nav>
   </div>
 
+
+
+
+
+  <!-- Lock body scroll when open -->
+  <script>
+    document.addEventListener('alpine:init', () => {
+      Alpine.data('nav', () => ({
+        open: false,
+        init() {
+          this.$watch('open', value => {
+            document.body.style.overflow = value ? 'hidden' : '';
+          });
+        }
+      }));
+    });
+  </script>
 <!-- Bottom Navigation Bar (Transparent BG) -->
 <div class="fixed bottom-2 left-2 right-2 bg-white/80 backdrop-blur-md border border-gray-200 shadow-lg flex justify-around items-center py-2 px-4 md:hidden z-50 rounded-2xl" style="height: 60px;">
 
@@ -297,22 +320,6 @@ newyear balloon decoration services
     }
   });
 </script>
-
-
-
-  <!-- Lock body scroll when open -->
-  <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('nav', () => ({
-        open: false,
-        init() {
-          this.$watch('open', value => {
-            document.body.style.overflow = value ? 'hidden' : '';
-          });
-        }
-      }));
-    });
-  </script>
 </header>
 
 
@@ -377,7 +384,7 @@ newyear balloon decoration services
 
   </section>
   <!-- Horizontal Offers / Updates Section -->
-<section class="py-6 bg-pink-50">
+<section class="py-6 bg-[#faf5f6]">
 
   <h2 class="text-xl font-bold px-4 mb-3">🔥 Latest Offers & Updates</h2>
 
@@ -516,8 +523,8 @@ newyear balloon decoration services
              {
                title:'3 Mix Color Arch',
                price:5000,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Elegant balloon arch decoration to perfectly welcome your guests.',
+               features:['Premium latex balloons','Color customizable','Professional installation'],
                images:['img/ring3.jpeg'],
                qty:0
              }
@@ -526,47 +533,47 @@ newyear balloon decoration services
              {
                title:'Rose Gold and White Balloon Arch',
                price:5499,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Elegant balloon arch decoration to perfectly welcome your guests.',
+               features:['Premium latex balloons','Color customizable','Professional installation'],
                images:['img/halfring.jpeg'],
                qty:0
              },
               {
                title:'Mix Balloon Arch',
                price:5499,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Elegant balloon arch decoration to perfectly welcome your guests.',
+               features:['Premium latex balloons','Color customizable','Professional installation'],
                images:['img/91.jpeg'],
                qty:0
              },
              {
                title:'Yellow and Silver Arch',
                price:4999,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
-               features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
+               desc:'Elegant balloon arch decoration to perfectly welcome your guests.',
+               features:['Premium latex balloons','Color customizable','Professional installation'],
                images:['img/92.jpeg'],
                qty:0
              },
              {
                title:'White and Golden Ring',
                price:5999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Stunning ring backdrop decoration for elegant photo opportunities.',
+               features:['Circular ring frame setup','Chrome & pastel balloons','Neon sign / Happy Birthday'],
                images:['img/ring.jpeg'],
                qty:0
              },
              {
                title:'Pink Ring',
                price:4999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Stunning ring backdrop decoration for elegant photo opportunities.',
+               features:['Circular ring frame setup','Chrome & pastel balloons','Neon sign / Happy Birthday'],
                images:['img/ring2.jpeg'],
                qty:0
              },
              {
                title:'Birthday Decoration4',
                price:12000,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
+               desc:'Make birthdays memorable with vibrant and festive balloon decorations.',
                features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
                images:['img/111.jpeg'],
                qty:0
@@ -574,16 +581,16 @@ newyear balloon decoration services
              {
                title:'Anniversary Setup4',
                price:9999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Romantic anniversary balloon & floral setup to celebrate your love.',
+               features:['Heart-shaped balloon arch','Romantic LED lighting','Customized name initial foils'],
                images:['img/112.jpeg','img/1122.jpeg'],
                qty:0
              },
              {
                title:'Happy Birthday back drop',
                price:9000,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Make birthdays memorable with vibrant and festive balloon decorations.',
+               features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
                images:['img/a1.jpeg','img/a2.jpeg','img/a3.jpeg'],
                qty:0
              }
@@ -591,24 +598,24 @@ newyear balloon decoration services
              {
                title:'Fairy Setup',
                price:19999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Dreamy fairy tale decoration bringing magic to your event.',
+               features:['Fairy tale castle props','Soft pink & white balloons','Magical ambient lighting'],
                images:['img/b1.jpeg'],
                qty:0
              },
              {
                title:'Anniversary Setup3',
                price:8999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Romantic anniversary balloon & floral setup to celebrate your love.',
+               features:['Heart-shaped balloon arch','Romantic LED lighting','Customized name initial foils'],
                images:['img/101.jpeg'],
                qty:0
              },
              {
                title:'Baby Shower Centerpiece4',
                price:8999,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Beautiful baby shower balloon setups to welcome your little one.',
+               features:['Oh Baby / It\'s a Boy/Girl foil','Pastel balloon centerpieces','Free delivery & installation'],
                images:['img/102.jpeg'],
                qty:0
              },
@@ -616,15 +623,15 @@ newyear balloon decoration services
              {
                title:'Baby Shower Centerpiece32323',
                price:14999,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Beautiful baby shower balloon setups to welcome your little one.',
+               features:['Oh Baby / It\'s a Boy/Girl foil','Pastel balloon centerpieces','Free delivery & installation'],
                images:['img/113.jpeg'],
                qty:0
              },
              {
                title:'Birthday Decoration323',
                price:4999,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
+               desc:'Make birthdays memorable with vibrant and festive balloon decorations.',
                features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
                images:['img/114.jpeg'],
                qty:0
@@ -632,111 +639,111 @@ newyear balloon decoration services
              {
                title:'Anniversary Setup3213',
                price:4999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Romantic anniversary balloon & floral setup to celebrate your love.',
+               features:['Heart-shaped balloon arch','Romantic LED lighting','Customized name initial foils'],
                images:['img/115.jpeg'],
                qty:0
              },
              {
                title:'Filmy Theme Photo Setup ',
                price:9999,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Bollywood style filmy photo setup for the ultimate party vibe.',
+               features:['Movie theme props','Red carpet style lighting','Star-studded balloon arch'],
                images:['img/116.jpeg'],
                qty:0
              },
              {
                title:'Aesthetic photo setup',
                price:9999,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
-               features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
+               desc:'Modern aesthetic photo setup with minimalist elegant decor.',
+               features:['Muted/Pastel color palette','Boho style floral add-ons','Trendy aesthetic backdrop'],
                images:['img/117.jpeg'],
                qty:0
              },
              {
                title:'Cindrella Theme',
                price:39999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Dreamy fairy tale decoration bringing magic to your event.',
+               features:['Fairy tale castle props','Soft pink & white balloons','Magical ambient lighting'],
                images:['img/d1.jpeg','img/d2.jpeg'],
                qty:0
              },
              {
                title:'Mickey Mouse theme',
                price:49000,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Magical Disney themed balloon decoration featuring your favorite characters.',
+               features:['Mickey/Minnie cutout props','Red, Black & Yellow balloons','Customized theme setup'],
                images:['img/02.jpeg','img/01.jpeg','img/03.jpeg'],
                qty:0
              },
              {
                title:'Masha Theme',
                price:29000,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
-               features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
+               desc:'Fun-filled Masha and the Bear themed decoration for kids.',
+               features:['Masha & Bear cutouts','Colorful vibrant balloons','Kids favorite setup'],
                images:['img/13.jpeg','img/12.jpeg','img/11.jpeg','img/14.jpeg'],
                qty:0
              },
              {
                title:'Butterfly Theme',
                price:85999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Elegant butterfly themed decoration for a magical celebration.',
+               features:['3D Butterfly props','Pastel & Chrome balloons','Fairy lights & elegant backdrop'],
                images:['img/21.jpeg','img/23.jpeg','img/24.jpeg','img/25.jpeg'],
                qty:0
              },
              {
                title:'Baby Shower Theme',
                price:40000,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Beautiful baby shower balloon setups to welcome your little one.',
+               features:['Oh Baby / It\'s a Boy/Girl foil','Pastel balloon centerpieces','Free delivery & installation'],
               images:['img/31.jpeg','img/32.jpeg','img/33.jpeg'],
                qty:0
              },
              {
                title:'Teddy Bear Theme',
                price:65000,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
-               features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
+               desc:'Cute and cuddly teddy bear balloon setup for kids.',
+               features:['Large teddy bear props','Pastel balloon colors','Illuminated birthday backdrop'],
               images:['img/43.jpeg','img/42.jpeg','img/44.jpeg','img/41.jpeg'],
                qty:0
              },
              {
                title:'Jungle Theme',
                price:39999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'A thrilling jungle-themed balloon decoration for a wild party.',
+               features:['Jungle animal foil balloons','Green & Gold themed arch','Photography-ready jungle backdrop'],
                images:['img/51.jpeg','img/52.jpeg','img/54.jpeg','img/55.jpeg','img/53.jpeg'],
                qty:0
              },
              {
                title:'Baby Boss Theme',
                price:46000,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Cool Baby Boss themed balloon decoration for your little one.',
+               features:['Baby Boss foil balloons','Blue & Black elegant arch','Themed centerpieces'],
                images:['img/61.jpeg','img/62.jpeg'],
                qty:0
              },
              {
                title:'Teddy Theme 2.0',
                price:32000,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
-               features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
+               desc:'Cute and cuddly teddy bear balloon setup for kids.',
+               features:['Large teddy bear props','Pastel balloon colors','Illuminated birthday backdrop'],
               images:['img/71.jpeg','img/72.jpeg','img/73.jpeg'],
                qty:0
              },
              {
                title:'First Night Decortaion',
                price:3999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Intimate and romantic first night room decoration to set the mood.',
+               features:['Rose petals on bed','Red heart balloon ceiling','Soft glowing candles/LEDs'],
               images:['img/81.jpeg','img/82.jpeg','img/83.jpeg'],
                qty:0
              },
              {
                title:'Paracute Birthday Theme',
                price:39999,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
+               desc:'Make birthdays memorable with vibrant and festive balloon decorations.',
                features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
               images:['img/e1.jpeg','img/e2.jpeg','img/e3.jpeg','img/e4.jpeg','img/e5.jpeg'],
                qty:0
@@ -744,24 +751,24 @@ newyear balloon decoration services
              {
                title:'Farm Theme',
                price:44999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Delightful farm-themed balloon decoration with animal props.',
+               features:['Farm animal foils','Barnyard backdrop','Interactive setup for kids'],
               images:['img/f1.jpeg','img/f2.jpeg','img/f3.jpeg','img/f4.jpeg'],
                qty:0
              },
              {
                title:'Teddy Theme 3.0',
                price:34999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Cute and cuddly teddy bear balloon setup for kids.',
+               features:['Large teddy bear props','Pastel balloon colors','Illuminated birthday backdrop'],
               images:['img/c2.jpeg','img/c1.jpeg','img/c3.jpeg','img/c4.jpeg'],
                qty:0
              },
              {
                title:'Minny Theme',
                price:119999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Magical Disney themed balloon decoration featuring your favorite characters.',
+               features:['Mickey/Minnie cutout props','Red, Black & Yellow balloons','Customized theme setup'],
               images:['img/z5.jpeg','img/z1.jpeg','img/z3.jpeg','img/z4.jpeg','img/z2.jpeg'],
                qty:0
              }
@@ -880,7 +887,7 @@ newyear balloon decoration services
         <h3 class="text-lg font-semibold mt-8 mb-3">✨ Add-on Activities</h3>
         <div class="flex space-x-4 overflow-x-auto pb-4">
           <template x-for="activity in activities" :key="activity.title">
-            <div class="bg-pink-50 rounded-lg p-3 w-40 flex-shrink-0 text-center shadow">
+            <div class="bg-[#faf5f6] rounded-lg p-3 w-40 flex-shrink-0 text-center shadow">
               <img :src="activity.img" class="rounded mb-2 h-20 w-full object-cover">
               <p class="font-semibold text-sm" x-text="activity.title"></p>
               <p class="text-pink-600 text-sm">₹<span x-text="activity.price"></span></p>
@@ -904,7 +911,7 @@ newyear balloon decoration services
 
 
 
-<section id="activities" class="py-16 bg-pink-50"
+<section id="activities" class="py-16 bg-[#faf5f6]"
          x-data="{
            activities: [
               {name:'Foosball Table', price:5000, img:'images/activities/fossball.webp'},
@@ -1130,7 +1137,7 @@ newyear balloon decoration services
   <!-- About Teaser -->
   <section class="py-16 bg-white">
     <div class="max-w-4xl mx-auto text-center px-4">
-      <h2 class="text-3xl font-bold mb-4">About Us</h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">About Us</h2>
       <p class="text-gray-600 mb-6">We are Hawaahawaai, bringing joy and creativity to events with unique balloon designs and professional setups.</p>
       <a href="about.html" class="text-pink-600 font-semibold hover:underline">Read More →</a>
     </div>
@@ -1139,7 +1146,7 @@ newyear balloon decoration services
 
   <!-- Contact Teaser -->
   <section class="py-16 bg-white text-center">
-    <h2 class="text-3xl font-bold mb-4">Get in Touch</h2>
+    <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">Get in Touch</h2>
     <p class="text-gray-600 mb-6">Plan your perfect celebration with us today.</p>
     <a href="contact.html" class="px-6 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition">Contact Us</a>
   </section>
@@ -1307,6 +1314,7 @@ newyear balloon decoration services
   heroSection.addEventListener("touchstart", () => heroPaused = true);
   heroSection.addEventListener("touchend", () => heroPaused = false);
 </script>
+
 
 
 

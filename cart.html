@@ -23,8 +23,14 @@
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 </head>
-<body class="bg-pink-50 text-gray-800">
+<body class="bg-[#faf5f6] text-gray-800 font-['Outfit'] pb-20">
 
 
   <!-- Navbar -->
@@ -46,7 +52,7 @@
   </div>
 
 <!-- Bottom Navigation Bar (Transparent BG) -->
-<div class="fixed bottom-2 left-2 right-2 bg-white/80 backdrop-blur-md border border-gray-200 shadow-lg flex justify-around items-center py-2 px-4 md:hidden z-50 rounded-2xl" style="height: 60px;">
+<div class="fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-xl border-t border-pink-100 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] flex justify-around items-center py-2 px-4 md:hidden z-[9999] m-0 pb-[env(safe-area-inset-bottom)]" style="height: 65px;">
 
   <!-- Home -->
   <a href="index.html" class="nav-link flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-yellow-500 transition w-full" data-page="index.html">
@@ -135,7 +141,7 @@
   </main>
 
   <!-- Desktop Checkout -->
-  <div class="hidden md:flex justify-between items-center container mx-auto px-4 mt-4 mb-6" style="border-radius: 20px;border: solid,2px,rgb(240, 74, 148); padding: 10px;background-color: white;">
+  <div class="hidden md:flex justify-between items-center container mx-auto px-4 mt-4 mb-6" style="border-radius: 20px; border: 2px solid rgb(240, 74, 148); padding: 10px; background-color: white;">
     <p class="font-bold text-lg">Total: <span id="cartTotal">₹0</span></p>
     <a id="checkoutBtn" target="_blank"
        class="bg-pink-600 text-white px-6 py-3 rounded-xl hover:bg-pink-200 hover:text-black transition shadow-md">
@@ -144,7 +150,7 @@
   </div>
 
   <!-- Mobile Sticky Checkout -->
-  <div class="md:hidden fixed bottom-16 left-0 right-0 bg-white/95 border-t shadow-lg p-4 flex justify-between items-center z-30" style="border-radius: 20px;border: solid,2px,rgb(240, 74, 148);">
+  <div class="md:hidden fixed bottom-16 left-0 right-0 bg-white/95 border-t shadow-lg p-4 flex justify-between items-center z-30" style="border-radius: 20px; border: 2px solid rgb(240, 74, 148);">
     <p class="font-bold text-lg">Total: <span id="cartTotalMobile">₹0</span></p>
     <a id="checkoutBtnMobile" target="_blank"
        class="bg-pink-500 text-white px-5 py-2 rounded-xl hover:bg-pink-600 transition shadow-md">
@@ -170,7 +176,7 @@
       total += subTotal;
 
       container.innerHTML += `
-        <div class="bg-pink-50 rounded-xl shadow-md p-4 flex justify-between items-center">
+        <div class="bg-[#faf5f6] rounded-xl shadow-md p-4 flex justify-between items-center">
           <div>
             <p class="font-semibold text-gray-800">${item.name}</p>
             <p class="text-sm text-gray-500">₹${item.price} x ${item.qty} = <b>₹${subTotal}</b></p>

@@ -6,8 +6,14 @@
   <title>Hawaahawaai – Balloon Decoration & Events</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 </head>
-<body class="bg-gray-50 text-gray-900">
+<body class="bg-gray-50 text-gray-900 font-['Outfit'] pb-20">
 
   <!-- Hero Section -->
   <section class="relative h-screen bg-center bg-cover flex items-center justify-center text-center" 
@@ -62,15 +68,15 @@
              {
                title:'Baby Shower Centerpiece',
                price:3499,
-               desc:'Elegant balloon centerpieces for your baby shower.',
-               features:['Custom color themes','Balloon centerpiece table setup','Free delivery & installation'],
+               desc:'Beautiful baby shower balloon setups to welcome your little one.',
+               features:['Oh Baby / It\'s a Boy/Girl foil','Pastel balloon centerpieces','Free delivery & installation'],
                images:['images/1.jpg','images/2.jpg','images/3.jpg'],
                qty:0
              },
              {
                title:'Birthday Decoration',
                price:2999,
-               desc:'Themed arches, balloon walls and setups for birthdays.',
+               desc:'Make birthdays memorable with vibrant and festive balloon decorations.',
                features:['Theme-based balloon arches','LED backdrop with fairy lights','Cake table decoration'],
                images:['images/4.jpg','images/5.jpg','images/6.jpg'],
                qty:0
@@ -78,8 +84,8 @@
              {
                title:'Anniversary Setup',
                price:3999,
-               desc:'Romantic anniversary balloon & floral setups.',
-               features:['Heart-shaped balloon arches','Romantic LED lighting','Photo backdrop area'],
+               desc:'Romantic anniversary balloon & floral setup to celebrate your love.',
+               features:['Heart-shaped balloon arch','Romantic LED lighting','Customized name initial foils'],
                images:['images/7.jpg','images/8.jpg'],
                qty:0
              }
@@ -138,7 +144,7 @@
 
 
   <div class="max-w-6xl mx-auto px-4 text-center">
-    <h2 class="text-3xl font-bold mb-4">Our Services</h2>
+    <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">Our Services</h2>
     <p class="text-gray-600 mb-10">Choose from our wide range of balloon decoration services.</p>
 
     <!-- Service Grid -->
@@ -196,7 +202,7 @@
         <h3 class="text-lg font-semibold mt-8 mb-3">✨ Add-on Activities</h3>
         <div class="flex space-x-4 overflow-x-auto pb-4">
           <template x-for="activity in activities" :key="activity.title">
-            <div class="bg-pink-50 rounded-lg p-3 w-40 flex-shrink-0 text-center shadow">
+            <div class="bg-[#faf5f6] rounded-lg p-3 w-40 flex-shrink-0 text-center shadow">
               <img :src="activity.img" class="rounded mb-2 h-20 w-full object-cover">
               <p class="font-semibold text-sm" x-text="activity.title"></p>
               <p class="text-pink-600 text-sm">₹<span x-text="activity.price"></span></p>
@@ -220,7 +226,7 @@
 
 
 
-<section id="activities" class="py-16 bg-pink-50"
+<section id="activities" class="py-16 bg-[#faf5f6]"
          x-data="{
            activities: [
               {name:'Foosball Table', price:5000, img:'images/activities/foosball.jpg'},
@@ -323,7 +329,7 @@
   <!-- About Teaser -->
   <section class="py-16 bg-white">
     <div class="max-w-4xl mx-auto text-center px-4">
-      <h2 class="text-3xl font-bold mb-4">About Us</h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">About Us</h2>
       <p class="text-gray-600 mb-6">We are Hawaahawaai, bringing joy and creativity to events with unique balloon designs and professional setups.</p>
       <a href="about.html" class="text-pink-600 font-semibold hover:underline">Read More →</a>
     </div>
@@ -332,7 +338,7 @@
   <!-- Gallery Teaser -->
   <section class="py-16 bg-gray-50">
     <div class="max-w-6xl mx-auto text-center px-4">
-      <h2 class="text-3xl font-bold mb-4">Gallery</h2>
+      <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">Gallery</h2>
       <p class="text-gray-600 mb-6">Take a look at some of our amazing decoration work.</p>
       <div class="grid md:grid-cols-3 gap-4 mb-6">
         <img src="images/gallery1.jpg" class="rounded shadow w-full h-48 object-cover">
@@ -345,7 +351,7 @@
 
   <!-- Contact Teaser -->
   <section class="py-16 bg-white text-center">
-    <h2 class="text-3xl font-bold mb-4">Get in Touch</h2>
+    <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">Get in Touch</h2>
     <p class="text-gray-600 mb-6">Plan your perfect celebration with us today.</p>
     <a href="contact.html" class="px-6 py-3 bg-pink-600 text-white font-semibold rounded-lg hover:bg-pink-700 transition">Contact Us</a>
   </section>
