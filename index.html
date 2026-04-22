@@ -67,9 +67,9 @@
     };
 
     const _fbApp = initializeApp(firebaseConfig);
-    const _db   = getFirestore(_fbApp);
+    const _db = getFirestore(_fbApp);
 
-    window._fbGetSiteData = async function() {
+    window._fbGetSiteData = async function () {
       const snap = await getDoc(doc(_db, 'siteData', 'main'));
       return snap.exists() ? snap.data() : null;
     };
@@ -202,7 +202,7 @@
      * Falls back to hardcoded defaults if Firebase is unavailable.
      * Waits for the ES module to finish setting up _fbGetSiteData (race-condition safe).
      */
-    window._siteDataPromise = (async function() {
+    window._siteDataPromise = (async function () {
       // Wait for Firebase ES module to expose _fbGetSiteData (max 5 seconds)
       await new Promise((resolve) => {
         if (typeof window._fbGetSiteData === 'function') { resolve(); return; }
@@ -221,7 +221,7 @@
             return data;
           }
         }
-      } catch(e) {
+      } catch (e) {
         console.warn('Firebase unavailable, using defaults:', e);
       }
       return { services: _DEFAULT_SERVICES, activities: _DEFAULT_ACTIVITIES, reviews: [], banners: [] };
@@ -251,12 +251,13 @@
       return list.map(a => ({
         ...a,
         title: a.title || a.name || '',
-        name:  a.title || a.name || '',
-        img:   a.img || '',
+        name: a.title || a.name || '',
+        img: a.img || '',
         qty: 0
       }));
     }
   </script>
+
 
 </head>
 
@@ -453,53 +454,7 @@
     <div class="absolute inset-0 bg-gradient-to-b from-black/70 via-black/40 to-[#faf5f6] backdrop-blur-[2px]"></div>
 
     <!-- Slide Wrapper -->
-    <div id="heroSlider" class="relative max-w-3xl mx-auto px-6 z-10">
-
-      <!-- Slide 1 : Book Now -->
-      <div class="hero-slide active text-center">
-        <h2
-          class="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-pink-100 to-pink-300 mb-6 drop-shadow-lg tracking-tight">
-          Celebrate with Hawaahawaai
-        </h2>
-        <p class="text-lg md:text-2xl text-gray-100 mb-10 font-light drop-shadow-md">
-          Premium balloon decorations, party setups, and delightful activities to make your event unforgettable.
-        </p>
-        <a href="#services"
-          class="px-8 py-4 bg-gradient-to-r from-pink-500 to-pink-600 text-white font-bold rounded-full shadow-lg hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 ring-4 ring-pink-500/30 inline-block">
-          🎉 Book Your Event
-        </a>
-      </div>
-
-      <!-- Slide 2 : Wedding Season -->
-      <div class="hero-slide hidden text-center">
-        <h2
-          class="text-5xl md:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-yellow-500 mb-6 drop-shadow-lg tracking-tight">
-          Haldi & Mehendi Magic
-        </h2>
-        <p class="text-lg md:text-2xl text-gray-100 mb-10 font-light drop-shadow-md">
-          Traditional & Modern yellow-themed floral balloon setups.
-        </p>
-        <a href="haldi-mehendi-decoration.html"
-          class="px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-gray-900 font-bold rounded-full shadow-lg hover:shadow-yellow-500/50 hover:scale-105 transition-all duration-300 ring-4 ring-yellow-400/30 inline-block">
-          Explore Wedding Decor 🌸
-        </a>
-      </div>
-
-      <!-- Slide 3 : Budget Planner -->
-      <div class="hero-slide hidden text-center">
-        <h2 class="text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-lg tracking-tight">
-          <span class="text-pink-300">Plan</span> in Your Budget ✨
-        </h2>
-        <p class="text-lg md:text-2xl text-gray-100 mb-10 font-light drop-shadow-md">
-          Tell us your budget, and we'll design the magic for your event.
-        </p>
-        <a href="#budgetPlanner"
-          class="px-8 py-4 bg-gradient-to-r from-pink-400 to-pink-500 text-white font-bold rounded-full shadow-lg hover:shadow-pink-500/50 hover:scale-105 transition-all duration-300 ring-4 ring-pink-500/30 inline-block">
-          Explore Budget Planner 💌
-        </a>
-      </div>
-
-    </div>
+    <div id="heroSlider" class="relative max-w-3xl mx-auto px-6 z-10"></div>
   </section>
 
 
@@ -528,8 +483,8 @@
             adminBanners = data.banners.filter(b => b.active !== false);
           }
         } catch (e) { }
-        // Always show static defaults AFTER admin banners
-        const all = [...adminBanners, ...DEFAULT_BANNERS];
+        // Merge Admin Banners with Default Banners (Old ones stay accessible)
+        const all = [...adminBanners, ...DEFAULT_BANNERS].filter((v, i, a) => a.findIndex(t => (t.title === v.title)) === i);
         const scroll = document.getElementById('offerScroll');
         if (!scroll) return;
         scroll.innerHTML = all.map(b => {
@@ -538,7 +493,46 @@
           return `<div class="offer-card min-w-[300px] snap-start rounded-2xl text-white p-5 shadow-lg" style="background:linear-gradient(135deg,rgb(${rgb}),rgba(${rgb},0.6));">${imgHtml}<h3 class="text-lg font-bold">${b.title}</h3><p class="text-sm mt-1">${b.sub || ''}</p>${b.cta ? `<button onclick="${b.link ? (b.link.startsWith('http') ? `window.open('${b.link}','_blank')` : `location.href='${b.link}'`) : ''}" class="mt-4 bg-white font-semibold px-4 py-2 rounded-full text-sm hover:opacity-90 transition" style="color:rgb(${rgb});">${b.cta}</button>` : ''}</div>`;
         }).join('');
       }
+
+      async function renderHero() {
+        let adminHeros = [];
+        try {
+          const data = await window._siteDataPromise;
+          if (data && data.heroBanners) adminHeros = data.heroBanners.filter(b => b.active !== false);
+        } catch (e) { }
+
+        const list = adminHeros.length ? adminHeros : [
+          { img: 'images/2.jpg', title: 'Celebrate with Hawaahawaai', sub: 'Premium balloon decorations for your event.', cta: '🎉 Book Your Event', link: '#services' },
+          { img: 'img/haldi.webp', title: 'Haldi & Mehendi Magic', sub: 'Traditional yellow setups.', cta: 'Explore Decor 🌸', link: 'haldi-mehendi-decoration.html' }
+        ];
+
+        const slider = document.getElementById('heroSlider');
+        if (!slider) return;
+        slider.innerHTML = list.map((h, i) => `
+          <div class="hero-slide ${i === 0 ? 'active' : 'hidden'} text-center">
+            <h2 class="text-5xl md:text-7xl font-extrabold text-white mb-6 drop-shadow-lg tracking-tight">${h.title}</h2>
+            <p class="text-lg md:text-2xl text-gray-100 mb-10 font-light drop-shadow-md">${h.sub || ''}</p>
+            ${h.cta ? `<a href="${h.link || '#'}" class="px-8 py-4 bg-gradient-to-r from-pink-500 to-pink-600 text-white font-bold rounded-full shadow-lg hover:scale-105 transition-all inline-block">${h.cta}</a>` : ''}
+          </div>`).join('');
+
+        window._heroBackgrounds = list.map(h => h.img);
+        initHeroInterval();
+      }
+
+      let heroIndex = 0;
+      function initHeroInterval() {
+        setInterval(() => {
+          const slides = document.querySelectorAll("#heroSlider .hero-slide");
+          if (!slides.length) return;
+          slides[heroIndex].classList.replace('active', 'hidden');
+          heroIndex = (heroIndex + 1) % slides.length;
+          document.getElementById('heroSection').style.backgroundImage = `url('${window._heroBackgrounds[heroIndex]}')`;
+          slides[heroIndex].classList.replace('hidden', 'active');
+        }, 4000);
+      }
+
       await renderBanners();
+      await renderHero();
     })();
   </script>
 
@@ -550,7 +544,7 @@
     <div class="flex flex-wrap justify-center gap-6 px-4 max-w-6xl mx-auto">
 
       <div
-        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
+        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
         <img src="images/gaziabad.webp" alt="Gaziabad"
           class="w-full h-16 md:h-20 rounded-xl object-cover mb-2 group-hover:opacity-90 transition-opacity">
         <h3 class="text-gray-800 text-xs md:text-sm font-bold">Gaziabad</h3>
@@ -558,7 +552,7 @@
       </div>
 
       <div
-        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
+        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
         <img src="images/faridabad.webp" alt="Faridabad"
           class="w-full h-16 md:h-20 rounded-xl object-cover mb-2 group-hover:opacity-90 transition-opacity">
         <h3 class="text-gray-800 text-xs md:text-sm font-bold">Faridabad</h3>
@@ -566,7 +560,7 @@
       </div>
 
       <div
-        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
+        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
         <img src="images/gurgaon.webp" alt="Gurgaon"
           class="w-full h-16 md:h-20 rounded-xl object-cover mb-2 group-hover:opacity-90 transition-opacity">
         <h3 class="text-gray-800 text-xs md:text-sm font-bold">Gurgaon</h3>
@@ -574,7 +568,7 @@
       </div>
 
       <div
-        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
+        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
         <img src="images/noida.webp" alt="Noida"
           class="w-full h-16 md:h-20 rounded-xl object-cover mb-2 group-hover:opacity-90 transition-opacity">
         <h3 class="text-gray-800 text-xs md:text-sm font-bold">Noida</h3>
@@ -582,7 +576,7 @@
       </div>
 
       <div
-        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
+        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
         <img src="images/ncr.webp" alt="NCR"
           class="w-full h-16 md:h-20 rounded-xl object-cover mb-2 group-hover:opacity-90 transition-opacity">
         <h3 class="text-gray-800 text-xs md:text-sm font-bold">NCR</h3>
@@ -590,7 +584,7 @@
       </div>
 
       <div
-        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
+        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
         <img src="images/delhi.webp" alt="Delhi"
           class="w-full h-16 md:h-20 rounded-xl object-cover mb-2 group-hover:opacity-90 transition-opacity">
         <h3 class="text-gray-800 text-xs md:text-sm font-bold">Delhi</h3>
@@ -598,7 +592,7 @@
       </div>
 
       <div
-        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all duration-300 transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
+        class="w-24 md:w-28 bg-white rounded-2xl p-2 shadow-lg shadow-gray-200/50 hover:shadow-xl hover:shadow-pink-200/50 transition-all transform hover:-translate-y-2 hover:scale-105 border border-pink-50 cursor-pointer group">
         <img src="images/meerut.webp" alt="Meerut"
           class="w-full h-16 md:h-20 rounded-xl object-cover mb-2 group-hover:opacity-90 transition-opacity">
         <h3 class="text-gray-800 text-xs md:text-sm font-bold">Meerut</h3>
@@ -682,7 +676,7 @@
 
   <!-- Services Hero -->
   <section id="services"
-    class="bg-gradient-to-r from-pink-100 to-pink-50 text-center px-4 py-8 max-w-5xl mx-auto rounded-3xl border-2 border-dashed border-pink-400 mb-8 mt-12 hover:shadow-lg transition-shadow duration-300 group"
+    class="bg-gradient-to-r from-pink-100 to-pink-50 text-center px-4 py-8 max-w-5xl mx-auto rounded-3xl border-2 border-dashed border-pink-400 mb-8 mt-12 hover:shadow-lg transition-shadow group"
     data-aos="fade-up">
     <h2
       class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-pink-600 to-orange-400 tracking-tight group-hover:scale-[1.02] transition-transform">
@@ -690,7 +684,7 @@
   </section>
 
   <!-- Services Section -->
-  <section id="services-2" class=" " x-data="{
+  <section id="services-2" class="" x-data="{
            openModal:false,
            selected:{title:'',price:0,desc:'',features:[],images:[],currentImage:0,qty:0},
            services: [],
@@ -957,14 +951,14 @@
             ? `<img src="${r.photo}" alt="${r.name}" class="w-10 h-10 rounded-full object-cover">`
             : `<div class="w-10 h-10 rounded-full ${isFeatured ? 'bg-white/20' : 'bg-pink-100'} flex items-center justify-center ${isFeatured ? 'text-white' : 'text-pink-600'} font-bold text-lg">${initials}</div>`;
           if (isFeatured) {
-            return `<div class="bg-gradient-to-br from-pink-500 to-orange-400 rounded-3xl p-8 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 text-left relative text-white">
+            return `<div class="bg-gradient-to-br from-pink-500 to-orange-400 rounded-3xl p-8 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all text-left relative text-white">
             <div class="text-yellow-200 text-xs mb-3 flex">${stars}</div>
             <p class="mb-6 italic font-medium leading-relaxed">"${r.text}"</p>
             <div class="flex items-center gap-3">${photoHtml}<div><h4 class="font-bold text-white text-sm">${r.name}</h4>${r.location ? `<p class="text-xs text-white/80">${r.location}</p>` : ''}</div></div>
             <div class="absolute top-6 right-6 text-white/10 opacity-50 text-4xl font-serif">"</div>
           </div>`;
           }
-          return `<div class="bg-white rounded-3xl p-8 shadow-sm border border-pink-100 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 text-left relative">
+          return `<div class="bg-white rounded-3xl p-8 shadow-sm border border-pink-100 hover:shadow-lg hover:-translate-y-1 transition-all text-left relative">
           <div class="text-yellow-400 text-xs mb-3 flex">${stars}</div>
           <p class="text-gray-700 mb-6 italic font-medium leading-relaxed">"${r.text}"</p>
           <div class="flex items-center gap-3">${photoHtml}<div><h4 class="font-bold text-gray-900 text-sm">${r.name}</h4>${r.location ? `<p class="text-xs text-gray-500">${r.location}</p>` : ''}</div></div>

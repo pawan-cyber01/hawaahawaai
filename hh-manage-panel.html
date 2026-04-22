@@ -37,8 +37,18 @@
       return snap.exists() ? snap.data() : null;
     };
 
+    window._fbSaveCreds = async function(data) {
+      await setDoc(doc(_db, 'siteData', 'creds'), data);
+    };
+
+    window._fbLoadCreds = async function() {
+      const snap = await getDoc(doc(_db, 'siteData', 'creds'));
+      return snap.exists() ? snap.data() : null;
+    };
+
     window._firebaseReady = true;
   </script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
@@ -1591,11 +1601,11 @@
       <p class="login-subtitle">Hawaa Hawaai Decor — Secure Access</p>
       <div class="login-field">
         <label>Username</label>
-        <input type="text" id="loginUser" placeholder="Enter username" autocomplete="username">
+        <input type="text" id="loginUser" autocomplete="username">
       </div>
       <div class="login-field">
         <label>Password</label>
-        <input type="password" id="loginPass" placeholder="Enter password" autocomplete="current-password"
+        <input type="password" id="loginPass" autocomplete="current-password"
           onkeydown="if(event.key==='Enter')doLogin()">
       </div>
       <button class="login-btn" id="loginBtn" onclick="doLogin()">🔓 Sign In</button>
@@ -1638,7 +1648,13 @@
           <span class="nav-icon">⭐</span> Reviews <span class="count-badge" id="revCountBadge">0</span>
         </div>
         <div class="nav-item" onclick="showPage('banners',this)">
-          <span class="nav-icon">🎨</span> Banners & Offers <span class="count-badge" id="bannerCountBadge">0</span>
+          <span class="nav-icon">🎨</span> Offers & Small Banners <span class="count-badge" id="bannerCountBadge">0</span>
+        </div>
+        <div class="nav-item" onclick="showPage('herobanners',this)">
+          <span class="nav-icon">🖼️</span> Hero Banners (Big) <span class="count-badge" id="heroBannerCountBadge">0</span>
+        </div>
+        <div class="nav-item" onclick="showPage('gallery',this)">
+          <span class="nav-icon">📸</span> Gallery <span class="count-badge" id="galleryCountBadge">0</span>
         </div>
         <div class="nav-group-label">Tools</div>
         <div class="nav-item" onclick="showPage('export',this)">
@@ -1787,41 +1803,37 @@
         <div class="panel">
           <div class="panel-header"><span class="panel-title">🔐 Change Login Credentials</span></div>
           <div class="panel-body">
-            <div style="padding:16px;background:rgba(147,51,234,0.08);border:1px solid rgba(147,51,234,0.2);border-radius:14px;font-size:0.88rem;line-height:1.9;">
-              <p style="font-weight:700;color:var(--purple);margin-bottom:10px;">🔒 Credentials are managed in configuration</p>
-              <p style="color:var(--text-muted);">To update access credentials, edit the configuration file in your project directory and hard-reload this page: <strong>Ctrl + Shift + R</strong></p>
-              <p style="color:var(--text-muted);margin-top:10px;">Session expires automatically after 8 hours of inactivity.</p>
+            <div class="form-grid" style="grid-template-columns:1fr; gap:16px;">
+              <div class="form-group">
+                <label class="form-label">New Username</label>
+                <input type="text" id="newAdminUser" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="text" id="newAdminPass" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                <input type="text" id="confirmAdminPass" class="form-input">
+              </div>
             </div>
-            <div style="margin-top:14px;">
+            <div style="margin-top:20px; display:flex; gap:10px;">
+              <button class="btn btn-primary" onclick="updateAdminCredentials()">💾 Save Credentials</button>
               <button class="btn btn-danger btn-sm" onclick="doLogout()">🚪 Logout Now</button>
             </div>
           </div>
         </div>
 
         <div class="panel" style="margin-top:24px;">
-          <div class="panel-header"><span class="panel-title">ℹ️ Security Info & Honest Limitations</span></div>
+          <div class="panel-header"><span class="panel-title">ℹ️ Security Info</span></div>
           <div class="panel-body">
             <ul style="color:var(--text-muted);font-size:0.88rem;line-height:2.2;list-style:none;">
-              <li>🔒 Credentials are hashed with SHA-256 — never stored as plain text</li>
+              <li>🔒 Credentials are hashed with SHA-256 and securely saved to Firebase</li>
               <li>🍪 Session tokens are kept in <code>sessionStorage</code> only (cleared on tab close)</li>
               <li>⏱️ Sessions automatically expire after <strong>8 hours</strong></li>
               <li>🚫 Login is locked for 30 seconds after 5 failed attempts</li>
-              <li>🧠 All data is stored locally in your browser's <code>localStorage</code></li>
-              <li>🌐 No data is ever sent to any external server</li>
+              <li>☁️ Service Data is securely managed through Firebase</li>
             </ul>
-            <div style="margin-top:16px;padding:14px 16px;background:rgba(249,115,22,0.08);border:1px solid rgba(249,115,22,0.25);border-radius:14px;">
-              <p style="font-size:0.85rem;font-weight:700;color:var(--orange);margin-bottom:6px;">⚠️ Important: How Security Actually Works Here</p>
-              <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.8;">
-                This is a <strong>static HTML file</strong> — real server-side authentication is not possible. Instead, security is layered:
-              </p>
-              <ul style="font-size:0.82rem;color:var(--text-muted);line-height:2;list-style:disc;padding-left:18px;margin-top:8px;">
-                <li><strong>Per-device passwords</strong> — credentials are stored in <em>your</em> browser's localStorage. Each new device/browser needs the setup secret to register.</li>
-                <li><strong>Setup Secret gate</strong> — the <code>SETUP_SECRET</code> constant in the source code must match before anyone can create an account. Change it from the default before deploying.</li>
-                <li><strong>Rename the file</strong> — rename <code>admin.html</code> to something unguessable like <code>hh-panel-x7k2.html</code> so it's not discoverable.</li>
-                <li><strong>Don't link to it publicly</strong> — never add a link to admin.html from your public pages.</li>
-                <li><strong>Use .htaccess</strong> — if hosted on Apache, add HTTP Basic Auth at the server level for a second layer.</li>
-              </ul>
-            </div>
           </div>
         </div>
       </div>
@@ -1908,6 +1920,44 @@
           </div>
           <div class="panel-body">
             <div class="items-grid" id="bannersGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HERO BANNERS ──────────────────────────────────────────── -->
+      <div class="page-section" id="page-herobanners">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Hero</span> Banners</h2>
+            <p class="page-subtitle" id="heroBannerSubtitle">Manage the large scrolling banners at the top of the homepage</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddHeroBannerModal()">➕ Add Hero Banner</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">🖼️ All Hero Banners</span>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="heroBannersGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GALLERY ────────────────────────────────────────────────── -->
+      <div class="page-section" id="page-gallery">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Gallery</span> Images</h2>
+            <p class="page-subtitle" id="gallerySubtitle">Manage images in the inspiration gallery</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddGalleryModal()">➕ Add Image</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">📸 All Gallery Images</span>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="galleryGrid"></div>
           </div>
         </div>
       </div>
@@ -2211,6 +2261,105 @@
     </div>
   </div>
 
+  <!-- ─────────────── HERO BANNER MODAL ─────────────────────────────────────── -->
+  <div class="modal-overlay" id="heroBannerModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="heroBannerModalTitle">Add Hero Banner</span>
+        <button class="modal-close" onclick="closeModal('heroBannerModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="heroBannerEditIndex">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label class="form-label">Title (Gradient Styling) *</label>
+            <input type="text" class="form-input" id="heroBannerTitle" placeholder="e.g. Celebrate with Hawaahawaai">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Subtitle</label>
+            <input type="text" class="form-input" id="heroBannerSub" placeholder="e.g. Premium balloon decorations...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">CTA Button Label</label>
+            <input type="text" class="form-input" id="heroBannerCta" placeholder="e.g. 🎉 Book Your Event">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">CTA Link / URL</label>
+            <input type="text" class="form-input" id="heroBannerLink" placeholder="e.g. #services">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Background Image <span style="font-weight:400;text-transform:none;font-size:0.75rem;color:var(--text-muted)">(upload or paste URL)</span></label>
+            <div class="img-dropzone" id="heroBannerDropzone" ondragover="dzDrag(event,'heroBannerDropzone')" ondragleave="dzLeave('heroBannerDropzone')" ondrop="dzDrop(event,'heroBanner')">
+              <input type="file" accept="image/*" id="heroBannerFileInput" onchange="handleImgUpload(event,'heroBanner')">
+              <div class="dz-icon">🖼️</div>
+              <p><span>Click to upload</span> or drag & drop</p>
+            </div>
+            <div class="upload-preview-grid" id="heroBannerImgPreview"></div>
+            <div class="url-fallback-row">
+              <input type="text" class="form-input" id="heroBannerUrlInput" placeholder="Or paste image URL" style="font-size:0.85rem;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addImgUrl('heroBanner')">＋ Add URL</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="heroBannerActive">
+              <option value="true">✅ Active</option>
+              <option value="false">🚫 Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('heroBannerModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveHeroBanner()">💾 Save Hero Banner</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── GALLERY MODAL ─────────────────────────────────────── -->
+  <div class="modal-overlay" id="galleryModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="galleryModalTitle">Add Gallery Image</span>
+        <button class="modal-close" onclick="closeModal('galleryModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="galleryEditIndex">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label class="form-label">Category *</label>
+            <select class="form-select" id="galleryCategory">
+              <option value="all">🌐 All / General</option>
+              <option value="birthday">🎂 Birthday</option>
+              <option value="anniversary">💕 Anniversary</option>
+              <option value="babyshower">🍼 Baby Shower</option>
+              <option value="wedding">💍 Wedding</option>
+              <option value="corporate">🏢 Corporate</option>
+              <option value="kids">🧸 Kids</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Image <span style="font-weight:400;text-transform:none;font-size:0.75rem;color:var(--text-muted)">(upload or paste URL)</span></label>
+            <div class="img-dropzone" id="galleryDropzone" ondragover="dzDrag(event,'galleryDropzone')" ondragleave="dzLeave('galleryDropzone')" ondrop="dzDrop(event,'gallery')">
+              <input type="file" accept="image/*" id="galleryFileInput" onchange="handleImgUpload(event,'gallery')">
+              <div class="dz-icon">🖼️</div>
+              <p><span>Click to upload</span> or drag & drop</p>
+            </div>
+            <div class="upload-preview-grid" id="galleryImgPreview"></div>
+            <div class="url-fallback-row">
+              <input type="text" class="form-input" id="galleryUrlInput" placeholder="Or paste image URL" style="font-size:0.85rem;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addImgUrl('gallery')">＋ Add URL</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('galleryModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveGallery()">💾 Save Image</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- ─────────────── CONFIRM DELETE ───────────────────────────────── -->
   <div class="confirm-overlay" id="confirmModal">
     <div class="confirm-box">
@@ -2239,9 +2388,45 @@
       return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join('');
     }
 
-    function getCredsFromFile() {
-      if (typeof _f7e1 === 'undefined') return { u: null, p: null };
-      return { u: _f7e1.i, p: _f7e1.c };
+    async function getAdminCreds() {
+      try {
+        const data = await window._fbLoadCreds();
+        if (data && data.u && data.p) {
+          return { u: data.u, p: data.p };
+        }
+      } catch(e) {}
+      // Temporary fallback: admin / admin123
+      return { 
+        u: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 
+        p: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' 
+      };
+    }
+
+    async function updateAdminCredentials() {
+      const uv = document.getElementById('newAdminUser').value.trim();
+      const pv = document.getElementById('newAdminPass').value;
+      const cv = document.getElementById('confirmAdminPass').value;
+      
+      if (!uv || !pv) {
+        toast('⚠️ Username and Password cannot be empty.', 'error');
+        return;
+      }
+      if (pv !== cv) {
+        toast('⚠️ Passwords do not match.', 'error');
+        return;
+      }
+      
+      try {
+        const [uh, ph] = await Promise.all([_h(uv), _h(pv)]);
+        await window._fbSaveCreds({ u: uh, p: ph });
+        toast('✅ Credentials updated successfully!', 'success');
+        document.getElementById('newAdminUser').value = '';
+        document.getElementById('newAdminPass').value = '';
+        document.getElementById('confirmAdminPass').value = '';
+      } catch (e) {
+        toast('❌ Failed to update credentials.', 'error');
+        console.error(e);
+      }
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -2303,8 +2488,50 @@
     let activities = [];
     let reviews = [];
     let banners = [];
+    let heroBanners = [];
+    let gallery = [];
     let confirmCallback = null;
     let currentRevStar = 5;
+
+    // ──────────────────────────────────────────────────────────────────
+    // DEFAULTS FOR NEW SECTIONS
+    // ──────────────────────────────────────────────────────────────────
+    const DEFAULT_BANNERS = [
+      { title: '🌼 Wedding Season Offer', sub: 'Flat 10% OFF on Haldi & Mehendi Combos', cta: 'Book Now', link: 'haldi-mehendi-decoration.html', color: '#ec4899', active: true },
+      { title: '🇮🇳 Independence Day Offer', sub: 'Tricolor theme setups starting at ₹1999', cta: 'Inquire Now', link: 'https://wa.me/919389835280?text=Independence%20Day%20Offer', color: '#f97316', active: true },
+      { title: '💸 Limited Discount', sub: 'Save more on bulk event bookings and get details', cta: 'Details', link: 'https://wa.me/919389835280?text=Hi, I want to know about discount offers', color: '#ec4899', active: true },
+      { title: '🎂 Birthday Combos', sub: 'Most booked birthday decoration packages', cta: 'Book Now', link: 'birthday-balloon-decoration-delhi-ncr.html', color: '#f97316', active: true }
+    ];
+
+    const DEFAULT_HERO_BANNERS = [
+      { img: 'images/2.jpg', title: 'Celebrate with Hawaahawaai', sub: 'Premium balloon decorations, party setups, and delightful activities to make your event unforgettable.', cta: '🎉 Book Your Event', link: '#services', active: true },
+      { img: 'img/haldi.webp', title: 'Haldi & Mehendi Magic', sub: 'Traditional & Modern yellow-themed floral balloon setups.', cta: 'Explore Wedding Decor 🌸', link: 'haldi-mehendi-decoration.html', active: true },
+      { img: 'img/banner1.jpeg', title: 'Plan in Your Budget ✨', sub: 'Tell us your budget, and we\'ll design the magic for your event.', cta: 'Explore Budget Planner 💌', link: '#budgetPlanner', active: true }
+    ];
+
+    const DEFAULT_GALLERY = [
+      { img: 'images/birthday.jpg', category: 'birthday' },
+      { img: 'images/birthday3.jpg', category: 'birthday' },
+      { img: 'images/birthday2.jpg', category: 'birthday' },
+      { img: 'images/birthday1.jpg', category: 'birthday' },
+      { img: 'images/birthday4.jpg', category: 'birthday' },
+      { img: 'images/birthday5.jpg', category: 'birthday' },
+      { img: 'images/6.jpg', category: 'all' },
+      { img: 'images/2.jpg', category: 'all' },
+      { img: 'images/3.jpg', category: 'all' },
+      { img: 'images/4.jpg', category: 'all' },
+      { img: 'images/5.jpg', category: 'all' },
+      { img: 'images/1.jpg', category: 'all' },
+      { img: 'images/7.jpg', category: 'all' },
+      { img: 'images/WhatsApp Image 2025-08-01 at 3.55.53 PM.jpeg', category: 'birthday' },
+      { img: 'images/baby2.jpg', category: 'babyshower' },
+      { img: 'images/baby1.jpg', category: 'babyshower' },
+      { img: 'images/baby.jpg', category: 'babyshower' },
+      { img: 'images/baby3.jpg', category: 'babyshower' },
+      { img: 'images/baby4.jpg', category: 'babyshower' },
+      { img: 'images/corperate.jpg', category: 'corporate' },
+      { img: 'images/corperate1.jpg', category: 'corporate' }
+    ];
 
     // ──────────────────────────────────────────────────────────────────
     // STORAGE  (Firebase Firestore — syncs across ALL devices)
@@ -2312,32 +2539,45 @@
     async function loadData() {
       try {
         const data = await window._fbLoad();
-        if (data) {
-          services   = data.services   || JSON.parse(JSON.stringify(DEFAULT_SERVICES));
-          activities = data.activities || JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
-          reviews    = data.reviews    || [];
-          banners    = data.banners    || [];
+        if (data && data.services) {
+          services    = data.services;
+          activities  = data.activities  || [];
+          reviews     = data.reviews     || [];
+          
+          // Merge defaults with custom data so old items stay accessible
+          const merge = (db, def, key) => {
+            const list = db || [];
+            def.forEach(d => { if(!list.find(item => item[key] === d[key])) list.push(d); });
+            return list;
+          };
+          banners     = merge(data.banners, DEFAULT_BANNERS, 'title');
+          heroBanners = merge(data.heroBanners, DEFAULT_HERO_BANNERS, 'title');
+          gallery     = merge(data.gallery, DEFAULT_GALLERY, 'img');
         } else {
           // First time — seed with defaults
-          services   = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
-          activities = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
-          reviews    = [];
-          banners    = [];
+          services    = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+          activities  = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+          reviews     = [];
+          banners     = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
+          heroBanners = JSON.parse(JSON.stringify(DEFAULT_HERO_BANNERS));
+          gallery     = JSON.parse(JSON.stringify(DEFAULT_GALLERY));
           await saveData();
         }
       } catch (err) {
         console.error('Firebase load error:', err);
         toast('⚠️ Could not load from cloud. Using defaults.', 'error');
-        services   = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
-        activities = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
-        reviews    = [];
-        banners    = [];
+        services    = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+        activities  = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+        reviews     = [];
+        banners     = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
+        heroBanners = JSON.parse(JSON.stringify(DEFAULT_HERO_BANNERS));
+        gallery     = JSON.parse(JSON.stringify(DEFAULT_GALLERY));
       }
     }
 
     async function saveData() {
       try {
-        await window._fbSave({ services, activities, reviews, banners, updatedAt: Date.now() });
+        await window._fbSave({ services, activities, reviews, banners, heroBanners, gallery, updatedAt: Date.now() });
         updateBadges();
       } catch (err) {
         console.error('Firebase save error:', err);
@@ -2350,6 +2590,11 @@
       document.getElementById('actCountBadge').textContent    = activities.length;
       document.getElementById('revCountBadge').textContent    = reviews.length;
       document.getElementById('bannerCountBadge').textContent = banners.length;
+      const heroBadge = document.getElementById('heroBannerCountBadge');
+      if(heroBadge) heroBadge.textContent = heroBanners.length;
+      const galBadge = document.getElementById('galleryCountBadge');
+      if(galBadge) galBadge.textContent = gallery.length;
+
       document.getElementById('dashSvcCount').textContent  = services.length;
       document.getElementById('dashActCount').textContent  = activities.length;
       const prices = services.map(s => s.price).filter(p => p > 0);
@@ -2363,6 +2608,10 @@
       if (revSub) revSub.textContent = `${reviews.length} review${reviews.length !== 1 ? 's' : ''} saved`;
       const banSub = document.getElementById('bannerSubtitle');
       if (banSub) banSub.textContent = `${banners.length} banner${banners.length !== 1 ? 's' : ''} — ${banners.filter(b=>b.active).length} active`;
+      const hbSub = document.getElementById('heroBannerSubtitle');
+      if (hbSub) hbSub.textContent = `${heroBanners.length} hero banner${heroBanners.length !== 1 ? 's' : ''} — ${heroBanners.filter(b=>b.active).length} active`;
+      const galSub = document.getElementById('gallerySubtitle');
+      if (galSub) galSub.textContent = `${gallery.length} image${gallery.length !== 1 ? 's' : ''} listed`;
     }
 
     // ──────────────────────────────────────────────────────────────────
@@ -2394,7 +2643,7 @@
       const uv = document.getElementById('loginUser').value.trim();
       const pv = document.getElementById('loginPass').value;
       const err = document.getElementById('loginError');
-      const cr = getCredsFromFile();
+      const cr = await getAdminCreds();
       if (!cr.u || !cr.p) {
         err.textContent = '⚠️ Configuration error.'; err.style.display = 'block'; return;
       }
@@ -2433,6 +2682,8 @@
       renderActivities();
       renderReviews();
       renderBanners();
+      renderHeroBanners();
+      renderGallery();
     }
 
     window.addEventListener('DOMContentLoaded', () => {
@@ -2741,7 +2992,7 @@
     // EXPORT / IMPORT
     // ──────────────────────────────────────────────────────────────────
     function exportData() {
-      const data = { services, activities, exportedAt: new Date().toISOString(), version: '1.0' };
+      const data = { services, activities, reviews, banners, heroBanners, gallery, exportedAt: new Date().toISOString(), version: '1.0' };
       const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -2759,10 +3010,18 @@
           const data = JSON.parse(ev.target.result);
           if (data.services) { services = data.services; }
           if (data.activities) { activities = data.activities; }
+          if (data.reviews) { reviews = data.reviews; }
+          if (data.banners) { banners = data.banners; }
+          if (data.heroBanners) { heroBanners = data.heroBanners; }
+          if (data.gallery) { gallery = data.gallery; }
           toast('☁️ Uploading to cloud…', 'info', 1500);
           await saveData();
           renderServices();
           renderActivities();
+          renderReviews();
+          renderBanners();
+          renderHeroBanners();
+          renderGallery();
           renderDashboard();
           refreshPreview();
           toast('📥 Data imported and synced to all devices!', 'success');
@@ -2775,7 +3034,7 @@
     }
 
     function refreshPreview() {
-      const data = { services, activities };
+      const data = { services, activities, reviews, banners, heroBanners, gallery };
       document.getElementById('jsonPreview').textContent = JSON.stringify(data, null, 2).substring(0, 3000) + '...';
     }
 
@@ -2783,20 +3042,36 @@
       if (!confirm('Reset ALL data to defaults? This will erase your changes on ALL devices.')) return;
       services = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
       activities = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+      banners = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
+      heroBanners = JSON.parse(JSON.stringify(DEFAULT_HERO_BANNERS));
+      gallery = JSON.parse(JSON.stringify(DEFAULT_GALLERY));
+      reviews = [];
       await saveData();
       renderServices();
       renderActivities();
+      renderReviews();
+      renderBanners();
+      renderHeroBanners();
+      renderGallery();
       renderDashboard();
       toast('🔄 Data reset to defaults on all devices!', 'info');
     }
 
     async function clearAllData() {
-      if (!confirm('Clear ALL services and activities on ALL devices? This cannot be undone!')) return;
+      if (!confirm('Clear ALL data on ALL devices? This cannot be undone!')) return;
       services = [];
       activities = [];
+      reviews = [];
+      banners = [];
+      heroBanners = [];
+      gallery = [];
       await saveData();
       renderServices();
       renderActivities();
+      renderReviews();
+      renderBanners();
+      renderHeroBanners();
+      renderGallery();
       renderDashboard();
       toast('🗑️ All data cleared from all devices!', 'info');
     }
@@ -3073,6 +3348,103 @@
           </div>
         </div>`;
       }).join('');
+    }
+
+    // ─── HERO BANNERS (BIG) ──────────────────────────────────────────
+    function openAddHeroBannerModal() {
+      document.getElementById('heroBannerModalTitle').textContent = 'Add Hero Banner';
+      document.getElementById('heroBannerEditIndex').value = '';
+      document.getElementById('heroBannerTitle').value = '';
+      document.getElementById('heroBannerSub').value = '';
+      document.getElementById('heroBannerCta').value = '🎉 Book Your Event';
+      document.getElementById('heroBannerLink').value = '#services';
+      document.getElementById('heroBannerActive').value = 'true';
+      document.getElementById('heroBannerImgPreview').innerHTML = '';
+      document.getElementById('heroBannerUrlInput').value = '';
+      openModal('heroBannerModal');
+    }
+
+    function openEditHeroBannerModal(i) {
+      const h = heroBanners[i];
+      document.getElementById('heroBannerModalTitle').textContent = 'Edit Hero Banner';
+      document.getElementById('heroBannerEditIndex').value = i;
+      document.getElementById('heroBannerTitle').value = h.title;
+      document.getElementById('heroBannerSub').value = h.sub || '';
+      document.getElementById('heroBannerCta').value = h.cta || '';
+      document.getElementById('heroBannerLink').value = h.link || '';
+      document.getElementById('heroBannerActive').value = String(h.active !== false);
+      document.getElementById('heroBannerImgPreview').innerHTML = '';
+      if (h.img) addImgPreview('heroBanner', h.img);
+      openModal('heroBannerModal');
+    }
+
+    async function saveHeroBanner() {
+      const title = document.getElementById('heroBannerTitle').value.trim();
+      if (!title) { toast('❌ Please enter a title', 'error'); return; }
+      const imgEl = document.querySelector('#heroBannerImgPreview img');
+      const obj = {
+        title,
+        sub: document.getElementById('heroBannerSub').value.trim(),
+        cta: document.getElementById('heroBannerCta').value.trim(),
+        link: document.getElementById('heroBannerLink').value.trim(),
+        active: document.getElementById('heroBannerActive').value === 'true',
+        img: imgEl ? imgEl.src : ''
+      };
+      const idx = document.getElementById('heroBannerEditIndex').value;
+      if (idx !== '') { heroBanners[parseInt(idx)] = obj; }
+      else { heroBanners.push(obj); }
+      await saveData(); renderHeroBanners();
+      closeModal('heroBannerModal');
+      toast('✅ Hero Banner saved!', 'success');
+    }
+
+    function renderHeroBanners() {
+      const grid = document.getElementById('heroBannersGrid');
+      if (!grid) return;
+      grid.innerHTML = heroBanners.map((h, i) => `
+        <div class="banner-card ${h.active ? '' : 'inactive'}">
+          <img class="banner-card-img" src="${h.img || ''}" onerror="this.src='favicon.png'">
+          <div class="banner-card-body">
+            <div class="banner-card-title">${h.title}</div>
+            <div class="banner-card-actions">
+              <button class="btn btn-edit btn-sm" onclick="openEditHeroBannerModal(${i})">✏️</button>
+              <button class="btn btn-danger btn-sm" onclick="heroBanners.splice(${i},1);saveData();renderHeroBanners();">🗑️</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    // ─── GALLERY ─────────────────────────────────────────────────────
+    function openAddGalleryModal() {
+      document.getElementById('galleryEditIndex').value = '';
+      document.getElementById('galleryImgPreview').innerHTML = '';
+      openModal('galleryModal');
+    }
+
+    async function saveGallery() {
+      const imgEl = document.querySelector('#galleryImgPreview img');
+      if (!imgEl) { toast('❌ Please upload an image', 'error'); return; }
+      const obj = {
+        img: imgEl.src,
+        category: document.getElementById('galleryCategory').value
+      };
+      gallery.push(obj);
+      await saveData(); renderGallery();
+      closeModal('galleryModal');
+      toast('✅ Gallery image added!', 'success');
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      if (!grid) return;
+      grid.innerHTML = gallery.map((g, i) => `
+        <div class="item-card">
+          <img class="item-card-img" src="${g.img}">
+          <div class="item-card-body" style="padding:10px;">
+            <span class="item-tag">${g.category}</span>
+            <button class="btn btn-danger btn-sm" onclick="gallery.splice(${i},1);saveData();renderGallery();">🗑️ Delete</button>
+          </div>
+        </div>`).join('');
     }
 
     // ──────────────────────────────────────────────────────────────────
