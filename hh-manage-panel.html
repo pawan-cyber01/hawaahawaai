@@ -1,0 +1,3526 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hawaa Hawaai – Admin Panel</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <script src="newyear.js"></script>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3HLLxdZG9tBW1uqRZcu3_8l2F7SEpV94",
+      authDomain: "hawaahawaai.firebaseapp.com",
+      projectId: "hawaahawaai",
+      storageBucket: "hawaahawaai.firebasestorage.app",
+      messagingSenderId: "650317857849",
+      appId: "1:650317857849:web:80d834962413fe5a6df9e8",
+      measurementId: "G-1HN2NYMHF6"
+    };
+
+    const _fbApp = initializeApp(firebaseConfig);
+    const _db   = getFirestore(_fbApp);
+
+    // Expose helpers on window so the non-module script below can call them
+    window._fbSave = async function(data) {
+      await setDoc(doc(_db, 'siteData', 'main'), data);
+    };
+
+    window._fbLoad = async function() {
+      const snap = await getDoc(doc(_db, 'siteData', 'main'));
+      return snap.exists() ? snap.data() : null;
+    };
+
+    window._fbSaveCreds = async function(data) {
+      await setDoc(doc(_db, 'siteData', 'creds'), data);
+    };
+
+    window._fbLoadCreds = async function() {
+      const snap = await getDoc(doc(_db, 'siteData', 'creds'));
+      return snap.exists() ? snap.data() : null;
+    };
+
+    window._firebaseReady = true;
+  </script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --pink: #ec4899;
+      --pink-dark: #db2777;
+      --pink-light: #fce7f3;
+      --pink-soft: #fdf2f8;
+      --purple: #9333ea;
+      --orange: #f97316;
+      --bg: #0f0a14;
+      --surface: #1a1025;
+      --surface2: #231535;
+      --surface3: #2d1c44;
+      --border: rgba(236, 72, 153, 0.15);
+      --text: #f0e6f8;
+      --text-muted: #a084c0;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── ANIMATED BG ─────────────────────────────────────────── */
+    .bg-decoration {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.08;
+      animation: blobFloat 8s ease-in-out infinite alternate;
+    }
+
+    .blob1 {
+      width: 500px;
+      height: 500px;
+      background: var(--pink);
+      top: -100px;
+      left: -150px;
+      animation-delay: 0s;
+    }
+
+    .blob2 {
+      width: 400px;
+      height: 400px;
+      background: var(--purple);
+      bottom: -100px;
+      right: -100px;
+      animation-delay: 3s;
+    }
+
+    .blob3 {
+      width: 300px;
+      height: 300px;
+      background: var(--orange);
+      top: 40%;
+      left: 50%;
+      animation-delay: 6s;
+    }
+
+    @keyframes blobFloat {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+
+      to {
+        transform: translate(30px, 20px) scale(1.05);
+      }
+    }
+
+    /* ─── LOGIN SCREEN ───────────────────────────────────────────── */
+    #loginScreen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      background: var(--bg);
+    }
+
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      padding: 48px 40px;
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 30px 80px rgba(236, 72, 153, 0.15);
+      position: relative;
+      z-index: 1;
+    }
+
+    .login-logo {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+
+    .login-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 6px;
+    }
+
+    .login-subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+    }
+
+    .login-field {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+
+    .login-field label {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      margin-bottom: 6px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .login-field input {
+      width: 100%;
+      padding: 14px 18px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .login-field input:focus {
+      border-color: var(--pink);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+      margin-top: 8px;
+      font-family: inherit;
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(236, 72, 153, 0.4);
+    }
+
+    .login-error {
+      color: var(--danger);
+      font-size: 0.85rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .login-lockout {
+      color: var(--warning);
+      font-size: 0.85rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    .login-success {
+      color: var(--success);
+      font-size: 0.85rem;
+      margin-top: 10px;
+      display: none;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      15%,
+      45%,
+      75% {
+        transform: translateX(-6px);
+      }
+
+      30%,
+      60%,
+      90% {
+        transform: translateX(6px);
+      }
+    }
+
+    .shake {
+      animation: shake 0.5s ease;
+    }
+
+    /* ─── SETUP SCREEN ───────────────────────────────────────────── */
+    #setupScreen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1001;
+      background: var(--bg);
+    }
+
+    .setup-badge {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+
+    /* ─── IMAGE UPLOAD ───────────────────────────────────────────── */
+    .img-dropzone {
+      border: 2px dashed var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: var(--surface2);
+      position: relative;
+    }
+
+    .img-dropzone:hover,
+    .img-dropzone.drag-over {
+      border-color: var(--pink);
+      background: rgba(236, 72, 153, 0.06);
+    }
+
+    .img-dropzone input[type=file] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .img-dropzone .dz-icon {
+      font-size: 2rem;
+      margin-bottom: 6px;
+    }
+
+    .img-dropzone p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    .img-dropzone span {
+      color: var(--pink);
+      font-weight: 600;
+    }
+
+    .upload-preview-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .upload-thumb {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+
+    .upload-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .upload-thumb-rm {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(239, 68, 68, 0.9);
+      color: #fff;
+      border: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      font-size: 11px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .url-fallback-row {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+      align-items: center;
+    }
+
+    .url-fallback-row input {
+      flex: 1;
+    }
+
+    /* ─── SETTINGS PAGE ─────────────────────────────────────────── */
+    .settings-section {
+      margin-bottom: 28px;
+    }
+
+    .settings-section h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cred-strength {
+      height: 4px;
+      border-radius: 2px;
+      margin-top: 6px;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .strength-weak {
+      background: var(--danger);
+    }
+
+    .strength-medium {
+      background: var(--warning);
+    }
+
+    .strength-strong {
+      background: var(--success);
+    }
+
+    .strength-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    /* ─── MAIN APP ──────────────────────────────────────────────── */
+    #adminApp {
+      display: none;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── SIDEBAR ───────────────────────────────────────────────── */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 260px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      z-index: 200;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .sidebar-logo {
+      padding: 28px 24px 20px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .sidebar-logo .emoji {
+      font-size: 32px;
+    }
+
+    .sidebar-logo h1 {
+      font-size: 1.1rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .sidebar-logo p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .sidebar-nav {
+      flex: 1;
+      padding: 20px 12px;
+      overflow-y: auto;
+    }
+
+    .nav-group-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0 12px;
+      margin: 16px 0 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 4px;
+      border: 1px solid transparent;
+    }
+
+    .nav-item:hover {
+      background: var(--surface2);
+      color: var(--text);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(147, 51, 234, 0.15));
+      color: var(--pink);
+      border-color: rgba(236, 72, 153, 0.2);
+    }
+
+    .nav-item .nav-icon {
+      font-size: 1.2rem;
+      width: 24px;
+      text-align: center;
+    }
+
+    .sidebar-footer {
+      padding: 16px 12px;
+      border-top: 1px solid var(--border);
+    }
+
+    .logout-btn {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      color: var(--danger);
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+      width: 100%;
+      border: none;
+      background: transparent;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .logout-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    /* ─── MOBILE HEADER ─────────────────────────────────────────── */
+    .mobile-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+      z-index: 300;
+    }
+
+    .hamburger {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 8px;
+      border-radius: 8px;
+    }
+
+    .hamburger:hover {
+      background: var(--surface2);
+    }
+
+    .mobile-title {
+      font-size: 1rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 199;
+      backdrop-filter: blur(4px);
+    }
+
+    /* ─── MAIN CONTENT ──────────────────────────────────────────── */
+    .main-content {
+      margin-left: 260px;
+      min-height: 100vh;
+      padding: 32px;
+    }
+
+    /* ─── PAGE HEADER ───────────────────────────────────────────── */
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .page-title {
+      font-size: 1.8rem;
+      font-weight: 800;
+    }
+
+    .page-title span {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 4px;
+    }
+
+    /* ─── STATS CARDS ───────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.2s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      filter: blur(30px);
+      opacity: 0.4;
+    }
+
+    .stat-card.pink::before {
+      background: var(--pink);
+    }
+
+    .stat-card.purple::before {
+      background: var(--purple);
+    }
+
+    .stat-card.orange::before {
+      background: var(--orange);
+    }
+
+    .stat-card.green::before {
+      background: var(--success);
+    }
+
+    .stat-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-top: 4px;
+    }
+
+    /* ─── SECTION PANEL ─────────────────────────────────────────── */
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .panel-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .panel-body {
+      padding: 24px;
+    }
+
+    /* ─── SEARCH & FILTER ───────────────────────────────────────── */
+    .search-bar {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-input {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 16px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.9rem;
+      outline: none;
+      min-width: 200px;
+      transition: border 0.2s;
+    }
+
+    .search-input:focus {
+      border-color: var(--pink);
+    }
+
+    .search-input::placeholder {
+      color: var(--text-muted);
+    }
+
+    /* ─── BUTTONS ───────────────────────────────────────────────── */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(236, 72, 153, 0.35);
+    }
+
+    .btn-danger {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .btn-danger:hover {
+      background: rgba(239, 68, 68, 0.25);
+    }
+
+    .btn-edit {
+      background: rgba(249, 115, 22, 0.15);
+      color: var(--orange);
+      border: 1px solid rgba(249, 115, 22, 0.2);
+    }
+
+    .btn-edit:hover {
+      background: rgba(249, 115, 22, 0.25);
+    }
+
+    .btn-sm {
+      padding: 7px 13px;
+      font-size: 0.8rem;
+      border-radius: 9px;
+    }
+
+    .btn-ghost {
+      background: var(--surface2);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      color: var(--text);
+    }
+
+    /* ─── GRID CARDS ────────────────────────────────────────────── */
+    .items-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+
+    .item-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all 0.3s;
+      position: relative;
+    }
+
+    .item-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(236, 72, 153, 0.2);
+    }
+
+    .item-card-img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .item-card-img-placeholder {
+      width: 100%;
+      height: 180px;
+      background: var(--surface3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      color: var(--text-muted);
+    }
+
+    .item-card-body {
+      padding: 16px;
+    }
+
+    .item-card-title {
+      font-weight: 700;
+      font-size: 1rem;
+      margin-bottom: 6px;
+    }
+
+    .item-card-price {
+      color: var(--pink);
+      font-weight: 700;
+      font-size: 1.05rem;
+      margin-bottom: 8px;
+    }
+
+    .item-card-desc {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.5;
+      margin-bottom: 12px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .item-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+
+    .item-tag {
+      background: rgba(236, 72, 153, 0.12);
+      color: var(--pink);
+      font-size: 0.72rem;
+      padding: 3px 8px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .item-card-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .item-card-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      color: white;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* ─── MODAL ─────────────────────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s;
+    }
+
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      width: 100%;
+      max-width: 640px;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.95) translateY(20px);
+      transition: transform 0.3s;
+      box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-overlay.open .modal {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      padding: 24px 28px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      background: var(--surface);
+      z-index: 1;
+      border-radius: 28px 28px 0 0;
+    }
+
+    .modal-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+    }
+
+    .modal-close {
+      background: var(--surface2);
+      border: none;
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.2s;
+    }
+
+    .modal-close:hover {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--danger);
+    }
+
+    .modal-body {
+      padding: 24px 28px 28px;
+    }
+
+    /* ─── FORM ──────────────────────────────────────────────────── */
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    .form-group.full {
+      grid-column: 1/-1;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+    }
+
+    .form-input,
+    .form-textarea,
+    .form-select {
+      width: 100%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 12px 16px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border 0.2s;
+    }
+
+    .form-input:focus,
+    .form-textarea:focus,
+    .form-select:focus {
+      border-color: var(--pink);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 90px;
+    }
+
+    .form-select option {
+      background: var(--surface2);
+    }
+
+    .form-hint {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .form-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 24px;
+      flex-wrap: wrap;
+    }
+
+    /* Features list builder */
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .feature-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .feature-row input {
+      flex: 1;
+    }
+
+    .add-feature-btn {
+      background: var(--surface3);
+      border: 1px dashed var(--border);
+      color: var(--text-muted);
+      padding: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      font-family: inherit;
+      font-size: 0.85rem;
+      text-align: center;
+      transition: all 0.2s;
+      margin-top: 4px;
+    }
+
+    .add-feature-btn:hover {
+      border-color: var(--pink);
+      color: var(--pink);
+    }
+
+    /* Image list input */
+    .images-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    /* ─── TOAST ─────────────────────────────────────────────────── */
+    #toastContainer {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 14px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      min-width: 280px;
+      animation: toastIn 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .toast.success {
+      border-left: 4px solid var(--success);
+    }
+
+    .toast.error {
+      border-left: 4px solid var(--danger);
+    }
+
+    .toast.info {
+      border-left: 4px solid var(--pink);
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes toastOut {
+      to {
+        opacity: 0;
+        transform: translateX(60px);
+      }
+    }
+
+    /* ─── EMPTY STATE ───────────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-muted);
+    }
+
+    .empty-state .emoji {
+      font-size: 4rem;
+      margin-bottom: 12px;
+    }
+
+    .empty-state p {
+      margin-bottom: 20px;
+    }
+
+    /* ─── TABS ──────────────────────────────────────────────────── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: var(--surface2);
+      border-radius: 14px;
+      padding: 4px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 9px 18px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-btn.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* ─── CONFIRM DELETE ────────────────────────────────────────── */
+    .confirm-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(8px);
+      z-index: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+    }
+
+    .confirm-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .confirm-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 380px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.2s;
+    }
+
+    .confirm-overlay.open .confirm-box {
+      transform: scale(1);
+    }
+
+    .confirm-box .confirm-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    .confirm-box h3 {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .confirm-box p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 24px;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    /* ─── RESPONSIVE ────────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+
+      .sidebar.open {
+        transform: translateX(0);
+      }
+
+      .mobile-header {
+        display: flex;
+      }
+
+      .mobile-overlay.visible {
+        display: block;
+      }
+
+      .main-content {
+        margin-left: 0;
+        padding: 80px 16px 32px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .items-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+
+      .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .items-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .login-card {
+        padding: 32px 24px;
+      }
+    }
+
+    /* ─── PAGE SECTIONS ─────────────────────────────────────────── */
+    .page-section {
+      display: none;
+    }
+
+    .page-section.active {
+      display: block;
+    }
+
+    /* ─── IMAGE PREVIEW GRID ────────────────────────────────────── */
+    .img-preview-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .img-preview {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .img-preview img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .img-preview-remove {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      background: rgba(239, 68, 68, 0.85);
+      color: white;
+      border: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      font-size: 10px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--surface3);
+      border-radius: 3px;
+    }
+
+    /* Badge counts */
+    .count-badge {
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: white;
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 20px;
+    }
+
+    /* ─── STARS ─────────────────────────────────────────────────── */
+    .star-rating {
+      display: flex;
+      gap: 3px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      width: fit-content;
+    }
+    .star-rating .star {
+      color: var(--surface3);
+      transition: color 0.15s;
+    }
+    .star-rating .star.filled { color: #f59e0b; }
+    .star-rating .star:hover,
+    .star-rating .star:hover ~ .star { color: var(--surface3); }
+    .star-rating:hover .star { color: #f59e0b; }
+    .star-rating .star:hover ~ .star { color: var(--surface3) !important; }
+
+    /* ─── REVIEW CARD ────────────────────────────────────────────── */
+    .review-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 20px;
+      transition: all 0.25s;
+      position: relative;
+    }
+    .review-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3);
+    }
+    .review-card .rc-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+    .review-card .rc-avatar {
+      width: 42px; height: 42px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: 700; color: #fff;
+      flex-shrink: 0;
+    }
+    .review-card .rc-name { font-weight: 700; font-size: 0.95rem; }
+    .review-card .rc-date { font-size: 0.75rem; color: var(--text-muted); }
+    .review-card .rc-stars { font-size: 0.9rem; color: #f59e0b; }
+    .review-card .rc-text {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+    .review-source-badge {
+      position: absolute; top: 12px; right: 12px;
+      font-size: 0.7rem; font-weight: 700; padding: 2px 8px;
+      border-radius: 20px;
+      background: rgba(66,133,244,0.15); color: #4285F4;
+      border: 1px solid rgba(66,133,244,0.3);
+    }
+    .review-source-badge.manual {
+      background: rgba(236,72,153,0.12); color: var(--pink);
+      border-color: rgba(236,72,153,0.25);
+    }
+    .review-card .rc-actions { display: flex; gap: 8px; margin-top: 14px; }
+
+    /* ─── BANNER CARD ────────────────────────────────────────────── */
+    .banner-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      transition: all 0.25s;
+      position: relative;
+    }
+    .banner-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.3), 0 0 0 1px rgba(236,72,153,0.2);
+    }
+    .banner-card.inactive { opacity: 0.5; }
+    .banner-card-img {
+      width: 100%; height: 140px; object-fit: cover;
+    }
+    .banner-card-img-ph {
+      width: 100%; height: 140px;
+      background: var(--surface3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.5rem; color: var(--text-muted);
+    }
+    .banner-card-body { padding: 14px 16px; }
+    .banner-card-badge {
+      display: inline-block;
+      font-size: 0.7rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+      background: linear-gradient(135deg, var(--pink), var(--purple));
+      color: #fff; margin-bottom: 6px;
+    }
+    .banner-card-title { font-weight: 700; font-size: 0.95rem; margin-bottom: 4px; }
+    .banner-card-sub { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; }
+    .banner-card-actions { display: flex; gap: 8px; align-items: center; }
+    .banner-card-status {
+      position: absolute; top: 10px; right: 10px;
+      background: rgba(0,0,0,0.65);
+      backdrop-filter: blur(6px);
+      color: #fff; font-size: 0.7rem; font-weight: 700;
+      padding: 3px 10px; border-radius: 20px;
+    }
+    .banner-card-status.active { background: rgba(34,197,94,0.8); }
+
+    /* ─── TOGGLE SWITCH ──────────────────────────────────────────── */
+    .toggle-wrap { display: flex; align-items: center; gap: 8px; }
+    .toggle {
+      position: relative; display: inline-block;
+      width: 40px; height: 22px;
+    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider {
+      position: absolute; cursor: pointer;
+      inset: 0; background: var(--surface3);
+      border-radius: 22px; transition: 0.25s;
+    }
+    .toggle-slider:before {
+      content: ''; position: absolute;
+      width: 16px; height: 16px; left: 3px; bottom: 3px;
+      background: white; border-radius: 50%; transition: 0.25s;
+    }
+    .toggle input:checked + .toggle-slider { background: var(--pink); }
+    .toggle input:checked + .toggle-slider:before { transform: translateX(18px); }
+
+    /* Export section */
+    .export-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .export-card {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .export-card .icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .export-card h3 {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .export-card p {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-bottom: 16px;
+    }
+
+    pre.json-preview {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 16px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      overflow: auto;
+      max-height: 300px;
+      text-align: left;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="bg-decoration">
+    <div class="bg-blob blob1"></div>
+    <div class="bg-blob blob2"></div>
+    <div class="bg-blob blob3"></div>
+  </div>
+
+  <!-- Setup screen removed — credentials managed via admin-creds.js -->
+
+  <!-- ─────────────── LOGIN SCREEN ─────────────────────────────────── -->
+  <div id="loginScreen" style="display:none">
+    <div class="login-card">
+      <div class="login-logo">🎈</div>
+      <h2 class="login-title">Admin Panel</h2>
+      <p class="login-subtitle">Hawaa Hawaai Decor — Secure Access</p>
+      <div class="login-field">
+        <label>Username</label>
+        <input type="text" id="loginUser" autocomplete="username">
+      </div>
+      <div class="login-field">
+        <label>Password</label>
+        <input type="password" id="loginPass" autocomplete="current-password"
+          onkeydown="if(event.key==='Enter')doLogin()">
+      </div>
+      <button class="login-btn" id="loginBtn" onclick="doLogin()">🔓 Sign In</button>
+      <p class="login-error" id="loginError">❌ Invalid credentials. Try again.</p>
+      <p class="login-lockout" id="loginLockout">🔒 Too many attempts. Please wait <span id="lockCountdown">30</span>s.
+      </p>
+    </div>
+  </div>
+
+  <!-- ─────────────── ADMIN APP ─────────────────────────────────────── -->
+  <div id="adminApp">
+
+    <!-- Mobile Header -->
+    <div class="mobile-header">
+      <button class="hamburger" onclick="toggleSidebar()" id="hamburgerBtn">☰</button>
+      <span class="mobile-title">🎈 HH Admin</span>
+    </div>
+    <div class="mobile-overlay" id="mobileOverlay" onclick="closeSidebar()"></div>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-logo">
+        <div class="emoji">🎈</div>
+        <h1>Hawaa Hawaai</h1>
+        <p>Admin Dashboard</p>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-group-label">Overview</div>
+        <div class="nav-item active" onclick="showPage('dashboard',this)">
+          <span class="nav-icon">🏠</span> Dashboard
+        </div>
+        <div class="nav-group-label">Manage</div>
+        <div class="nav-item" onclick="showPage('services',this)">
+          <span class="nav-icon">🎀</span> Services <span class="count-badge" id="svcCountBadge">0</span>
+        </div>
+        <div class="nav-item" onclick="showPage('activities',this)">
+          <span class="nav-icon">🎡</span> Activities <span class="count-badge" id="actCountBadge">0</span>
+        </div>
+        <div class="nav-item" onclick="showPage('reviews',this)">
+          <span class="nav-icon">⭐</span> Reviews <span class="count-badge" id="revCountBadge">0</span>
+        </div>
+        <div class="nav-item" onclick="showPage('banners',this)">
+          <span class="nav-icon">🎨</span> Offers & Small Banners <span class="count-badge" id="bannerCountBadge">0</span>
+        </div>
+        <div class="nav-item" onclick="showPage('herobanners',this)">
+          <span class="nav-icon">🖼️</span> Hero Banners (Big) <span class="count-badge" id="heroBannerCountBadge">0</span>
+        </div>
+        <div class="nav-item" onclick="showPage('gallery',this)">
+          <span class="nav-icon">📸</span> Gallery <span class="count-badge" id="galleryCountBadge">0</span>
+        </div>
+        <div class="nav-group-label">Tools</div>
+        <div class="nav-item" onclick="showPage('export',this)">
+          <span class="nav-icon">📦</span> Export / Import
+        </div>
+        <div class="nav-item" onclick="showPage('settings',this)">
+          <span class="nav-icon">⚙️</span> Settings
+        </div>
+        <div class="nav-item" onclick="window.open('index.html','_blank')">
+          <span class="nav-icon">🌐</span> View Website ↗
+        </div>
+      </nav>
+      <div class="sidebar-footer">
+        <button class="logout-btn" onclick="doLogout()">🚪 Logout</button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+      <!-- ── DASHBOARD ──────────────────────────────────────────────── -->
+      <div class="page-section active" id="page-dashboard">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">Welcome back, <span>Admin</span> 👋</h2>
+            <p class="page-subtitle">Manage all your services and activities from one place</p>
+          </div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card pink">
+            <div class="stat-icon">🎀</div>
+            <div class="stat-value" id="dashSvcCount">0</div>
+            <div class="stat-label">Total Services</div>
+          </div>
+          <div class="stat-card purple">
+            <div class="stat-icon">🎡</div>
+            <div class="stat-value" id="dashActCount">0</div>
+            <div class="stat-label">Activities</div>
+          </div>
+          <div class="stat-card orange">
+            <div class="stat-icon">₹</div>
+            <div class="stat-value" id="dashMinPrice">—</div>
+            <div class="stat-label">Starting Price</div>
+          </div>
+          <div class="stat-card green">
+            <div class="stat-icon">⭐</div>
+            <div class="stat-value" id="dashMaxPrice">—</div>
+            <div class="stat-label">Premium Tier</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">⚡ Quick Actions</span>
+          </div>
+          <div class="panel-body" style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="openAddServiceModal()">➕ Add Service</button>
+            <button class="btn btn-primary" onclick="openAddActivityModal()">➕ Add Activity</button>
+            <button class="btn btn-ghost"
+              onclick="showPage('services', [...document.querySelectorAll('.nav-item')].find(n=>n.textContent.includes('Services')))">🎀
+              Manage Services</button>
+            <button class="btn btn-ghost"
+              onclick="showPage('activities', [...document.querySelectorAll('.nav-item')].find(n=>n.textContent.includes('Activities')))">🎡
+              Manage Activities</button>
+          </div>
+        </div>
+
+        <div style="margin-top:24px;" class="panel">
+          <div class="panel-header">
+            <span class="panel-title">📋 Recently Added Services</span>
+          </div>
+          <div class="panel-body">
+            <div id="recentServices"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SERVICES ───────────────────────────────────────────────── -->
+      <div class="page-section" id="page-services">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Services</span> Manager</h2>
+            <p class="page-subtitle" id="svcSubtitle">Loading…</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddServiceModal()">➕ Add Service</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="search-bar">
+              <input type="search" class="search-input" id="svcSearch" placeholder="🔍 Search services…"
+                oninput="renderServices()">
+              <select class="search-input" id="svcSort" onchange="renderServices()" style="min-width:auto;">
+                <option value="price-asc">Price ↑</option>
+                <option value="price-desc">Price ↓</option>
+                <option value="name-asc">Name A–Z</option>
+                <option value="name-desc">Name Z–A</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="servicesGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── ACTIVITIES ─────────────────────────────────────────────── -->
+      <div class="page-section" id="page-activities">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Activities</span> Manager</h2>
+            <p class="page-subtitle" id="actSubtitle">Loading…</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddActivityModal()">➕ Add Activity</button>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="search-bar">
+              <input type="search" class="search-input" id="actSearch" placeholder="🔍 Search activities…"
+                oninput="renderActivities()">
+              <select class="search-input" id="actSort" onchange="renderActivities()" style="min-width:auto;">
+                <option value="price-asc">Price ↑</option>
+                <option value="price-desc">Price ↓</option>
+                <option value="name-asc">Name A–Z</option>
+                <option value="name-desc">Name Z–A</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="activitiesGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ──────────────────────────────────────────── -->
+      <div class="page-section" id="page-settings">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title">⚙️ <span>Settings</span></h2>
+            <p class="page-subtitle">Manage credentials and preferences</p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header"><span class="panel-title">🔐 Change Login Credentials</span></div>
+          <div class="panel-body">
+            <div class="form-grid" style="grid-template-columns:1fr; gap:16px;">
+              <div class="form-group">
+                <label class="form-label">New Username</label>
+                <input type="text" id="newAdminUser" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">New Password</label>
+                <input type="text" id="newAdminPass" class="form-input">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Confirm Password</label>
+                <input type="text" id="confirmAdminPass" class="form-input">
+              </div>
+            </div>
+            <div style="margin-top:20px; display:flex; gap:10px;">
+              <button class="btn btn-primary" onclick="updateAdminCredentials()">💾 Save Credentials</button>
+              <button class="btn btn-danger btn-sm" onclick="doLogout()">🚪 Logout Now</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:24px;">
+          <div class="panel-header"><span class="panel-title">ℹ️ Security Info</span></div>
+          <div class="panel-body">
+            <ul style="color:var(--text-muted);font-size:0.88rem;line-height:2.2;list-style:none;">
+              <li>🔒 Credentials are hashed with SHA-256 and securely saved to Firebase</li>
+              <li>🍪 Session tokens are kept in <code>sessionStorage</code> only (cleared on tab close)</li>
+              <li>⏱️ Sessions automatically expire after <strong>8 hours</strong></li>
+              <li>🚫 Login is locked for 30 seconds after 5 failed attempts</li>
+              <li>☁️ Service Data is securely managed through Firebase</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── REVIEWS ─────────────────────────────────────────────────── -->
+      <div class="page-section" id="page-reviews">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Reviews</span> Manager</h2>
+            <p class="page-subtitle" id="revSubtitle">Manage customer reviews</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-ghost" id="gbpFetchBtn" onclick="showGbpPanel()">🔗 Import from Google</button>
+            <button class="btn btn-primary" onclick="openAddReviewModal()">➕ Add Review</button>
+          </div>
+        </div>
+
+        <!-- GBP Import Panel -->
+        <div id="gbpPanel" class="panel" style="margin-bottom:24px;display:none;">
+          <div class="panel-header"><span class="panel-title">🔗 Google Business Profile — Places API Import</span>
+            <button class="btn btn-ghost btn-sm" onclick="document.getElementById('gbpPanel').style.display='none'">✕ Close</button>
+          </div>
+          <div class="panel-body">
+            <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:16px;">Google's Places API returns up to <strong>5 most-relevant reviews</strong> publicly. Enter your Google Places API key and the Place ID of your business to fetch them. <a href="https://developers.google.com/maps/documentation/places/web-service/place-id" target="_blank" style="color:var(--pink);">Find your Place ID ↗</a></p>
+            <div class="form-grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+              <div class="form-group">
+                <label class="form-label">Google Places API Key</label>
+                <input type="password" class="form-input" id="gbpApiKey" placeholder="AIza..." autocomplete="off">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Place ID</label>
+                <input type="text" class="form-input" id="gbpPlaceId" placeholder="ChIJ..." autocomplete="off">
+              </div>
+            </div>
+            <button class="btn btn-primary" onclick="fetchGbpReviews()">🔍 Fetch Reviews</button>
+            <p id="gbpStatus" style="margin-top:10px;font-size:0.85rem;display:none;"></p>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <div class="search-bar">
+              <input type="search" class="search-input" id="revSearch" placeholder="🔍 Search reviews…" oninput="renderReviews()">
+              <select class="search-input" id="revFilter" onchange="renderReviews()" style="min-width:auto;">
+                <option value="all">All Stars</option>
+                <option value="5">⭐⭐⭐⭐⭐</option>
+                <option value="4">⭐⭐⭐⭐</option>
+                <option value="3">⭐⭐⭐</option>
+                <option value="2">⭐⭐</option>
+                <option value="1">⭐</option>
+              </select>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="reviewsGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── BANNERS & OFFERS ──────────────────────────────────────────── -->
+      <div class="page-section" id="page-banners">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Banners</span> & Offers</h2>
+            <p class="page-subtitle" id="bannerSubtitle">Manage promotional banners and special offers</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddBannerModal()">➕ Add Banner</button>
+        </div>
+
+        <div class="panel" style="margin-bottom:20px;">
+          <div class="panel-header"><span class="panel-title">ℹ️ How Banners Work</span></div>
+          <div class="panel-body" style="color:var(--text-muted);font-size:0.85rem;line-height:1.8;">
+            Banners are saved to <code>localStorage</code> and can be read by your <code>index.html</code> using <code>JSON.parse(localStorage.getItem('hh_banners'))</code>. Toggle a banner <strong>Inactive</strong> to hide it without deleting it. Use the <strong>Export</strong> tab to back up all data including banners.
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">🎨 All Banners</span>
+            <div style="display:flex;gap:8px;">
+              <button class="btn btn-ghost btn-sm" onclick="toggleAllBanners(true)">✅ Enable All</button>
+              <button class="btn btn-ghost btn-sm" onclick="toggleAllBanners(false)">🚫 Disable All</button>
+            </div>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="bannersGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── HERO BANNERS ──────────────────────────────────────────── -->
+      <div class="page-section" id="page-herobanners">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Hero</span> Banners</h2>
+            <p class="page-subtitle" id="heroBannerSubtitle">Manage the large scrolling banners at the top of the homepage</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddHeroBannerModal()">➕ Add Hero Banner</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">🖼️ All Hero Banners</span>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="heroBannersGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── GALLERY ────────────────────────────────────────────────── -->
+      <div class="page-section" id="page-gallery">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Gallery</span> Images</h2>
+            <p class="page-subtitle" id="gallerySubtitle">Manage images in the inspiration gallery</p>
+          </div>
+          <button class="btn btn-primary" onclick="openAddGalleryModal()">➕ Add Image</button>
+        </div>
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">📸 All Gallery Images</span>
+          </div>
+          <div class="panel-body">
+            <div class="items-grid" id="galleryGrid"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── EXPORT/IMPORT ──────────────────────────────────────────── -->
+      <div class="page-section" id="page-export">
+        <div class="page-header">
+          <div>
+            <h2 class="page-title"><span>Export</span> / Import</h2>
+            <p class="page-subtitle">Backup or restore your data</p>
+          </div>
+        </div>
+
+        <div class="export-grid" style="margin-bottom:24px;">
+          <div class="export-card">
+            <div class="icon">📤</div>
+            <h3>Export Data</h3>
+            <p>Download all services and activities as a JSON file you can backup or share.</p>
+            <button class="btn btn-primary" onclick="exportData()">⬇️ Export JSON</button>
+          </div>
+          <div class="export-card">
+            <div class="icon">📥</div>
+            <h3>Import Data</h3>
+            <p>Upload a previously exported JSON file to restore or merge data.</p>
+            <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+            <button class="btn btn-ghost" onclick="document.getElementById('importFile').click()">⬆️ Import
+              JSON</button>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-header">
+            <span class="panel-title">📋 Current Data Preview</span>
+            <button class="btn btn-ghost btn-sm" onclick="refreshPreview()">🔄 Refresh</button>
+          </div>
+          <div class="panel-body">
+            <pre class="json-preview" id="jsonPreview">Click Refresh to load preview...</pre>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-top:24px;">
+          <div class="panel-header">
+            <span class="panel-title">⚠️ Danger Zone</span>
+          </div>
+          <div class="panel-body" style="display:flex;gap:12px;flex-wrap:wrap;">
+            <button class="btn btn-danger" onclick="resetToDefaults()">🔄 Reset to Default Data</button>
+            <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Data</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- ─────────────── SERVICE MODAL ─────────────────────────────────── -->
+  <div class="modal-overlay" id="serviceModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="serviceModalTitle">Add Service</span>
+        <button class="modal-close" onclick="closeModal('serviceModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="svcEditIndex">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label class="form-label">Service Title *</label>
+            <input type="text" class="form-input" id="svcTitle" placeholder="e.g. Princess Birthday Theme">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price (₹) *</label>
+            <input type="number" class="form-input" id="svcPrice" placeholder="9999" min="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category</label>
+            <select class="form-select" id="svcCategory">
+              <option value="">Select category</option>
+              <option value="birthday">🎂 Birthday</option>
+              <option value="anniversary">💕 Anniversary</option>
+              <option value="babyshower">🍼 Baby Shower</option>
+              <option value="wedding">💍 Wedding</option>
+              <option value="corporate">🏢 Corporate</option>
+              <option value="kids">🧸 Kids Theme</option>
+              <option value="other">✨ Other</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Description</label>
+            <textarea class="form-textarea" id="svcDesc" placeholder="Describe the service…"></textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Images <span
+                style="font-weight:400;text-transform:none;font-size:0.75rem;color:var(--text-muted)">(upload or paste
+                URL)</span></label>
+            <div class="img-dropzone" id="svcDropzone" ondragover="dzDrag(event,'svcDropzone')"
+              ondragleave="dzLeave('svcDropzone')" ondrop="dzDrop(event,'svc')">
+              <input type="file" accept="image/*" multiple id="svcFileInput" onchange="handleImgUpload(event,'svc')">
+              <div class="dz-icon">🖼️</div>
+              <p><span>Click to upload</span> or drag &amp; drop images here</p>
+              <p style="font-size:0.75rem;margin-top:4px;">JPG, PNG, WEBP • Auto-compressed to 900px</p>
+            </div>
+            <div class="upload-preview-grid" id="svcImgPreview"></div>
+            <div class="url-fallback-row">
+              <input type="text" class="form-input" id="svcUrlInput"
+                placeholder="Or paste image URL / path (e.g. img/photo.jpeg)" style="font-size:0.85rem;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addImgUrl('svc')">＋ Add URL</button>
+            </div>
+            <p class="form-hint">Uploaded images are saved with the service. You can also paste a relative path like
+              <code>img/photo.jpeg</code>
+            </p>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Features / Includes</label>
+            <div class="features-list" id="svcFeaturesList"></div>
+            <button class="add-feature-btn" onclick="addFeatureRow('svc')">＋ Add Feature</button>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('serviceModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveService()">💾 Save Service</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── ACTIVITY MODAL ────────────────────────────────── -->
+  <div class="modal-overlay" id="activityModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="activityModalTitle">Add Activity</span>
+        <button class="modal-close" onclick="closeModal('activityModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="actEditIndex">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label class="form-label">Activity Title *</label>
+            <input type="text" class="form-input" id="actTitle" placeholder="e.g. Foosball Table">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price (₹) *</label>
+            <input type="number" class="form-input" id="actPrice" placeholder="5000" min="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Price Unit</label>
+            <select class="form-select" id="actUnit">
+              <option value="">Fixed Price</option>
+              <option value="per person">Per Person</option>
+              <option value="per piece">Per Piece</option>
+              <option value="per hour">Per Hour</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Activity Image <span
+                style="font-weight:400;text-transform:none;font-size:0.75rem;color:var(--text-muted)">(upload or paste
+                URL)</span></label>
+            <div class="img-dropzone" id="actDropzone" ondragover="dzDrag(event,'actDropzone')"
+              ondragleave="dzLeave('actDropzone')" ondrop="dzDrop(event,'act')">
+              <input type="file" accept="image/*" id="actFileInput" onchange="handleImgUpload(event,'act')">
+              <div class="dz-icon">🖼️</div>
+              <p><span>Click to upload</span> or drag &amp; drop an image</p>
+              <p style="font-size:0.75rem;margin-top:4px;">JPG, PNG, WEBP • Auto-compressed</p>
+            </div>
+            <div class="upload-preview-grid" id="actImgPreview"></div>
+            <div class="url-fallback-row">
+              <input type="text" class="form-input" id="actUrlInput" placeholder="Or paste image URL / path"
+                style="font-size:0.85rem;">
+              <input type="text" class="form-input" id="actUrlInput" placeholder="Or paste image URL / path"
+                style="font-size:0.85rem;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addImgUrl('act')">＋ Add</button>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Description (optional)</label>
+            <textarea class="form-textarea" id="actDesc" placeholder="Brief description of the activity…"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('activityModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveActivity()">💾 Save Activity</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── REVIEW MODAL ────────────────────────────────────── -->
+  <div class="modal-overlay" id="reviewModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="reviewModalTitle">Add Review</span>
+        <button class="modal-close" onclick="closeModal('reviewModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="revEditIndex">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Reviewer Name *</label>
+            <input type="text" class="form-input" id="revName" placeholder="e.g. Priya Sharma">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Date</label>
+            <input type="date" class="form-input" id="revDate">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Rating *</label>
+            <div class="star-rating" id="revStarPicker">
+              <span class="star" data-val="1" onclick="setReviewStar(1)">★</span>
+              <span class="star" data-val="2" onclick="setReviewStar(2)">★</span>
+              <span class="star" data-val="3" onclick="setReviewStar(3)">★</span>
+              <span class="star" data-val="4" onclick="setReviewStar(4)">★</span>
+              <span class="star" data-val="5" onclick="setReviewStar(5)">★</span>
+            </div>
+            <input type="hidden" id="revRating" value="5">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Review Text *</label>
+            <textarea class="form-textarea" id="revText" placeholder="What did the customer say?" style="min-height:110px;"></textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Profile Photo URL (optional)</label>
+            <input type="text" class="form-input" id="revPhoto" placeholder="https://... or leave blank">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Source</label>
+            <select class="form-select" id="revSource">
+              <option value="manual">✍️ Manual Entry</option>
+              <option value="google">🔵 Google</option>
+              <option value="facebook">📘 Facebook</option>
+              <option value="instagram">📸 Instagram</option>
+              <option value="other">💬 Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('reviewModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveReview()">💾 Save Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── BANNER MODAL ─────────────────────────────────────── -->
+  <div class="modal-overlay" id="bannerModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="bannerModalTitle">Add Banner</span>
+        <button class="modal-close" onclick="closeModal('bannerModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="bannerEditIndex">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label class="form-label">Banner Title *</label>
+            <input type="text" class="form-input" id="bannerTitle" placeholder="e.g. Summer Special — 20% Off!">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Subtitle / Description</label>
+            <input type="text" class="form-input" id="bannerSub" placeholder="e.g. Valid till 30 June 2025">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Badge Text (optional)</label>
+            <input type="text" class="form-input" id="bannerBadge" placeholder="e.g. LIMITED TIME">
+          </div>
+          <div class="form-group">
+            <label class="form-label">CTA Button Label</label>
+            <input type="text" class="form-input" id="bannerCta" placeholder="e.g. Book Now">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">CTA Link / URL (optional)</label>
+            <input type="text" class="form-input" id="bannerLink" placeholder="e.g. #contact or https://...">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Banner Image <span style="font-weight:400;text-transform:none;font-size:0.75rem;color:var(--text-muted)">(upload or paste URL)</span></label>
+            <div class="img-dropzone" id="bannerDropzone" ondragover="dzDrag(event,'bannerDropzone')" ondragleave="dzLeave('bannerDropzone')" ondrop="dzDrop(event,'banner')">
+              <input type="file" accept="image/*" id="bannerFileInput" onchange="handleImgUpload(event,'banner')">
+              <div class="dz-icon">🖼️</div>
+              <p><span>Click to upload</span> or drag & drop</p>
+            </div>
+            <div class="upload-preview-grid" id="bannerImgPreview"></div>
+            <div class="url-fallback-row">
+              <input type="text" class="form-input" id="bannerUrlInput" placeholder="Or paste image URL" style="font-size:0.85rem;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addImgUrl('banner')">＋ Add URL</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Accent Color</label>
+            <input type="color" class="form-input" id="bannerColor" value="#ec4899" style="height:46px;padding:6px;cursor:pointer;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="bannerActive">
+              <option value="true">✅ Active</option>
+              <option value="false">🚫 Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('bannerModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveBanner()">💾 Save Banner</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── HERO BANNER MODAL ─────────────────────────────────────── -->
+  <div class="modal-overlay" id="heroBannerModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="heroBannerModalTitle">Add Hero Banner</span>
+        <button class="modal-close" onclick="closeModal('heroBannerModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="heroBannerEditIndex">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label class="form-label">Title (Gradient Styling) *</label>
+            <input type="text" class="form-input" id="heroBannerTitle" placeholder="e.g. Celebrate with Hawaahawaai">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Subtitle</label>
+            <input type="text" class="form-input" id="heroBannerSub" placeholder="e.g. Premium balloon decorations...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">CTA Button Label</label>
+            <input type="text" class="form-input" id="heroBannerCta" placeholder="e.g. 🎉 Book Your Event">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">CTA Link / URL</label>
+            <input type="text" class="form-input" id="heroBannerLink" placeholder="e.g. #services">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Background Image <span style="font-weight:400;text-transform:none;font-size:0.75rem;color:var(--text-muted)">(upload or paste URL)</span></label>
+            <div class="img-dropzone" id="heroBannerDropzone" ondragover="dzDrag(event,'heroBannerDropzone')" ondragleave="dzLeave('heroBannerDropzone')" ondrop="dzDrop(event,'heroBanner')">
+              <input type="file" accept="image/*" id="heroBannerFileInput" onchange="handleImgUpload(event,'heroBanner')">
+              <div class="dz-icon">🖼️</div>
+              <p><span>Click to upload</span> or drag & drop</p>
+            </div>
+            <div class="upload-preview-grid" id="heroBannerImgPreview"></div>
+            <div class="url-fallback-row">
+              <input type="text" class="form-input" id="heroBannerUrlInput" placeholder="Or paste image URL" style="font-size:0.85rem;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addImgUrl('heroBanner')">＋ Add URL</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select class="form-select" id="heroBannerActive">
+              <option value="true">✅ Active</option>
+              <option value="false">🚫 Inactive</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('heroBannerModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveHeroBanner()">💾 Save Hero Banner</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── GALLERY MODAL ─────────────────────────────────────── -->
+  <div class="modal-overlay" id="galleryModal">
+    <div class="modal">
+      <div class="modal-header">
+        <span class="modal-title" id="galleryModalTitle">Add Gallery Image</span>
+        <button class="modal-close" onclick="closeModal('galleryModal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <input type="hidden" id="galleryEditIndex">
+        <div class="form-grid">
+          <div class="form-group full">
+            <label class="form-label">Category *</label>
+            <select class="form-select" id="galleryCategory">
+              <option value="all">🌐 All / General</option>
+              <option value="birthday">🎂 Birthday</option>
+              <option value="anniversary">💕 Anniversary</option>
+              <option value="babyshower">🍼 Baby Shower</option>
+              <option value="wedding">💍 Wedding</option>
+              <option value="corporate">🏢 Corporate</option>
+              <option value="kids">🧸 Kids</option>
+            </select>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Image <span style="font-weight:400;text-transform:none;font-size:0.75rem;color:var(--text-muted)">(upload or paste URL)</span></label>
+            <div class="img-dropzone" id="galleryDropzone" ondragover="dzDrag(event,'galleryDropzone')" ondragleave="dzLeave('galleryDropzone')" ondrop="dzDrop(event,'gallery')">
+              <input type="file" accept="image/*" id="galleryFileInput" onchange="handleImgUpload(event,'gallery')">
+              <div class="dz-icon">🖼️</div>
+              <p><span>Click to upload</span> or drag & drop</p>
+            </div>
+            <div class="upload-preview-grid" id="galleryImgPreview"></div>
+            <div class="url-fallback-row">
+              <input type="text" class="form-input" id="galleryUrlInput" placeholder="Or paste image URL" style="font-size:0.85rem;">
+              <button type="button" class="btn btn-ghost btn-sm" onclick="addImgUrl('gallery')">＋ Add URL</button>
+            </div>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-ghost" onclick="closeModal('galleryModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="saveGallery()">💾 Save Image</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── CONFIRM DELETE ───────────────────────────────── -->
+  <div class="confirm-overlay" id="confirmModal">
+    <div class="confirm-box">
+      <div class="confirm-icon">🗑️</div>
+      <h3 id="confirmTitle">Delete this item?</h3>
+      <p id="confirmMsg">This action cannot be undone.</p>
+      <div class="confirm-actions">
+        <button class="btn btn-ghost" onclick="closeConfirm()">Cancel</button>
+        <button class="btn btn-danger" id="confirmOkBtn">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─────────────── TOAST CONTAINER ──────────────────────────────── -->
+  <div id="toastContainer"></div>
+
+  <script>
+    // ——
+    const _MAX_A = 5;
+    const _LOCK_S = 30;
+    let _atn = 0;
+    let _ltmr = null;
+
+    async function _h(s) {
+      const b = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s));
+      return [...new Uint8Array(b)].map(x => x.toString(16).padStart(2,'0')).join('');
+    }
+
+    async function getAdminCreds() {
+      try {
+        const data = await window._fbLoadCreds();
+        if (data && data.u && data.p) {
+          return { u: data.u, p: data.p };
+        }
+      } catch(e) {}
+      // Temporary fallback: admin / admin123
+      return { 
+        u: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 
+        p: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9' 
+      };
+    }
+
+    async function updateAdminCredentials() {
+      const uv = document.getElementById('newAdminUser').value.trim();
+      const pv = document.getElementById('newAdminPass').value;
+      const cv = document.getElementById('confirmAdminPass').value;
+      
+      if (!uv || !pv) {
+        toast('⚠️ Username and Password cannot be empty.', 'error');
+        return;
+      }
+      if (pv !== cv) {
+        toast('⚠️ Passwords do not match.', 'error');
+        return;
+      }
+      
+      try {
+        const [uh, ph] = await Promise.all([_h(uv), _h(pv)]);
+        await window._fbSaveCreds({ u: uh, p: ph });
+        toast('✅ Credentials updated successfully!', 'success');
+        document.getElementById('newAdminUser').value = '';
+        document.getElementById('newAdminPass').value = '';
+        document.getElementById('confirmAdminPass').value = '';
+      } catch (e) {
+        toast('❌ Failed to update credentials.', 'error');
+        console.error(e);
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // DEFAULT DATA (mirrors index.html hardcoded data)
+    // ──────────────────────────────────────────────────────────────────
+    const DEFAULT_SERVICES = [
+      { title: '3 Mix Color Arch', price: 5000, desc: 'Elegant balloon arch decoration to perfectly welcome your guests.', features: ['Premium latex balloons', 'Color customizable', 'Professional installation'], images: ['img/ring3.jpeg'], category: 'other' },
+      { title: 'Rose Gold and White Balloon Arch', price: 5499, desc: 'Elegant balloon arch decoration to perfectly welcome your guests.', features: ['Premium latex balloons', 'Color customizable', 'Professional installation'], images: ['img/halfring.jpeg'], category: 'other' },
+      { title: 'Mix Balloon Arch', price: 5499, desc: 'Elegant balloon arch decoration to perfectly welcome your guests.', features: ['Premium latex balloons', 'Color customizable', 'Professional installation'], images: ['img/91.jpeg'], category: 'other' },
+      { title: 'Yellow and Silver Arch', price: 4999, desc: 'Elegant balloon arch decoration to perfectly welcome your guests.', features: ['Premium latex balloons', 'Color customizable', 'Professional installation'], images: ['img/92.jpeg'], category: 'other' },
+      { title: 'White and Golden Ring', price: 5999, desc: 'Stunning ring backdrop decoration for elegant photo opportunities.', features: ['Circular ring frame setup', 'Chrome & pastel balloons', 'Neon sign / Happy Birthday'], images: ['img/ring.jpeg'], category: 'birthday' },
+      { title: 'Pink Ring', price: 4999, desc: 'Stunning ring backdrop decoration for elegant photo opportunities.', features: ['Circular ring frame setup', 'Chrome & pastel balloons', 'Neon sign / Happy Birthday'], images: ['img/ring2.jpeg'], category: 'birthday' },
+      { title: 'Birthday Decoration', price: 12000, desc: 'Make birthdays memorable with vibrant and festive balloon decorations.', features: ['Theme-based balloon arches', 'LED backdrop with fairy lights', 'Cake table decoration'], images: ['img/111.jpeg'], category: 'birthday' },
+      { title: 'Anniversary Setup', price: 9999, desc: 'Romantic anniversary balloon & floral setup to celebrate your love.', features: ['Heart-shaped balloon arch', 'Romantic LED lighting', 'Customized name initial foils'], images: ['img/112.jpeg', 'img/1122.jpeg'], category: 'anniversary' },
+      { title: 'Happy Birthday Backdrop', price: 9000, desc: 'Make birthdays memorable with vibrant and festive balloon decorations.', features: ['Theme-based balloon arches', 'LED backdrop with fairy lights', 'Cake table decoration'], images: ['img/a1.jpeg', 'img/a2.jpeg', 'img/a3.jpeg'], category: 'birthday' },
+      { title: 'Fairy Setup', price: 19999, desc: 'Dreamy fairy tale decoration bringing magic to your event.', features: ['Fairy tale castle props', 'Soft pink & white balloons', 'Magical ambient lighting'], images: ['img/b1.jpeg'], category: 'kids' },
+      { title: 'Baby Shower Centerpiece', price: 8999, desc: 'Beautiful baby shower balloon setups to welcome your little one.', features: ["Oh Baby / It's a Boy/Girl foil", 'Pastel balloon centerpieces', 'Free delivery & installation'], images: ['img/102.jpeg'], category: 'babyshower' },
+      { title: 'Filmy Theme Photo Setup', price: 9999, desc: 'Bollywood style filmy photo setup for the ultimate party vibe.', features: ['Movie theme props', 'Red carpet style lighting', 'Star-studded balloon arch'], images: ['img/116.jpeg'], category: 'birthday' },
+      { title: 'Aesthetic Photo Setup', price: 9999, desc: 'Modern aesthetic photo setup with minimalist elegant decor.', features: ['Muted/Pastel color palette', 'Boho style floral add-ons', 'Trendy aesthetic backdrop'], images: ['img/117.jpeg'], category: 'other' },
+      { title: 'Cinderella Theme', price: 39999, desc: 'Dreamy fairy tale decoration bringing magic to your event.', features: ['Fairy tale castle props', 'Soft pink & white balloons', 'Magical ambient lighting'], images: ['img/d1.jpeg', 'img/d2.jpeg'], category: 'kids' },
+      { title: 'Mickey Mouse Theme', price: 49000, desc: 'Magical Disney themed balloon decoration featuring your favorite characters.', features: ['Mickey/Minnie cutout props', 'Red, Black & Yellow balloons', 'Customized theme setup'], images: ['img/02.jpeg', 'img/01.jpeg', 'img/03.jpeg'], category: 'kids' },
+      { title: 'Masha Theme', price: 29000, desc: 'Fun-filled Masha and the Bear themed decoration for kids.', features: ['Masha & Bear cutouts', 'Colorful vibrant balloons', 'Kids favorite setup'], images: ['img/13.jpeg'], category: 'kids' },
+      { title: 'Butterfly Theme', price: 85999, desc: 'Elegant butterfly themed decoration for a magical celebration.', features: ['3D Butterfly props', 'Pastel & Chrome balloons', 'Fairy lights & elegant backdrop'], images: ['img/21.jpeg'], category: 'kids' },
+      { title: 'Baby Shower Theme', price: 40000, desc: "Beautiful baby shower balloon setups to welcome your little one.", features: ["Oh Baby / It's a Boy/Girl foil", 'Pastel balloon centerpieces', 'Free delivery & installation'], images: ['img/31.jpeg', 'img/32.jpeg', 'img/33.jpeg'], category: 'babyshower' },
+      { title: 'Teddy Bear Theme', price: 65000, desc: 'Cute and cuddly teddy bear balloon setup for kids.', features: ['Large teddy bear props', 'Pastel balloon colors', 'Illuminated birthday backdrop'], images: ['img/43.jpeg'], category: 'kids' },
+      { title: 'Jungle Theme', price: 39999, desc: 'A thrilling jungle-themed balloon decoration for a wild party.', features: ['Jungle animal foil balloons', 'Green & Gold themed arch', 'Photography-ready jungle backdrop'], images: ['img/51.jpeg'], category: 'kids' },
+      { title: 'Baby Boss Theme', price: 46000, desc: 'Cool Baby Boss themed balloon decoration for your little one.', features: ['Baby Boss foil balloons', 'Blue & Black elegant arch', 'Themed centerpieces'], images: ['img/61.jpeg', 'img/62.jpeg'], category: 'kids' },
+      { title: 'First Night Decoration', price: 3999, desc: 'Intimate and romantic first night room decoration to set the mood.', features: ['Rose petals on bed', 'Red heart balloon ceiling', 'Soft glowing candles/LEDs'], images: ['img/81.jpeg'], category: 'anniversary' },
+      { title: 'Minnie Theme', price: 119999, desc: 'Magical Disney themed balloon decoration featuring your favorite characters.', features: ['Mickey/Minnie cutout props', 'Red, Black & Yellow balloons', 'Customized theme setup'], images: ['img/z5.jpeg'], category: 'kids' }
+    ];
+
+    const DEFAULT_ACTIVITIES = [
+      { title: 'Foosball Table', price: 5000, img: 'images/activities/fossball.webp', unit: '' },
+      { title: 'Bang The Hammer', price: 14000, img: 'images/activities/bang.webp', unit: '' },
+      { title: 'Multiple Bounce', price: 9000, img: 'images/activities/bounce.jpg', unit: '' },
+      { title: 'Mega Wire', price: 6000, img: 'images/activities/megawire.webp', unit: '' },
+      { title: 'Basketball', price: 9000, img: 'images/activities/basketball.webp', unit: '' },
+      { title: 'Hoop Toss', price: 6000, img: 'images/activities/hoop.jpg', unit: '' },
+      { title: 'Chocolate Shooting', price: 4000, img: 'images/activities/shoot.jpg', unit: '' },
+      { title: 'Hit The Can', price: 3500, img: 'images/activities/hitcan.jpg', unit: '' },
+      { title: 'Bubble Machine', price: 5000, img: 'images/activities/bubble.jpg', unit: '' },
+      { title: 'Hoopla Game', price: 3500, img: 'images/activities/hoopla.jpg', unit: '' },
+      { title: 'Popcorn Machine', price: 5000, img: 'images/activities/popcorn.jpg', unit: '' },
+      { title: 'Candy Floss', price: 4000, img: 'images/activities/candyfloss.jpg', unit: '' },
+      { title: 'Chocolate Fountain', price: 5000, img: 'images/activities/fountain.jpg', unit: '' },
+      { title: 'Stone Name Making', price: 3500, img: 'images/activities/stone.jpg', unit: '' },
+      { title: 'Wax Hand', price: 500, img: 'images/activities/waxhand.jpg', unit: 'per person' },
+      { title: 'Hair Beading', price: 3000, img: 'images/activities/hair.jpg', unit: '' },
+      { title: 'Nail Art', price: 3000, img: 'images/activities/nail.jpg', unit: '' },
+      { title: 'Pottery Making', price: 3500, img: 'images/activities/pottery.jpg', unit: '' },
+      { title: 'Mug Caricature', price: 500, img: 'images/activities/mug.jpg', unit: 'per piece' },
+      { title: 'Key Chain Making', price: 4000, img: 'images/activities/keychain.jpg', unit: '' }
+    ];
+
+    // ──────────────────────────────────────────────────────────────────
+    // STATE
+    // ──────────────────────────────────────────────────────────────────
+    let services = [];
+    let activities = [];
+    let reviews = [];
+    let banners = [];
+    let heroBanners = [];
+    let gallery = [];
+    let confirmCallback = null;
+    let currentRevStar = 5;
+
+    // ──────────────────────────────────────────────────────────────────
+    // DEFAULTS FOR NEW SECTIONS
+    // ──────────────────────────────────────────────────────────────────
+    const DEFAULT_BANNERS = [
+      { title: '🌼 Wedding Season Offer', sub: 'Flat 10% OFF on Haldi & Mehendi Combos', cta: 'Book Now', link: 'haldi-mehendi-decoration.html', color: '#ec4899', active: true },
+      { title: '🇮🇳 Independence Day Offer', sub: 'Tricolor theme setups starting at ₹1999', cta: 'Inquire Now', link: 'https://wa.me/919389835280?text=Independence%20Day%20Offer', color: '#f97316', active: true },
+      { title: '💸 Limited Discount', sub: 'Save more on bulk event bookings and get details', cta: 'Details', link: 'https://wa.me/919389835280?text=Hi, I want to know about discount offers', color: '#ec4899', active: true },
+      { title: '🎂 Birthday Combos', sub: 'Most booked birthday decoration packages', cta: 'Book Now', link: 'birthday-balloon-decoration-delhi-ncr.html', color: '#f97316', active: true }
+    ];
+
+    const DEFAULT_HERO_BANNERS = [
+      { img: 'images/2.jpg', title: 'Celebrate with Hawaahawaai', sub: 'Premium balloon decorations, party setups, and delightful activities to make your event unforgettable.', cta: '🎉 Book Your Event', link: '#services', active: true },
+      { img: 'img/haldi.webp', title: 'Haldi & Mehendi Magic', sub: 'Traditional & Modern yellow-themed floral balloon setups.', cta: 'Explore Wedding Decor 🌸', link: 'haldi-mehendi-decoration.html', active: true },
+      { img: 'img/banner1.jpeg', title: 'Plan in Your Budget ✨', sub: 'Tell us your budget, and we\'ll design the magic for your event.', cta: 'Explore Budget Planner 💌', link: '#budgetPlanner', active: true }
+    ];
+
+    const DEFAULT_GALLERY = [
+      { img: 'images/birthday.jpg', category: 'birthday' },
+      { img: 'images/birthday3.jpg', category: 'birthday' },
+      { img: 'images/birthday2.jpg', category: 'birthday' },
+      { img: 'images/birthday1.jpg', category: 'birthday' },
+      { img: 'images/birthday4.jpg', category: 'birthday' },
+      { img: 'images/birthday5.jpg', category: 'birthday' },
+      { img: 'images/6.jpg', category: 'all' },
+      { img: 'images/2.jpg', category: 'all' },
+      { img: 'images/3.jpg', category: 'all' },
+      { img: 'images/4.jpg', category: 'all' },
+      { img: 'images/5.jpg', category: 'all' },
+      { img: 'images/1.jpg', category: 'all' },
+      { img: 'images/7.jpg', category: 'all' },
+      { img: 'images/WhatsApp Image 2025-08-01 at 3.55.53 PM.jpeg', category: 'birthday' },
+      { img: 'images/baby2.jpg', category: 'babyshower' },
+      { img: 'images/baby1.jpg', category: 'babyshower' },
+      { img: 'images/baby.jpg', category: 'babyshower' },
+      { img: 'images/baby3.jpg', category: 'babyshower' },
+      { img: 'images/baby4.jpg', category: 'babyshower' },
+      { img: 'images/corperate.jpg', category: 'corporate' },
+      { img: 'images/corperate1.jpg', category: 'corporate' }
+    ];
+
+    // ──────────────────────────────────────────────────────────────────
+    // STORAGE  (Firebase Firestore — syncs across ALL devices)
+    // ──────────────────────────────────────────────────────────────────
+    async function loadData() {
+      try {
+        const data = await window._fbLoad();
+        if (data && data.services) {
+          services    = data.services;
+          activities  = data.activities  || [];
+          reviews     = data.reviews     || [];
+          
+          // Merge defaults with custom data so old items stay accessible
+          const merge = (db, def, key) => {
+            const list = db || [];
+            def.forEach(d => { if(!list.find(item => item[key] === d[key])) list.push(d); });
+            return list;
+          };
+          banners     = merge(data.banners, DEFAULT_BANNERS, 'title');
+          heroBanners = merge(data.heroBanners, DEFAULT_HERO_BANNERS, 'title');
+          gallery     = merge(data.gallery, DEFAULT_GALLERY, 'img');
+        } else {
+          // First time — seed with defaults
+          services    = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+          activities  = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+          reviews     = [];
+          banners     = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
+          heroBanners = JSON.parse(JSON.stringify(DEFAULT_HERO_BANNERS));
+          gallery     = JSON.parse(JSON.stringify(DEFAULT_GALLERY));
+          await saveData();
+        }
+      } catch (err) {
+        console.error('Firebase load error:', err);
+        toast('⚠️ Could not load from cloud. Using defaults.', 'error');
+        services    = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+        activities  = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+        reviews     = [];
+        banners     = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
+        heroBanners = JSON.parse(JSON.stringify(DEFAULT_HERO_BANNERS));
+        gallery     = JSON.parse(JSON.stringify(DEFAULT_GALLERY));
+      }
+    }
+
+    async function saveData() {
+      try {
+        await window._fbSave({ services, activities, reviews, banners, heroBanners, gallery, updatedAt: Date.now() });
+        updateBadges();
+      } catch (err) {
+        console.error('Firebase save error:', err);
+        toast('❌ Failed to save to cloud. Check your internet connection.', 'error');
+      }
+    }
+
+    function updateBadges() {
+      document.getElementById('svcCountBadge').textContent    = services.length;
+      document.getElementById('actCountBadge').textContent    = activities.length;
+      document.getElementById('revCountBadge').textContent    = reviews.length;
+      document.getElementById('bannerCountBadge').textContent = banners.length;
+      const heroBadge = document.getElementById('heroBannerCountBadge');
+      if(heroBadge) heroBadge.textContent = heroBanners.length;
+      const galBadge = document.getElementById('galleryCountBadge');
+      if(galBadge) galBadge.textContent = gallery.length;
+
+      document.getElementById('dashSvcCount').textContent  = services.length;
+      document.getElementById('dashActCount').textContent  = activities.length;
+      const prices = services.map(s => s.price).filter(p => p > 0);
+      document.getElementById('dashMinPrice').textContent = prices.length ? '₹' + Math.min(...prices).toLocaleString('en-IN') : '—';
+      document.getElementById('dashMaxPrice').textContent = prices.length ? '₹' + Math.max(...prices).toLocaleString('en-IN') : '—';
+      const svcSub = document.getElementById('svcSubtitle');
+      if (svcSub) svcSub.textContent = `${services.length} service${services.length !== 1 ? 's' : ''} listed`;
+      const actSub = document.getElementById('actSubtitle');
+      if (actSub) actSub.textContent = `${activities.length} activit${activities.length !== 1 ? 'ies' : 'y'} listed`;
+      const revSub = document.getElementById('revSubtitle');
+      if (revSub) revSub.textContent = `${reviews.length} review${reviews.length !== 1 ? 's' : ''} saved`;
+      const banSub = document.getElementById('bannerSubtitle');
+      if (banSub) banSub.textContent = `${banners.length} banner${banners.length !== 1 ? 's' : ''} — ${banners.filter(b=>b.active).length} active`;
+      const hbSub = document.getElementById('heroBannerSubtitle');
+      if (hbSub) hbSub.textContent = `${heroBanners.length} hero banner${heroBanners.length !== 1 ? 's' : ''} — ${heroBanners.filter(b=>b.active).length} active`;
+      const galSub = document.getElementById('gallerySubtitle');
+      if (galSub) galSub.textContent = `${gallery.length} image${gallery.length !== 1 ? 's' : ''} listed`;
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // AUTH  — credentials sourced from admin-creds.js
+    // ──────────────────────────────────────────────────────────────────
+
+    function _startLock() {
+      let secs = _LOCK_S;
+      const btn = document.getElementById('loginBtn');
+      const lockEl = document.getElementById('loginLockout');
+      const cntEl = document.getElementById('lockCountdown');
+      const errEl = document.getElementById('loginError');
+      errEl.style.display = 'none';
+      lockEl.style.display = 'block';
+      btn.disabled = true; btn.style.opacity = '0.5';
+      cntEl.textContent = secs;
+      _ltmr = setInterval(() => {
+        secs--; cntEl.textContent = secs;
+        if (secs <= 0) {
+          clearInterval(_ltmr); _ltmr = null; _atn = 0;
+          btn.disabled = false; btn.style.opacity = '';
+          lockEl.style.display = 'none';
+        }
+      }, 1000);
+    }
+
+    async function doLogin() {
+      if (_ltmr) return;
+      const uv = document.getElementById('loginUser').value.trim();
+      const pv = document.getElementById('loginPass').value;
+      const err = document.getElementById('loginError');
+      const cr = await getAdminCreds();
+      if (!cr.u || !cr.p) {
+        err.textContent = '⚠️ Configuration error.'; err.style.display = 'block'; return;
+      }
+      const [uh, ph] = await Promise.all([_h(uv), _h(pv)]);
+      if (uh === cr.u && ph === cr.p) {
+        _atn = 0;
+        const tok = crypto.randomUUID();
+        sessionStorage.setItem('hh_admin_auth', tok);
+        sessionStorage.setItem('hh_admin_ts', Date.now().toString());
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminApp').style.display = 'block';
+        initApp();
+      } else {
+        _atn++;
+        err.textContent = '❌ Invalid credentials. Try again.';
+        err.style.display = 'block';
+        document.getElementById('loginPass').value = '';
+        const pe = document.getElementById('loginPass');
+        pe.classList.add('shake');
+        setTimeout(() => pe.classList.remove('shake'), 500);
+        if (_atn >= _MAX_A) _startLock();
+      }
+    }
+
+    function doLogout() { sessionStorage.clear(); location.reload(); }
+
+    // ──────────────────────────────────────────────────────────────────
+    // INIT
+    // ──────────────────────────────────────────────────────────────────
+    async function initApp() {
+      toast('☁️ Loading data from cloud…', 'info', 1500);
+      await loadData();
+      updateBadges();
+      renderDashboard();
+      renderServices();
+      renderActivities();
+      renderReviews();
+      renderBanners();
+      renderHeroBanners();
+      renderGallery();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      // Session expires after 8 hours
+      const token = sessionStorage.getItem('hh_admin_auth');
+      const ts = Number(sessionStorage.getItem('hh_admin_ts') || 0);
+      const valid = token && (Date.now() - ts) < 8 * 60 * 60 * 1000;
+      if (valid) {
+        document.getElementById('loginScreen').style.display = 'none';
+        document.getElementById('adminApp').style.display = 'block';
+        initApp();
+      } else {
+        sessionStorage.clear();
+        document.getElementById('loginScreen').style.display = 'flex';
+      }
+    });
+
+    // ──────────────────────────────────────────────────────────────────
+    // NAVIGATION
+    // ──────────────────────────────────────────────────────────────────
+    function showPage(name, el) {
+      document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+      document.getElementById('page-' + name).classList.add('active');
+      document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+      if (el) el.classList.add('active');
+      closeSidebar();
+    }
+
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('mobileOverlay').classList.toggle('visible');
+    }
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('mobileOverlay').classList.remove('visible');
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // DASHBOARD
+    // ──────────────────────────────────────────────────────────────────
+    function renderDashboard() {
+      const container = document.getElementById('recentServices');
+      const recent = [...services].slice(-5).reverse();
+      if (!recent.length) { container.innerHTML = '<div class="empty-state"><div class="emoji">🎈</div><p>No services yet.</p></div>'; return; }
+      container.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px;">${recent.map((s, i) => `
+    <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--surface2);border-radius:14px;border:1px solid var(--border);">
+      <div style="width:50px;height:50px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--surface3);display:flex;align-items:center;justify-content:center;">
+        ${s.images && s.images[0] ? `<img src="${s.images[0]}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentNode.innerHTML='🎀'">` : ' <span style="font-size:1.5rem">🎀</span>'}
+      </div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:700;font-size:0.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.title}</div>
+        <div style="color:var(--pink);font-size:0.82rem;font-weight:600;">₹${Number(s.price).toLocaleString('en-IN')}</div>
+      </div>
+      <span style="font-size:0.7rem;color:var(--text-muted);flex-shrink:0;">${s.category || '—'}</span>
+    </div>`).join('')}</div>`;
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // RENDER SERVICES
+    // ──────────────────────────────────────────────────────────────────
+    function renderServices() {
+      let data = [...services];
+      const q = (document.getElementById('svcSearch') || { value: '' }).value.toLowerCase();
+      if (q) data = data.filter(s => s.title.toLowerCase().includes(q) || (s.desc || '').toLowerCase().includes(q));
+      const sort = (document.getElementById('svcSort') || { value: 'price-asc' }).value;
+      data.sort((a, b) => {
+        if (sort === 'price-asc') return a.price - b.price;
+        if (sort === 'price-desc') return b.price - a.price;
+        if (sort === 'name-asc') return a.title.localeCompare(b.title);
+        if (sort === 'name-desc') return b.title.localeCompare(a.title);
+      });
+      const grid = document.getElementById('servicesGrid');
+      if (!grid) return;
+      if (!data.length) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="emoji">🔍</div><p>No services found.</p><button class="btn btn-primary" onclick="openAddServiceModal()">➕ Add First Service</button></div>'; return; }
+      grid.innerHTML = data.map(s => {
+        const idx = services.indexOf(s);
+        const imgSrc = s.images && s.images[0] ? s.images[0] : '';
+        return `<div class="item-card">
+      ${s.category ? `<div class="item-card-badge">${categoryIcon(s.category)} ${s.category}</div>` : ''}
+      ${imgSrc
+            ? `<img class="item-card-img" src="${imgSrc}" alt="${s.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           <div class="item-card-img-placeholder" style="display:none;">🎀</div>`
+            : `<div class="item-card-img-placeholder">🎀</div>`}
+      <div class="item-card-body">
+        <div class="item-card-title">${s.title}</div>
+        <div class="item-card-price">₹${Number(s.price).toLocaleString('en-IN')}</div>
+        ${s.desc ? `<div class="item-card-desc">${s.desc}</div>` : ''}
+        ${s.features && s.features.length ? `<div class="item-card-tags">${s.features.slice(0, 2).map(f => `<span class="item-tag">✓ ${f}</span>`).join('')}${s.features.length > 2 ? `<span class="item-tag">+${s.features.length - 2} more</span>` : ''}</div>` : ''}
+        <div class="item-card-actions">
+          <button class="btn btn-edit btn-sm" onclick="openEditServiceModal(${idx})">✏️ Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDelete('service',${idx},'${escHtml(s.title)}')">🗑️</button>
+        </div>
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // RENDER ACTIVITIES
+    // ──────────────────────────────────────────────────────────────────
+    function renderActivities() {
+      let data = [...activities];
+      const q = (document.getElementById('actSearch') || { value: '' }).value.toLowerCase();
+      if (q) data = data.filter(a => a.title.toLowerCase().includes(q));
+      const sort = (document.getElementById('actSort') || { value: 'price-asc' }).value;
+      data.sort((a, b) => {
+        if (sort === 'price-asc') return a.price - b.price;
+        if (sort === 'price-desc') return b.price - a.price;
+        if (sort === 'name-asc') return a.title.localeCompare(b.title);
+        if (sort === 'name-desc') return b.title.localeCompare(a.title);
+      });
+      const grid = document.getElementById('activitiesGrid');
+      if (!grid) return;
+      if (!data.length) { grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="emoji">🎡</div><p>No activities found.</p><button class="btn btn-primary" onclick="openAddActivityModal()">➕ Add First Activity</button></div>'; return; }
+      grid.innerHTML = data.map(a => {
+        const idx = activities.indexOf(a);
+        return `<div class="item-card">
+      ${a.img
+            ? `<img class="item-card-img" src="${a.img}" alt="${a.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+           <div class="item-card-img-placeholder" style="display:none;">🎡</div>`
+            : `<div class="item-card-img-placeholder">🎡</div>`}
+      <div class="item-card-body">
+        <div class="item-card-title">${a.title}</div>
+        <div class="item-card-price">₹${Number(a.price).toLocaleString('en-IN')}${a.unit ? ` <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">${a.unit}</span>` : ''}</div>
+        ${a.desc ? `<div class="item-card-desc">${a.desc}</div>` : ''}
+        <div class="item-card-actions">
+          <button class="btn btn-edit btn-sm" onclick="openEditActivityModal(${idx})">✏️ Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDelete('activity',${idx},'${escHtml(a.title)}')">🗑️</button>
+        </div>
+      </div>
+    </div>`;
+      }).join('');
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // SERVICE CRUD
+    // ──────────────────────────────────────────────────────────────────
+    function openAddServiceModal() {
+      document.getElementById('serviceModalTitle').textContent = 'Add New Service';
+      document.getElementById('svcEditIndex').value = '';
+      document.getElementById('svcTitle').value = '';
+      document.getElementById('svcPrice').value = '';
+      document.getElementById('svcDesc').value = '';
+      document.getElementById('svcImgPreview').innerHTML = '';
+      document.getElementById('svcCategory').value = '';
+      document.getElementById('svcFeaturesList').innerHTML = '';
+      addFeatureRow('svc');
+      openModal('serviceModal');
+    }
+
+    function openEditServiceModal(idx) {
+      const s = services[idx];
+      document.getElementById('serviceModalTitle').textContent = 'Edit Service';
+      document.getElementById('svcEditIndex').value = idx;
+      document.getElementById('svcTitle').value = s.title;
+      document.getElementById('svcPrice').value = s.price;
+      document.getElementById('svcDesc').value = s.desc || '';
+      document.getElementById('svcImgPreview').innerHTML = '';
+      (s.images || []).forEach(url => addImgPreview('svc', url));
+      document.getElementById('svcCategory').value = s.category || '';
+      // Features
+      document.getElementById('svcFeaturesList').innerHTML = '';
+      (s.features || []).forEach(f => addFeatureRow('svc', f));
+      if (!(s.features && s.features.length)) addFeatureRow('svc');
+      openModal('serviceModal');
+    }
+
+    async function saveService() {
+      const title = document.getElementById('svcTitle').value.trim();
+      const price = Number(document.getElementById('svcPrice').value);
+      const desc = document.getElementById('svcDesc').value.trim();
+      const category = document.getElementById('svcCategory').value;
+      const images = [...document.querySelectorAll('#svcImgPreview img')].map(img => img.src);
+      const features = [...document.querySelectorAll('#svcFeaturesList .feature-input')].map(i => i.value.trim()).filter(Boolean);
+      if (!title) { toast('❌ Please enter a service title', 'error'); return; }
+      if (!price || price <= 0) { toast('❌ Please enter a valid price', 'error'); return; }
+
+      const obj = { title, price, desc, images, features, category };
+      const idx = document.getElementById('svcEditIndex').value;
+      if (idx !== '') {
+        services[Number(idx)] = obj;
+      } else {
+        services.push(obj);
+      }
+      toast('☁️ Saving to cloud…', 'info', 1200);
+      await saveData();
+      toast(idx !== '' ? '✅ Service updated on all devices!' : '✅ Service added on all devices!', 'success');
+      renderServices();
+      renderDashboard();
+      closeModal('serviceModal');
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // ACTIVITY CRUD
+    // ──────────────────────────────────────────────────────────────────
+    function openAddActivityModal() {
+      document.getElementById('activityModalTitle').textContent = 'Add New Activity';
+      document.getElementById('actEditIndex').value = '';
+      document.getElementById('actTitle').value = '';
+      document.getElementById('actPrice').value = '';
+      document.getElementById('actImgPreview').innerHTML = '';
+      document.getElementById('actDesc').value = '';
+      document.getElementById('actUnit').value = '';
+      openModal('activityModal');
+    }
+
+    function openEditActivityModal(idx) {
+      const a = activities[idx];
+      document.getElementById('activityModalTitle').textContent = 'Edit Activity';
+      document.getElementById('actEditIndex').value = idx;
+      document.getElementById('actTitle').value = a.title;
+      document.getElementById('actPrice').value = a.price;
+      document.getElementById('actImgPreview').innerHTML = '';
+      if (a.img) addImgPreview('act', a.img);
+      document.getElementById('actDesc').value = a.desc || '';
+      document.getElementById('actUnit').value = a.unit || '';
+      openModal('activityModal');
+    }
+
+    async function saveActivity() {
+      const title = document.getElementById('actTitle').value.trim();
+      const price = Number(document.getElementById('actPrice').value);
+      const imgEl = document.querySelector('#actImgPreview img');
+      const img = imgEl ? imgEl.src : '';
+      const desc = document.getElementById('actDesc').value.trim();
+      const unit = document.getElementById('actUnit').value;
+      if (!title) { toast('❌ Please enter an activity title', 'error'); return; }
+      if (!price || price <= 0) { toast('❌ Please enter a valid price', 'error'); return; }
+
+      const obj = { title, price, img, desc, unit };
+      const idx = document.getElementById('actEditIndex').value;
+      if (idx !== '') {
+        activities[Number(idx)] = obj;
+      } else {
+        activities.push(obj);
+      }
+      toast('☁️ Saving to cloud…', 'info', 1200);
+      await saveData();
+      toast(idx !== '' ? '✅ Activity updated on all devices!' : '✅ Activity added on all devices!', 'success');
+      renderActivities();
+      closeModal('activityModal');
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // DELETE
+    // ──────────────────────────────────────────────────────────────────
+    function confirmDelete(type, idx, name) {
+      document.getElementById('confirmTitle').textContent = `Delete "${name}"?`;
+      document.getElementById('confirmMsg').textContent = 'This action cannot be undone.';
+      confirmCallback = async () => {
+        if (type === 'service') {
+          services.splice(idx, 1);
+          await saveData();
+          toast('🗑️ Service deleted from all devices', 'info');
+          renderServices();
+          renderDashboard();
+        } else {
+          activities.splice(idx, 1);
+          await saveData();
+          toast('🗑️ Activity deleted from all devices', 'info');
+          renderActivities();
+        }
+        closeConfirm();
+      };
+      document.getElementById('confirmOkBtn').onclick = confirmCallback;
+      document.getElementById('confirmModal').classList.add('open');
+    }
+
+    function closeConfirm() {
+      document.getElementById('confirmModal').classList.remove('open');
+      confirmCallback = null;
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // FEATURES LIST BUILDER
+    // ──────────────────────────────────────────────────────────────────
+    function addFeatureRow(prefix, value = '') {
+      const list = document.getElementById(prefix + 'FeaturesList');
+      const row = document.createElement('div');
+      row.className = 'feature-row';
+      row.innerHTML = `<input type="text" class="form-input feature-input" placeholder="e.g. Premium latex balloons" value="${escHtml(value)}">
+    <button type="button" onclick="this.parentNode.remove()" style="background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.2);color:var(--danger);padding:10px 12px;border-radius:10px;cursor:pointer;border:none;font-size:1rem;flex-shrink:0;">×</button>`;
+      list.appendChild(row);
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // MODAL HELPERS
+    // ──────────────────────────────────────────────────────────────────
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on overlay click
+    document.querySelectorAll('.modal-overlay').forEach(overlay => {
+      overlay.addEventListener('click', e => {
+        if (e.target === overlay) closeModal(overlay.id);
+      });
+    });
+
+    // ──────────────────────────────────────────────────────────────────
+    // EXPORT / IMPORT
+    // ──────────────────────────────────────────────────────────────────
+    function exportData() {
+      const data = { services, activities, reviews, banners, heroBanners, gallery, exportedAt: new Date().toISOString(), version: '1.0' };
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `hawaahawaai-data-${Date.now()}.json`;
+      a.click(); URL.revokeObjectURL(url);
+      toast('📤 Data exported!', 'success');
+    }
+
+    function importData(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (data.services) { services = data.services; }
+          if (data.activities) { activities = data.activities; }
+          if (data.reviews) { reviews = data.reviews; }
+          if (data.banners) { banners = data.banners; }
+          if (data.heroBanners) { heroBanners = data.heroBanners; }
+          if (data.gallery) { gallery = data.gallery; }
+          toast('☁️ Uploading to cloud…', 'info', 1500);
+          await saveData();
+          renderServices();
+          renderActivities();
+          renderReviews();
+          renderBanners();
+          renderHeroBanners();
+          renderGallery();
+          renderDashboard();
+          refreshPreview();
+          toast('📥 Data imported and synced to all devices!', 'success');
+        } catch (err) {
+          toast('❌ Invalid JSON file', 'error');
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = '';
+    }
+
+    function refreshPreview() {
+      const data = { services, activities, reviews, banners, heroBanners, gallery };
+      document.getElementById('jsonPreview').textContent = JSON.stringify(data, null, 2).substring(0, 3000) + '...';
+    }
+
+    async function resetToDefaults() {
+      if (!confirm('Reset ALL data to defaults? This will erase your changes on ALL devices.')) return;
+      services = JSON.parse(JSON.stringify(DEFAULT_SERVICES));
+      activities = JSON.parse(JSON.stringify(DEFAULT_ACTIVITIES));
+      banners = JSON.parse(JSON.stringify(DEFAULT_BANNERS));
+      heroBanners = JSON.parse(JSON.stringify(DEFAULT_HERO_BANNERS));
+      gallery = JSON.parse(JSON.stringify(DEFAULT_GALLERY));
+      reviews = [];
+      await saveData();
+      renderServices();
+      renderActivities();
+      renderReviews();
+      renderBanners();
+      renderHeroBanners();
+      renderGallery();
+      renderDashboard();
+      toast('🔄 Data reset to defaults on all devices!', 'info');
+    }
+
+    async function clearAllData() {
+      if (!confirm('Clear ALL data on ALL devices? This cannot be undone!')) return;
+      services = [];
+      activities = [];
+      reviews = [];
+      banners = [];
+      heroBanners = [];
+      gallery = [];
+      await saveData();
+      renderServices();
+      renderActivities();
+      renderReviews();
+      renderBanners();
+      renderHeroBanners();
+      renderGallery();
+      renderDashboard();
+      toast('🗑️ All data cleared from all devices!', 'info');
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // TOAST
+    // ──────────────────────────────────────────────────────────────────
+    function toast(msg, type = 'info', duration = 3000) {
+      const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+      const t = document.createElement('div');
+      t.className = `toast ${type}`;
+      t.innerHTML = `<span>${icons[type] || 'ℹ️'}</span><span>${msg}</span>`;
+      document.getElementById('toastContainer').appendChild(t);
+      setTimeout(() => { t.style.animation = 'toastOut 0.3s forwards'; setTimeout(() => t.remove(), 300); }, duration);
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // UTILS
+    // ──────────────────────────────────────────────────────────────────
+    function escHtml(str) {
+      return String(str).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[ch]);
+    }
+
+    function categoryIcon(cat) {
+      const icons = { birthday: '🎂', anniversary: '💕', babyshower: '🍼', wedding: '💍', corporate: '🏢', kids: '🧸', other: '✨' };
+      return icons[cat] || '✨';
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // REVIEWS
+    // ──────────────────────────────────────────────────────────────────
+    function starsHtml(n) {
+      return '★'.repeat(n) + '☆'.repeat(5 - n);
+    }
+
+    function setReviewStar(val) {
+      currentRevStar = val;
+      document.getElementById('revRating').value = val;
+      document.querySelectorAll('#revStarPicker .star').forEach((s, i) => {
+        s.classList.toggle('filled', i < val);
+      });
+    }
+
+    function openAddReviewModal() {
+      document.getElementById('reviewModalTitle').textContent = 'Add Review';
+      document.getElementById('revEditIndex').value = '';
+      document.getElementById('revName').value = '';
+      document.getElementById('revDate').value = new Date().toISOString().slice(0,10);
+      document.getElementById('revText').value = '';
+      document.getElementById('revPhoto').value = '';
+      document.getElementById('revSource').value = 'manual';
+      setReviewStar(5);
+      openModal('reviewModal');
+    }
+
+    function openEditReviewModal(i) {
+      const r = reviews[i];
+      document.getElementById('reviewModalTitle').textContent = 'Edit Review';
+      document.getElementById('revEditIndex').value = i;
+      document.getElementById('revName').value  = r.name;
+      document.getElementById('revDate').value  = r.date || '';
+      document.getElementById('revText').value  = r.text;
+      document.getElementById('revPhoto').value = r.photo || '';
+      document.getElementById('revSource').value = r.source || 'manual';
+      setReviewStar(r.rating || 5);
+      openModal('reviewModal');
+    }
+
+    async function saveReview() {
+      const name   = document.getElementById('revName').value.trim();
+      const text   = document.getElementById('revText').value.trim();
+      const rating = Number(document.getElementById('revRating').value) || 5;
+      const date   = document.getElementById('revDate').value;
+      const photo  = document.getElementById('revPhoto').value.trim();
+      const source = document.getElementById('revSource').value;
+      if (!name) { toast('❌ Please enter the reviewer name', 'error'); return; }
+      if (!text) { toast('❌ Please enter the review text', 'error'); return; }
+      const obj = { name, text, rating, date, photo, source };
+      const idx = document.getElementById('revEditIndex').value;
+      if (idx !== '') { reviews[parseInt(idx)] = obj; }
+      else { reviews.unshift(obj); }
+      toast('☁️ Saving to cloud…', 'info', 1200);
+      await saveData(); renderReviews();
+      closeModal('reviewModal');
+      toast(idx !== '' ? '✅ Review updated on all devices!' : '✅ Review added on all devices!', 'success');
+    }
+
+    function deleteReview(i) {
+      showConfirm('Delete Review?', `"${reviews[i].name}'s" review will be removed.`, async () => {
+        reviews.splice(i, 1);
+        await saveData(); renderReviews();
+        toast('🗑️ Review deleted from all devices', 'info');
+      });
+    }
+
+    function renderReviews() {
+      const q = (document.getElementById('revSearch')?.value || '').toLowerCase();
+      const f = document.getElementById('revFilter')?.value || 'all';
+      let list = reviews.filter(r => {
+        const matchQ = !q || r.name.toLowerCase().includes(q) || r.text.toLowerCase().includes(q);
+        const matchF = f === 'all' || String(r.rating) === f;
+        return matchQ && matchF;
+      });
+      const grid = document.getElementById('reviewsGrid');
+      if (!grid) return;
+      if (!list.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="emoji">💬</div><p>No reviews yet. Add one or import from Google!</p></div>`;
+        return;
+      }
+      grid.innerHTML = list.map((r, idx) => {
+        const realIdx = reviews.indexOf(r);
+        const initials = r.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+        const avatar = r.photo ? `<img src="${r.photo}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">` : `<div class="rc-avatar">${initials}</div>`;
+        const srcBadge = r.source === 'google' ? '<span class="review-source-badge">🔵 Google</span>' :
+                         r.source === 'facebook' ? '<span class="review-source-badge" style="color:#4267B2;border-color:rgba(66,103,178,0.3);background:rgba(66,103,178,0.12);">📘 Facebook</span>' :
+                         r.source === 'instagram' ? '<span class="review-source-badge" style="color:#E1306C;border-color:rgba(225,48,108,0.3);background:rgba(225,48,108,0.12);">📸 Instagram</span>' :
+                         '<span class="review-source-badge manual">✍️ Manual</span>';
+        return `<div class="review-card">
+          ${srcBadge}
+          <div class="rc-header">${avatar}<div><div class="rc-name">${r.name}</div><div class="rc-stars">${starsHtml(r.rating || 5)}</div>${r.date ? `<div class="rc-date">${r.date}</div>` : ''}</div></div>
+          <div class="rc-text">${r.text}</div>
+          <div class="rc-actions">
+            <button class="btn btn-edit btn-sm" onclick="openEditReviewModal(${realIdx})">✏️ Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="deleteReview(${realIdx})">🗑️ Delete</button>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // GBP via Google Places API
+    function showGbpPanel() {
+      const p = document.getElementById('gbpPanel');
+      p.style.display = p.style.display === 'none' ? 'block' : 'none';
+    }
+
+    async function fetchGbpReviews() {
+      const key     = document.getElementById('gbpApiKey').value.trim();
+      const placeId = document.getElementById('gbpPlaceId').value.trim();
+      const status  = document.getElementById('gbpStatus');
+      if (!key || !placeId) { status.style.display='block'; status.style.color='var(--danger)'; status.textContent='❌ Please enter both API key and Place ID.'; return; }
+      status.style.display='block'; status.style.color='var(--text-muted)'; status.textContent='⏳ Fetching…';
+      try {
+        const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=reviews&key=${key}`;
+        // Note: CORS blocks direct browser calls — use a proxy or enable via Maps JS API
+        const res = await fetch(`https://corsproxy.io/?${encodeURIComponent(url)}`);
+        const json = await res.json();
+        const raw = json?.result?.reviews || [];
+        if (!raw.length) { status.style.color='var(--warning)'; status.textContent='⚠️ No reviews found. Check your Place ID or API key permissions.'; return; }
+        let added = 0;
+        raw.forEach(r => {
+          const exists = reviews.some(rv => rv.name === r.author_name && rv.text === r.text);
+          if (!exists) {
+            reviews.unshift({
+              name: r.author_name,
+              text: r.text,
+              rating: r.rating,
+              date: new Date(r.time * 1000).toISOString().slice(0,10),
+              photo: r.profile_photo_url || '',
+              source: 'google'
+            });
+            added++;
+          }
+        });
+        saveData(); renderReviews();
+        status.style.color='var(--success)';
+        status.textContent = added > 0 ? `✅ Imported ${added} new review(s) from Google!` : '✅ All reviews already imported — nothing new.';
+      } catch(e) {
+        status.style.color='var(--danger)';
+        status.textContent='❌ Failed to fetch. Check your API key, Place ID, and ensure Places API is enabled in Google Cloud Console.';
+      }
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // BANNERS & OFFERS
+    // ──────────────────────────────────────────────────────────────────
+    function openAddBannerModal() {
+      document.getElementById('bannerModalTitle').textContent = 'Add Banner';
+      document.getElementById('bannerEditIndex').value = '';
+      document.getElementById('bannerTitle').value  = '';
+      document.getElementById('bannerSub').value    = '';
+      document.getElementById('bannerBadge').value  = '';
+      document.getElementById('bannerCta').value    = 'Book Now';
+      document.getElementById('bannerLink').value   = '#contact';
+      document.getElementById('bannerColor').value  = '#ec4899';
+      document.getElementById('bannerActive').value = 'true';
+      document.getElementById('bannerImgPreview').innerHTML = '';
+      document.getElementById('bannerUrlInput').value = '';
+      openModal('bannerModal');
+    }
+
+    function openEditBannerModal(i) {
+      const b = banners[i];
+      document.getElementById('bannerModalTitle').textContent = 'Edit Banner';
+      document.getElementById('bannerEditIndex').value = i;
+      document.getElementById('bannerTitle').value  = b.title;
+      document.getElementById('bannerSub').value    = b.sub || '';
+      document.getElementById('bannerBadge').value  = b.badge || '';
+      document.getElementById('bannerCta').value    = b.cta || 'Book Now';
+      document.getElementById('bannerLink').value   = b.link || '';
+      document.getElementById('bannerColor').value  = b.color || '#ec4899';
+      document.getElementById('bannerActive').value = String(b.active !== false);
+      document.getElementById('bannerImgPreview').innerHTML = '';
+      if (b.img) addImgPreview('banner', b.img);
+      openModal('bannerModal');
+    }
+
+    async function saveBanner() {
+      const title  = document.getElementById('bannerTitle').value.trim();
+      if (!title) { toast('❌ Please enter a banner title', 'error'); return; }
+      const imgEl  = document.querySelector('#bannerImgPreview img');
+      const obj = {
+        title,
+        sub:    document.getElementById('bannerSub').value.trim(),
+        badge:  document.getElementById('bannerBadge').value.trim(),
+        cta:    document.getElementById('bannerCta').value.trim(),
+        link:   document.getElementById('bannerLink').value.trim(),
+        color:  document.getElementById('bannerColor').value,
+        active: document.getElementById('bannerActive').value === 'true',
+        img:    imgEl ? imgEl.src : ''
+      };
+      const idx = document.getElementById('bannerEditIndex').value;
+      if (idx !== '') { banners[parseInt(idx)] = obj; }
+      else { banners.push(obj); }
+      toast('☁️ Saving to cloud…', 'info', 1200);
+      await saveData(); renderBanners();
+      closeModal('bannerModal');
+      toast(idx !== '' ? '✅ Banner updated on all devices!' : '✅ Banner added on all devices!', 'success');
+    }
+
+    function deleteBanner(i) {
+      showConfirm('Delete Banner?', `"${banners[i].title}" will be removed.`, async () => {
+        banners.splice(i, 1);
+        await saveData(); renderBanners();
+        toast('🗑️ Banner deleted from all devices', 'info');
+      });
+    }
+
+    async function toggleBanner(i) {
+      banners[i].active = !banners[i].active;
+      await saveData(); renderBanners();
+    }
+
+    async function toggleAllBanners(state) {
+      banners.forEach(b => b.active = state);
+      await saveData(); renderBanners();
+    }
+
+    function renderBanners() {
+      const grid = document.getElementById('bannersGrid');
+      if (!grid) return;
+      if (!banners.length) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1"><div class="emoji">🎨</div><p>No banners yet. Add your first promotional banner!</p></div>`;
+        return;
+      }
+      grid.innerHTML = banners.map((b, i) => {
+        const imgHtml = b.img
+          ? `<img class="banner-card-img" src="${b.img}" alt="${b.title}">`
+          : `<div class="banner-card-img-ph">🖼️</div>`;
+        const statusCls = b.active ? 'active' : '';
+        const statusTxt = b.active ? '✅ Active' : '🚫 Inactive';
+        const accentStyle = `border-top: 3px solid ${b.color || '#ec4899'};`;
+        return `<div class="banner-card${b.active ? '' : ' inactive'}" style="${accentStyle}">
+          ${imgHtml}
+          <span class="banner-card-status ${statusCls}">${statusTxt}</span>
+          <div class="banner-card-body">
+            ${b.badge ? `<div class="banner-card-badge">${b.badge}</div>` : ''}
+            <div class="banner-card-title">${b.title}</div>
+            ${b.sub ? `<div class="banner-card-sub">${b.sub}</div>` : ''}
+            <div class="banner-card-actions">
+              <button class="btn btn-edit btn-sm" onclick="openEditBannerModal(${i})">✏️ Edit</button>
+              <button class="btn btn-danger btn-sm" onclick="deleteBanner(${i})">🗑️</button>
+              <button class="btn btn-ghost btn-sm" onclick="toggleBanner(${i})">${b.active ? '🚫 Disable' : '✅ Enable'}</button>
+            </div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // ─── HERO BANNERS (BIG) ──────────────────────────────────────────
+    function openAddHeroBannerModal() {
+      document.getElementById('heroBannerModalTitle').textContent = 'Add Hero Banner';
+      document.getElementById('heroBannerEditIndex').value = '';
+      document.getElementById('heroBannerTitle').value = '';
+      document.getElementById('heroBannerSub').value = '';
+      document.getElementById('heroBannerCta').value = '🎉 Book Your Event';
+      document.getElementById('heroBannerLink').value = '#services';
+      document.getElementById('heroBannerActive').value = 'true';
+      document.getElementById('heroBannerImgPreview').innerHTML = '';
+      document.getElementById('heroBannerUrlInput').value = '';
+      openModal('heroBannerModal');
+    }
+
+    function openEditHeroBannerModal(i) {
+      const h = heroBanners[i];
+      document.getElementById('heroBannerModalTitle').textContent = 'Edit Hero Banner';
+      document.getElementById('heroBannerEditIndex').value = i;
+      document.getElementById('heroBannerTitle').value = h.title;
+      document.getElementById('heroBannerSub').value = h.sub || '';
+      document.getElementById('heroBannerCta').value = h.cta || '';
+      document.getElementById('heroBannerLink').value = h.link || '';
+      document.getElementById('heroBannerActive').value = String(h.active !== false);
+      document.getElementById('heroBannerImgPreview').innerHTML = '';
+      if (h.img) addImgPreview('heroBanner', h.img);
+      openModal('heroBannerModal');
+    }
+
+    async function saveHeroBanner() {
+      const title = document.getElementById('heroBannerTitle').value.trim();
+      if (!title) { toast('❌ Please enter a title', 'error'); return; }
+      const imgEl = document.querySelector('#heroBannerImgPreview img');
+      const obj = {
+        title,
+        sub: document.getElementById('heroBannerSub').value.trim(),
+        cta: document.getElementById('heroBannerCta').value.trim(),
+        link: document.getElementById('heroBannerLink').value.trim(),
+        active: document.getElementById('heroBannerActive').value === 'true',
+        img: imgEl ? imgEl.src : ''
+      };
+      const idx = document.getElementById('heroBannerEditIndex').value;
+      if (idx !== '') { heroBanners[parseInt(idx)] = obj; }
+      else { heroBanners.push(obj); }
+      await saveData(); renderHeroBanners();
+      closeModal('heroBannerModal');
+      toast('✅ Hero Banner saved!', 'success');
+    }
+
+    function renderHeroBanners() {
+      const grid = document.getElementById('heroBannersGrid');
+      if (!grid) return;
+      grid.innerHTML = heroBanners.map((h, i) => `
+        <div class="banner-card ${h.active ? '' : 'inactive'}">
+          <img class="banner-card-img" src="${h.img || ''}" onerror="this.src='favicon.png'">
+          <div class="banner-card-body">
+            <div class="banner-card-title">${h.title}</div>
+            <div class="banner-card-actions">
+              <button class="btn btn-edit btn-sm" onclick="openEditHeroBannerModal(${i})">✏️</button>
+              <button class="btn btn-danger btn-sm" onclick="heroBanners.splice(${i},1);saveData();renderHeroBanners();">🗑️</button>
+            </div>
+          </div>
+        </div>`).join('');
+    }
+
+    // ─── GALLERY ─────────────────────────────────────────────────────
+    function openAddGalleryModal() {
+      document.getElementById('galleryEditIndex').value = '';
+      document.getElementById('galleryImgPreview').innerHTML = '';
+      openModal('galleryModal');
+    }
+
+    async function saveGallery() {
+      const imgEl = document.querySelector('#galleryImgPreview img');
+      if (!imgEl) { toast('❌ Please upload an image', 'error'); return; }
+      const obj = {
+        img: imgEl.src,
+        category: document.getElementById('galleryCategory').value
+      };
+      gallery.push(obj);
+      await saveData(); renderGallery();
+      closeModal('galleryModal');
+      toast('✅ Gallery image added!', 'success');
+    }
+
+    function renderGallery() {
+      const grid = document.getElementById('galleryGrid');
+      if (!grid) return;
+      grid.innerHTML = gallery.map((g, i) => `
+        <div class="item-card">
+          <img class="item-card-img" src="${g.img}">
+          <div class="item-card-body" style="padding:10px;">
+            <span class="item-tag">${g.category}</span>
+            <button class="btn btn-danger btn-sm" onclick="gallery.splice(${i},1);saveData();renderGallery();">🗑️ Delete</button>
+          </div>
+        </div>`).join('');
+    }
+
+    // ──────────────────────────────────────────────────────────────────
+    // Keyboard: Escape closes modals
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') {
+        document.querySelectorAll('.modal-overlay.open').forEach(m => closeModal(m.id));
+        closeConfirm();
+      }
+    });
+
+    // --- IMAGE HANDLING LOGIC ---
+    function dzDrag(e, id) {
+      e.preventDefault();
+      document.getElementById(id).classList.add('drag-over');
+    }
+    function dzLeave(id) {
+      document.getElementById(id).classList.remove('drag-over');
+    }
+    async function dzDrop(e, type) {
+      e.preventDefault();
+      dzLeave(type + 'Dropzone');
+      const files = e.dataTransfer.files;
+      if (files.length) processFiles(files, type);
+    }
+    function handleImgUpload(e, type) {
+      const files = e.target.files;
+      if (files.length) processFiles(files, type);
+    }
+    async function processFiles(files, type) {
+      for (const file of files) {
+        if (!file.type.startsWith('image/')) continue;
+        const base64 = await compressImage(file);
+        addImgPreview(type, base64);
+      }
+    }
+    function compressImage(file) {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const MAX_WIDTH = 900;
+            let width = img.width;
+            let height = img.height;
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            resolve(canvas.toDataURL('image/jpeg', 0.7));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+    function addImgPreview(type, src) {
+      const container = document.getElementById(type + 'ImgPreview');
+      const div = document.createElement('div');
+      div.className = 'upload-thumb';
+      div.innerHTML = `<img src="${src}"><button class="upload-thumb-rm" onclick="this.parentNode.remove()">×</button>`;
+      container.appendChild(div);
+    }
+    function addImgUrl(type) {
+      const map = { svc: 'svcUrlInput', act: 'actUrlInput', banner: 'bannerUrlInput' };
+      const input = document.getElementById(map[type] || (type + 'UrlInput'));
+      if (!input) return;
+      const url = input.value.trim();
+      if (url) { addImgPreview(type, url); input.value = ''; }
+    }
+  </script>
+</body>
+
+</html>
