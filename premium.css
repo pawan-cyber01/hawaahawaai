@@ -2583,3 +2583,33 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
         grid-template-columns:1fr !important;
     }
 }
+
+/* NUCLEAR MOBILE FIX */
+@media (max-width:768px){
+
+    .page-hero{
+        display:block !important;
+        min-height:0 !important;
+        height:auto !important;
+        max-height:none !important;
+
+        margin:0 !important;
+        padding:90px 16px 10px !important;
+    }
+
+    .page-hero *{
+        margin-top:0 !important;
+    }
+
+    .hero-orbit-container{
+        display:none !important;
+    }
+
+    .luxury-bg,
+    .luxury-bg-noise,
+    .orbit-3d-bg,
+    #mouse-glow,
+    .particles-container{
+        display:none !important;
+    }
+}
