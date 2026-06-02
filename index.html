@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="canonical" href="https://hawaahawaai.com/" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#eab308">
 
   <title>Hawaa Hawaai – Best Balloon Decoration in Delhi NCR | Birthday & Events</title>
   <meta name="description"
@@ -1602,6 +1604,17 @@
   </script>
 
 <script src="global-inject.js"></script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js').then(registration => {
+        console.log('SW registered: ', registration);
+      }).catch(registrationError => {
+        console.log('SW registration failed: ', registrationError);
+      });
+    });
+  }
+</script>
 </body>
 
 </html>
