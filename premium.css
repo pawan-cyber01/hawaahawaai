@@ -2467,26 +2467,24 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
    GLOBAL MOBILE RESPONSIVE FIXES
 ═══════════════════════════════════════════════ */
 @media (max-width: 768px) {
+  /* Hide the 3D marquee background – it creates a huge dark void on mobile */
+  .marquee-bg-layer {
+    display: none !important;
+  }
+
   /* Prevent hero section huge empty space on mobile */
   .page-hero-mobile {
-    padding: 70px 16px 30px !important;
+    padding: 70px 16px 24px !important;
     min-height: auto !important;
   }
 
   /* Prevent tilt cards from scaling/zooming on mobile */
   .tilt-card {
     transform: none !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
   }
 
   /* Prevent body content from overflowing horizontally */
   body {
     overflow-x: hidden;
-  }
-
-  /* Make sections responsive */
-  section {
-    padding-left: 16px !important;
-    padding-right: 16px !important;
   }
 }
