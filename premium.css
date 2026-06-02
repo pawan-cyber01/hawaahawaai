@@ -960,7 +960,7 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
 
 .city-card img {
   width: 100%;
-  height: 72px;
+  height: 40px;
   object-fit: cover;
   transition: transform 0.4s ease;
 }
@@ -968,20 +968,20 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
 .city-card:hover img { transform: scale(1.08); }
 
 .city-card-body {
-  padding: 8px 6px;
+  padding: 4px 2px;
 }
 
 .city-name {
-  font-size: 12px;
+  font-size: 10px;
   font-weight: 700;
   color: var(--text-primary);
 }
 
 .city-status {
-  font-size: 10px;
+  font-size: 8px;
   color: #4ade80;
   font-weight: 600;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
 /* ══════════════════════════════════════════
