@@ -16,11 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="premium.css">
-  <style>
-    @media (max-width:768px) {
-      .page-hero-mobile { padding: 70px 16px 30px !important; min-height: auto !important; }
-    }
-  </style>
+
 </head>
 <body>
   <div class="luxury-bg"></div>
@@ -31,41 +27,7 @@
   </div>
 <div id="mouse-glow"></div>
 
-<!-- Marquee Background Layer (Fixed) -->
-<div class="marquee-bg-layer" id="mainMarqueeLayer">
-  <div class="marquee-3d-section">
-    <div class="marquee-3d-container">
-      <div class="marquee-3d-track">
-        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-      </div>
-      <div class="marquee-3d-track" style="margin-left:30px;">
-        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-      </div>
-    </div>
-  </div>
-</div>
+
 
 <div class="particles-container" id="particlesContainer"></div>
 
@@ -116,7 +78,7 @@
 </nav>
 
 <!-- Page Hero -->
-<section class="hero-section page-hero" id="heroSection" style="display:flex;align-items:center;justify-content:center;text-align:center;position:relative;min-height:250px;padding:120px 20px 40px;">
+<section class="page-hero" id="heroSection" style="display:flex;align-items:center;justify-content:center;text-align:center;position:relative;">
   <div style="position:absolute;top:40%;left:50%;transform:translateX(-50%);width:300px;height:150px;background:radial-gradient(ellipse,rgba(168,85,247,0.08),transparent 70%);pointer-events:none;"></div>
   
   <!-- 3D Orbiting Hero Rings -->
@@ -455,5 +417,6 @@ document.querySelectorAll('.ripple-btn, .btn-primary, .btn-luxury, .btn-glass, .
   }
 })();
 </script>
+<script src="global-inject.js"></script>
 </body>
 </html>
