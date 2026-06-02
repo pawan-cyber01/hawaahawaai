@@ -16,6 +16,11 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="premium.css">
+  <style>
+    @media (max-width:768px) {
+      .page-hero-mobile { padding: 70px 16px 30px !important; min-height: auto !important; }
+    }
+  </style>
 </head>
 <body>
   <div class="luxury-bg"></div>
@@ -111,7 +116,7 @@
 </nav>
 
 <!-- Page Hero -->
-<section class="hero-section" id="heroSection" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:65px 24px 0px;position:relative;">
+<section class="hero-section page-hero-mobile" id="heroSection" style="min-height:30vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 40px;position:relative;">
   <div style="position:absolute;top:30%;left:50%;transform:translateX(-50%);width:400px;height:200px;background:radial-gradient(ellipse,rgba(236,72,153,0.1),transparent 70%);pointer-events:none;"></div>
   
   <!-- 3D Orbiting Hero Rings -->
@@ -321,6 +326,7 @@
 <style>
   @media (max-width:768px) {
     #contactContentGrid { grid-template-columns:1fr !important; gap:24px !important; }
+    .page-hero-mobile { padding: 70px 16px 30px !important; min-height: auto !important; }
   }
 </style>
 
@@ -436,14 +442,14 @@ document.querySelectorAll('.ripple-btn, .btn-primary, .btn-luxury, .btn-glass, .
   });
   document.addEventListener('mouseleave', () => document.querySelectorAll('.tilt-card').forEach(resetTilt));
 
-  if (window.DeviceOrientationEvent) {
+  if (window.DeviceOrientationEvent && !('ontouchstart' in window === false)) {
     window.addEventListener('deviceorientation', (e) => {
       if(e.beta === null || e.gamma === null) return;
       let x = Math.max(-20, Math.min(20, e.gamma)); 
       let y = Math.max(-20, Math.min(20, e.beta - 45)); 
-      if(heroContent) heroContent.style.transform = `perspective(1000px) rotateY(${x * 0.5}deg) rotateX(${-y * 0.5}deg) translateZ(20px)`;
+      if(heroContent) heroContent.style.transform = `perspective(1000px) rotateY(${x * 0.3}deg) rotateX(${-y * 0.3}deg) translateZ(10px)`;
       document.querySelectorAll('.tilt-card').forEach(card => {
-        card.style.transform = `perspective(900px) rotateY(${x * 0.5}deg) rotateX(${-y * 0.5}deg) scale3d(1.03,1.03,1.03)`;
+        card.style.transform = `perspective(900px) rotateY(${x * 0.3}deg) rotateX(${-y * 0.3}deg)`;
       });
     });
   }

@@ -23,6 +23,11 @@
     .lightbox-close{position:fixed;top:20px;right:20px;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;z-index:3001;}
     .lightbox-prev,.lightbox-next{position:fixed;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:20px;z-index:3001;}
     .lightbox-prev{left:16px;} .lightbox-next{right:16px;}
+    @media (max-width:768px) {
+      .page-hero-mobile { padding: 70px 16px 30px !important; min-height: auto !important; }
+      .gallery-grid { grid-template-columns: 1fr 1fr !important; gap: 10px !important; }
+      .filter-group { flex-wrap: wrap; gap: 8px !important; }
+    }
   </style>
 </head>
 <body>
@@ -114,7 +119,7 @@
 </nav>
 
 <!-- Page Hero -->
-<section style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:65px 24px 0px;position:relative;overflow:hidden;">
+<section class="page-hero-mobile" style="min-height:30vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 40px;position:relative;overflow:hidden;">
   <div style="position:absolute;top:20%;left:50%;transform:translateX(-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(168,85,247,0.1),transparent 70%);pointer-events:none;"></div>
   <div style="position:relative;z-index:1;" class="reveal">
     <span class="section-label">📸 Our Portfolio</span>
@@ -354,13 +359,13 @@ document.querySelectorAll('.ripple-btn, .btn-primary, .btn-luxury, .btn-glass, .
   document.addEventListener('mouseleave', () => {
     document.querySelectorAll('.tilt-card').forEach(resetTilt);
   });
-  if (window.DeviceOrientationEvent) {
+  if (window.DeviceOrientationEvent && !('ontouchstart' in window === false)) {
     window.addEventListener('deviceorientation', (e) => {
       if(e.beta === null || e.gamma === null) return;
       let x = Math.max(-20, Math.min(20, e.gamma)); 
       let y = Math.max(-20, Math.min(20, e.beta - 45)); 
       document.querySelectorAll('.tilt-card').forEach(card => {
-        card.style.transform = `perspective(900px) rotateY(${x * 0.5}deg) rotateX(${-y * 0.5}deg) scale3d(1.03,1.03,1.03)`;
+        card.style.transform = `perspective(900px) rotateY(${x * 0.3}deg) rotateX(${-y * 0.3}deg)`;
       });
     });
   }

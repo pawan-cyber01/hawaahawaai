@@ -2463,25 +2463,30 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
   transform: rotateX(0deg) rotateZ(0deg) scale(1.1);
 }
 
-/* ── RESPONSIVE FIXES FOR ABOUT, GALLERY, CONTACT, CART ── */
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-@media (max-width: 900px) {
-  #cartComponent { grid-template-columns: 1fr !important; }
-}
-
+/* ═══════════════════════════════════════════════
+   GLOBAL MOBILE RESPONSIVE FIXES
+═══════════════════════════════════════════════ */
 @media (max-width: 768px) {
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .responsive-grid-2 { grid-template-columns: 1fr !important; gap: 24px !important; }
-  #contactContentGrid { grid-template-columns: 1fr !important; gap: 32px !important; }
+  /* Prevent hero section huge empty space on mobile */
+  .page-hero-mobile {
+    padding: 70px 16px 30px !important;
+    min-height: auto !important;
+  }
+
+  /* Prevent tilt cards from scaling/zooming on mobile */
+  .tilt-card {
+    transform: none !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3) !important;
+  }
+
+  /* Prevent body content from overflowing horizontally */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Make sections responsive */
+  section {
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+  }
 }
-
-@media (max-width: 480px) {
-  .gallery-grid { grid-template-columns: 1fr; }
-}
-
-
