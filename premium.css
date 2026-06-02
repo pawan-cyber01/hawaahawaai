@@ -2463,37 +2463,123 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
   transform: rotateX(0deg) rotateZ(0deg) scale(1.1);
 }
 
-/* ═══════════════════════════════════════════════
-   INNER PAGE HERO (gallery, about, contact, cart)
-   Overrides .hero-section's full-screen min-height
-═══════════════════════════════════════════════ */
+/* PAGE HERO FIX */
 .page-hero {
-  min-height: auto !important;
-  padding: 110px 24px 48px !important;
+    min-height: 420px !important;
+    padding: 120px 20px 40px !important;
 }
 
-/* ═══════════════════════════════════════════════
-   GLOBAL MOBILE RESPONSIVE FIXES
-═══════════════════════════════════════════════ */
-@media (max-width: 768px) {
-  /* Hide the 3D marquee background – it creates a huge dark void on mobile */
-  .marquee-bg-layer {
-    display: none !important;
-  }
+/* MOBILE FIX */
+@media (max-width:768px){
 
-  /* Inner page heroes: compact on mobile */
-  .page-hero {
-    padding: 72px 16px 24px !important;
+    .page-hero{
+        min-height: auto !important;
+        height: auto !important;
+        padding: 90px 16px 24px !important;
+    }
+
+    .hero-content-3d{
+        transform: none !important;
+    }
+
+    /* Remove horizontal overflow */
+    html,
+    body{
+        overflow-x:hidden;
+        width:100%;
+    }
+
+    /* Gallery */
+    .gallery-grid{
+        grid-template-columns:1fr 1fr !important;
+        gap:10px !important;
+    }
+
+    .gallery-item img{
+        width:100%;
+        height:auto;
+        object-fit:cover;
+    }
+
+    /* About */
+    .about-mission-grid{
+        grid-template-columns:1fr !important;
+        gap:24px !important;
+    }
+
+    .about-stats-grid{
+        grid-template-columns:1fr 1fr !important;
+    }
+
+    /* Contact */
+    #contactContentGrid{
+        grid-template-columns:1fr !important;
+        gap:24px !important;
+    }
+
+    /* Prevent zoomed cards/images */
+    img,
+    video,
+    iframe{
+        max-width:100%;
+        height:auto;
+    }
+
+    .glass-card,
+    .contact-info-card,
+    .gallery-item,
+    .service-card{
+        width:100%;
+    }
+}
+
+/* =====================================
+   PAGE HERO FIX
+===================================== */
+
+.page-hero{
+    position: relative;
     min-height: auto !important;
-  }
+    height: auto !important;
+    padding: 120px 20px 40px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
 
-  /* Prevent tilt cards from scaling/zooming on mobile */
-  .tilt-card {
-    transform: none !important;
-  }
+/* remove huge mobile gap */
+@media (max-width:768px){
 
-  /* Prevent body content from overflowing horizontally */
-  body {
-    overflow-x: hidden;
-  }
+    .page-hero{
+        padding-top: 90px !important;
+        padding-bottom: 20px !important;
+        min-height: auto !important;
+        height: auto !important;
+    }
+
+    .hero-orbit-container{
+        display:none !important;
+    }
+
+    .hero-orbit-ring{
+        display:none !important;
+    }
+
+    .hero-content-3d{
+        margin:0 !important;
+        padding:0 !important;
+    }
+
+    #gallery{
+        padding-top:10px !important;
+    }
+
+    #contactContentGrid{
+        grid-template-columns:1fr !important;
+    }
+
+    .about-mission-grid{
+        grid-template-columns:1fr !important;
+    }
 }
