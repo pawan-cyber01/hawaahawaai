@@ -186,6 +186,44 @@
       </div>
     </div>
 
+    <!-- Budget Planner Section -->
+    <div class="glass-card rounded-[2.5rem] p-8 md:p-12 mb-16 text-center max-w-3xl mx-auto" data-aos="fade-up" style="border-color:rgba(234,179,8,0.3); box-shadow:0 20px 40px rgba(234,179,8,0.15);">
+      <span class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-sm font-bold mb-4 inline-block">✨ Budget Planner</span>
+      <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-2">Plan in Your <span class="gradient-text">Budget</span></h2>
+      <p class="text-gray-600 mb-8">Tell us your requirements and we'll design the magic!</p>
+      
+      <div class="grid md:grid-cols-2 gap-6 text-left">
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-2">Event Type</label>
+          <input type="text" id="plannerType" value="Haldi / Mehendi" class="w-full bg-white/50 border border-yellow-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400" readonly>
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-2">Budget (₹)</label>
+          <input type="number" id="plannerBudget" placeholder="e.g. 15000" class="w-full bg-white/50 border border-yellow-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-2">Event Date</label>
+          <input type="date" id="plannerDate" class="w-full bg-white/50 border border-yellow-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+        </div>
+        <div>
+          <label class="block text-sm font-bold text-gray-700 mb-2">Venue Area</label>
+          <input type="text" id="plannerAddress" placeholder="e.g. Noida Sec-62" class="w-full bg-white/50 border border-yellow-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400">
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-bold text-gray-700 mb-2">Event Details</label>
+          <textarea id="plannerDesc" placeholder="Describe your event requirements..." class="w-full bg-white/50 border border-yellow-200 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-400" style="height:90px;"></textarea>
+        </div>
+        <div class="md:col-span-2">
+          <button onclick="sendHaldiBudgetToWA()" class="w-full flex items-center justify-center bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-white font-bold py-4 rounded-xl shadow-lg shadow-yellow-500/30 transition-all hover:-translate-y-1">
+            <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24" class="mr-2">
+              <path d="M20.52 3.48A11.9 11.9 0 0012 0C5.37 0 .06 5.31 0 11.93c0 2.1.55 4.17 1.59 5.99L0 24l6.3-1.65a12 12 0 0011.4-2.86c5.05-5.05 5.05-13.26 0-18.31z"/>
+            </svg>
+            Get Custom Quote via WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+
   </main>
 
   <footer class="text-center py-10 text-gray-400 font-medium">
@@ -200,6 +238,22 @@
       once: true,
       offset: 50
     });
+
+    function sendHaldiBudgetToWA() {
+      const type = document.getElementById('plannerType').value;
+      const budget = document.getElementById('plannerBudget').value;
+      const date = document.getElementById('plannerDate').value;
+      const address = document.getElementById('plannerAddress').value;
+      const desc = document.getElementById('plannerDesc').value;
+      
+      if (!budget || !date || !address || !desc) { 
+        alert('Please fill in all details!'); 
+        return; 
+      }
+      
+      const msg = encodeURIComponent(`Hi Hawaa Hawaai! 🎈\n\nEvent: ${type}\n📅 Date: ${date}\n📍 Venue: ${address}\n💰 Budget: ₹${budget}\n📝 Details: ${desc}`);
+      window.open(`https://wa.me/919389835280?text=${msg}`, '_blank');
+    }
   </script>
 <script src="global-inject.js"></script>
 </body>
