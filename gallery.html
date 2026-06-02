@@ -119,12 +119,26 @@
 </nav>
 
 <!-- Page Hero -->
-<section class="hero-section page-hero" style="display:flex;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;">
-  <div style="position:absolute;top:20%;left:50%;transform:translateX(-50%);width:500px;height:250px;background:radial-gradient(ellipse,rgba(168,85,247,0.1),transparent 70%);pointer-events:none;"></div>
-  <div style="position:relative;z-index:1;" class="reveal">
+<section class="hero-section page-hero" id="heroSection" style="display:flex;align-items:center;justify-content:center;text-align:center;position:relative;">
+  <div style="position:absolute;top:40%;left:50%;transform:translateX(-50%);width:300px;height:150px;background:radial-gradient(ellipse,rgba(168,85,247,0.08),transparent 70%);pointer-events:none;"></div>
+  
+  <!-- 3D Orbiting Hero Rings -->
+  <div class="hero-orbit-container">
+    <div class="hero-orbit-ring ring-1">
+      <div class="orbit-planet" style="background:#a855f7;box-shadow:0 0 20px #a855f7;"></div>
+    </div>
+    <div class="hero-orbit-ring ring-2">
+      <div class="orbit-planet" style="background:#ec4899;box-shadow:0 0 20px #ec4899;width:15px;height:15px;top:-7.5px;"></div>
+    </div>
+    <div class="hero-orbit-ring ring-3">
+      <div class="orbit-planet" style="background:#60a5fa;box-shadow:0 0 20px #60a5fa;width:25px;height:25px;top:-12.5px;"></div>
+    </div>
+  </div>
+
+  <div style="position:relative;z-index:1;" class="hero-content-3d">
     <span class="section-label">📸 Our Portfolio</span>
-    <h1 class="hero-title" style="font-size:clamp(36px,6vw,72px);">Decoration <span class="grad-text">Gallery</span></h1>
-    <p class="hero-subtitle" style="max-width:560px;margin:0 auto;">Explore hundreds of stunning balloon setups we've created for our clients across Delhi NCR</p>
+    <h1 class="section-title" style="font-size:clamp(28px,5vw,56px);margin-bottom:8px;">Decoration <span class="grad">Gallery</span></h1>
+    <p style="color:var(--text-secondary);font-size:15px;max-width:560px;margin:0 auto;">Explore hundreds of stunning balloon setups we've created for our clients across Delhi NCR</p>
   </div>
 </section>
 
