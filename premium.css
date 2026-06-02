@@ -2464,6 +2464,15 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
 }
 
 /* ═══════════════════════════════════════════════
+   INNER PAGE HERO (gallery, about, contact, cart)
+   Overrides .hero-section's full-screen min-height
+═══════════════════════════════════════════════ */
+.page-hero {
+  min-height: auto !important;
+  padding: 110px 24px 48px !important;
+}
+
+/* ═══════════════════════════════════════════════
    GLOBAL MOBILE RESPONSIVE FIXES
 ═══════════════════════════════════════════════ */
 @media (max-width: 768px) {
@@ -2472,9 +2481,9 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
     display: none !important;
   }
 
-  /* Prevent hero section huge empty space on mobile */
-  .page-hero-mobile {
-    padding: 70px 16px 24px !important;
+  /* Inner page heroes: compact on mobile */
+  .page-hero {
+    padding: 72px 16px 24px !important;
     min-height: auto !important;
   }
 
