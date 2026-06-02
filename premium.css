@@ -2463,3 +2463,26 @@ textarea.input-luxury { resize: vertical; min-height: 90px; }
   transform: rotateX(0deg) rotateZ(0deg) scale(1.1);
 }
 
+/* ── RESPONSIVE FIXES FOR ABOUT, GALLERY, CONTACT, CART ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  #cartComponent { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 768px) {
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .responsive-grid-2 { grid-template-columns: 1fr !important; gap: 24px !important; }
+  .hero-section { padding-top: 100px !important; padding-bottom: 40px !important; min-height: auto !important; }
+  #contactContentGrid { grid-template-columns: 1fr !important; gap: 32px !important; }
+}
+
+@media (max-width: 480px) {
+  .gallery-grid { grid-template-columns: 1fr; }
+}
+
+
