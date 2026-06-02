@@ -83,7 +83,7 @@ body {
 }
 
 /* ── Global Performance Optimizations ── */
-section:not(.hero-section) {
+section:not(.hero-section):not(.page-hero) {
   content-visibility: auto;
   contain-intrinsic-size: auto 800px;
 }
