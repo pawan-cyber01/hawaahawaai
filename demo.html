@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hawaahawaai – Balloon Decoration & Events</title>
+  <meta name="description" content="Premium balloon decoration services for birthdays, anniversaries, baby showers, and events in Delhi NCR. Book expert decorators today!">
+  <meta name="keywords" content="balloon decoration near me, balloon decoration, premium birthday decoration, party decorators, balloon decor">
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
@@ -12,8 +14,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="premium.css">
 </head>
 <body class="bg-gray-50 text-gray-900 font-['Outfit'] pb-20">
+  <div class="luxury-bg"></div>
+  <div class="luxury-bg-noise"></div>
+  <div class="orbit-3d-bg">
+    <div class="ring-1"><div class="dot"></div></div>
+    <div class="ring-2"><div class="dot"></div></div>
+  </div>
 
   <!-- Hero Section -->
   <section class="relative h-screen bg-center bg-cover flex items-center justify-center text-center" 
@@ -152,7 +161,7 @@
       <template x-for="service in services" :key="service.title">
         <div class="bg-white rounded-xl shadow p-6 text-center cursor-pointer hover:shadow-lg transition"
              @click="selected={...service,currentImage:0};openModal=true">
-          <img :src="service.images[0]" :alt="service.title" class="rounded mb-4 w-full h-48 object-cover" loading="lazy">
+          <img :src="service.images[0]" :alt="service.title" class="rounded mb-4 w-full h-48 object-cover" loading="lazy" decoding="async">
           <h4 class="text-xl font-bold mb-2" x-text="service.title"></h4>
           <p class="text-pink-600 font-bold">₹<span x-text="service.price"></span></p>
         </div>
@@ -170,7 +179,7 @@
 
         <!-- Image Carousel -->
         <div class="relative">
-          <img :src="selected.images[selected.currentImage]" class="rounded-lg shadow-md w-full max-h-[60vh] object-contain bg-gray-100">
+          <img :src="selected.images[selected.currentImage]" class="rounded-lg shadow-md w-full max-h-[60vh] object-contain bg-gray-100" loading="lazy" decoding="async">
           <button @click="selected.currentImage=(selected.currentImage-1+selected.images.length)%selected.images.length"
                   class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow">‹</button>
           <button @click="selected.currentImage=(selected.currentImage+1)%selected.images.length"
@@ -203,7 +212,7 @@
         <div class="flex space-x-4 overflow-x-auto pb-4">
           <template x-for="activity in activities" :key="activity.title">
             <div class="bg-[#faf5f6] rounded-lg p-3 w-40 flex-shrink-0 text-center shadow">
-              <img :src="activity.img" class="rounded mb-2 h-20 w-full object-cover">
+              <img :src="activity.img" class="rounded mb-2 h-20 w-full object-cover" loading="lazy" decoding="async">
               <p class="font-semibold text-sm" x-text="activity.title"></p>
               <p class="text-pink-600 text-sm">₹<span x-text="activity.price"></span></p>
 
@@ -291,7 +300,7 @@
     <div class="flex space-x-6 overflow-x-auto pb-4">
       <template x-for="activity in activities" :key="activity.name">
         <div class="min-w-[220px] bg-white rounded-xl shadow-md p-4 text-center flex-shrink-0">
-          <img :src="activity.img" class="w-full h-32 object-cover rounded-lg mb-3" loading="lazy">
+          <img :src="activity.img" class="w-full h-32 object-cover rounded-lg mb-3" loading="lazy" decoding="async">
           <h4 class="font-semibold" x-text="activity.name"></h4>
           <p class="text-pink-600 font-bold">₹<span x-text="activity.price"></span></p>
 
@@ -341,9 +350,9 @@
       <h2 class="text-3xl md:text-4xl font-bold text-pink-600 mb-6 drop-shadow-sm">Gallery</h2>
       <p class="text-gray-600 mb-6">Take a look at some of our amazing decoration work.</p>
       <div class="grid md:grid-cols-3 gap-4 mb-6">
-        <img src="images/gallery1.jpg" class="rounded shadow w-full h-48 object-cover">
-        <img src="images/gallery2.jpg" class="rounded shadow w-full h-48 object-cover">
-        <img src="images/gallery3.jpg" class="rounded shadow w-full h-48 object-cover">
+        <img src="images/gallery1.jpg" class="rounded shadow w-full h-48 object-cover" loading="lazy" decoding="async">
+        <img src="images/gallery2.jpg" class="rounded shadow w-full h-48 object-cover" loading="lazy" decoding="async">
+        <img src="images/gallery3.jpg" class="rounded shadow w-full h-48 object-cover" loading="lazy" decoding="async">
       </div>
       <a href="gallery.html" class="text-pink-600 font-semibold hover:underline">View Full Gallery →</a>
     </div>

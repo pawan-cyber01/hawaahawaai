@@ -5,6 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Hawaa Hawaai – Admin Panel</title>
+  <meta name="description" content="Premium balloon decoration services for birthdays, anniversaries, baby showers, and events in Delhi NCR. Book expert decorators today!">
+  <meta name="keywords" content="balloon decoration near me, balloon decoration, premium birthday decoration, party decorators, balloon decor">
   <meta name="robots" content="noindex, nofollow">
   <link rel="icon" type="image/png" href="favicon.png">
   <script src="newyear.js"></script>
@@ -2731,7 +2733,7 @@
       container.innerHTML = `<div style="display:flex;flex-direction:column;gap:10px;">${recent.map((s, i) => `
     <div style="display:flex;align-items:center;gap:14px;padding:12px;background:var(--surface2);border-radius:14px;border:1px solid var(--border);">
       <div style="width:50px;height:50px;border-radius:10px;overflow:hidden;flex-shrink:0;background:var(--surface3);display:flex;align-items:center;justify-content:center;">
-        ${s.images && s.images[0] ? `<img src="${s.images[0]}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentNode.innerHTML='🎀'">` : ' <span style="font-size:1.5rem">🎀</span>'}
+        ${s.images && s.images[0] ? `<img src="${s.images[0]}" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentNode.innerHTML='🎀'" loading="lazy" decoding="async">` : ' <span style="font-size:1.5rem">🎀</span>'}
       </div>
       <div style="flex:1;min-width:0;">
         <div style="font-weight:700;font-size:0.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.title}</div>
@@ -2764,7 +2766,7 @@
         return `<div class="item-card">
       ${s.category ? `<div class="item-card-badge">${categoryIcon(s.category)} ${s.category}</div>` : ''}
       ${imgSrc
-            ? `<img class="item-card-img" src="${imgSrc}" alt="${s.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            ? `<img class="item-card-img" src="${imgSrc}" alt="${s.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy" decoding="async">
            <div class="item-card-img-placeholder" style="display:none;">🎀</div>`
             : `<div class="item-card-img-placeholder">🎀</div>`}
       <div class="item-card-body">
@@ -2802,7 +2804,7 @@
         const idx = activities.indexOf(a);
         return `<div class="item-card">
       ${a.img
-            ? `<img class="item-card-img" src="${a.img}" alt="${a.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+            ? `<img class="item-card-img" src="${a.img}" alt="${a.title}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" loading="lazy" decoding="async">
            <div class="item-card-img-placeholder" style="display:none;">🎡</div>`
             : `<div class="item-card-img-placeholder">🎡</div>`}
       <div class="item-card-body">
@@ -3184,7 +3186,7 @@
       grid.innerHTML = list.map((r, idx) => {
         const realIdx = reviews.indexOf(r);
         const initials = r.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-        const avatar = r.photo ? `<img src="${r.photo}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;">` : `<div class="rc-avatar">${initials}</div>`;
+        const avatar = r.photo ? `<img src="${r.photo}" style="width:42px;height:42px;border-radius:50%;object-fit:cover;" loading="lazy" decoding="async">` : `<div class="rc-avatar">${initials}</div>`;
         const srcBadge = r.source === 'google' ? '<span class="review-source-badge">🔵 Google</span>' :
                          r.source === 'facebook' ? '<span class="review-source-badge" style="color:#4267B2;border-color:rgba(66,103,178,0.3);background:rgba(66,103,178,0.12);">📘 Facebook</span>' :
                          r.source === 'instagram' ? '<span class="review-source-badge" style="color:#E1306C;border-color:rgba(225,48,108,0.3);background:rgba(225,48,108,0.12);">📸 Instagram</span>' :
@@ -3328,7 +3330,7 @@
       }
       grid.innerHTML = banners.map((b, i) => {
         const imgHtml = b.img
-          ? `<img class="banner-card-img" src="${b.img}" alt="${b.title}">`
+          ? `<img class="banner-card-img" src="${b.img}" alt="${b.title}" loading="lazy" decoding="async">`
           : `<div class="banner-card-img-ph">🖼️</div>`;
         const statusCls = b.active ? 'active' : '';
         const statusTxt = b.active ? '✅ Active' : '🚫 Inactive';
@@ -3403,7 +3405,7 @@
       if (!grid) return;
       grid.innerHTML = heroBanners.map((h, i) => `
         <div class="banner-card ${h.active ? '' : 'inactive'}">
-          <img class="banner-card-img" src="${h.img || ''}" onerror="this.src='favicon.png'">
+          <img class="banner-card-img" src="${h.img || ''}" onerror="this.src='favicon.png'" loading="lazy" decoding="async">
           <div class="banner-card-body">
             <div class="banner-card-title">${h.title}</div>
             <div class="banner-card-actions">
@@ -3439,7 +3441,7 @@
       if (!grid) return;
       grid.innerHTML = gallery.map((g, i) => `
         <div class="item-card">
-          <img class="item-card-img" src="${g.img}">
+          <img class="item-card-img" src="${g.img}" loading="lazy" decoding="async">
           <div class="item-card-body" style="padding:10px;">
             <span class="item-tag">${g.category}</span>
             <button class="btn btn-danger btn-sm" onclick="gallery.splice(${i},1);saveData();renderGallery();">🗑️ Delete</button>
@@ -3510,7 +3512,7 @@
       const container = document.getElementById(type + 'ImgPreview');
       const div = document.createElement('div');
       div.className = 'upload-thumb';
-      div.innerHTML = `<img src="${src}"><button class="upload-thumb-rm" onclick="this.parentNode.remove()">×</button>`;
+      div.innerHTML = `<img src="${src}" loading="lazy" decoding="async"><button class="upload-thumb-rm" onclick="this.parentNode.remove()">×</button>`;
       container.appendChild(div);
     }
     function addImgUrl(type) {

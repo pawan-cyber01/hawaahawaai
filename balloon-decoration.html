@@ -6,6 +6,7 @@
   <link rel="canonical" href="https://hawaahawaai.com/"/>
   
   <title>Balloon Decoration | Hawaahawaai</title>
+  <meta name="keywords" content="balloon decoration near me, balloon decoration, premium birthday decoration, party decorators, balloon decor">
   
   <!-- SEO Meta Description -->
   <meta name="description" content=" Affordable birthday balloon decoration at home in Delhi NCR. Same-day booking available. Book professional decorators now.">
@@ -156,9 +157,16 @@ home balloon decoration services
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
 
-  </head>
+    <link rel="stylesheet" href="premium.css">
+</head>
 
 <body class="bg-[#faf5f6] text-gray-800 ease-in-out font-['Outfit'] pb-20">
+  <div class="luxury-bg"></div>
+  <div class="luxury-bg-noise"></div>
+  <div class="orbit-3d-bg">
+    <div class="ring-1"><div class="dot"></div></div>
+    <div class="ring-2"><div class="dot"></div></div>
+  </div>
 
   <!-- WhatsApp Floating Button -->
   <a href="https://wa.me/919389835280?text=Hi,%20I%20want%20to%20book%20balloon%20decorations%20for%20my%20event!" target="_blank" class="fixed bottom-24 right-4 bg-green-500 text-white rounded-full p-4 shadow-lg hover:bg-green-600 transition z-50">
@@ -170,7 +178,7 @@ home balloon decoration services
   <div class="container mx-auto flex items-center py-3 px-4">
 
     <!-- Logo -->
-    <img src="favicon.ico" alt="logo" style="width:60px;height:60px;">
+    <img src="favicon.ico" alt="logo" style="width:60px;height:60px;" loading="lazy" decoding="async">
     <h2 class="text-xl font-bold text-pink-600">Hawaa Hawaai Decor</h2>
 
     <!-- Desktop Nav -->
@@ -320,44 +328,44 @@ home balloon decoration services
   <h2>Cities & state</h2>
   <div class="city-container">
     <div class="city-card">
-      <img src="images/gaziabad.webp" alt="Gaziabad">
+      <img src="images/gaziabad.webp" alt="Gaziabad" loading="lazy" decoding="async">
       <h3>Gaziabad</h3>
       <p>Available</p>
     </div>
     <div class="city-card">
-      <img src="images/faridabad.webp" alt="faridabad">
+      <img src="images/faridabad.webp" alt="faridabad" loading="lazy" decoding="async">
       <h3>Faridabad</h3>
       <p>Available</p>
     </div>
     <div class="city-card">
-      <img src="images/gurgaon.webp" alt="gurgaon">
+      <img src="images/gurgaon.webp" alt="gurgaon" loading="lazy" decoding="async">
       <h3>Gurgaon</h3>
       <p>Available</p>
     </div>
     <div class="city-card">
-      <img src="images/noida.webp" alt="Noida">
+      <img src="images/noida.webp" alt="Noida" loading="lazy" decoding="async">
       <h3>Noida</h3>
       <p>Available</p>
     </div>
     
     
     <div class="city-card" style="height: 100px;">
-      <img src="images/ncr.webp" alt="Jaipur">
+      <img src="images/ncr.webp" alt="Jaipur" loading="lazy" decoding="async">
       <h3>Ncr</h3>
       <p>Available</p>
     </div>
     <div class="city-card">
-      <img src="images/delhi.webp" alt="Delhi">
+      <img src="images/delhi.webp" alt="Delhi" loading="lazy" decoding="async">
       <h3>Delhi</h3>
       <p>Available</p>
     </div>
     <div class="city-card">
-      <img src="images/meerut.webp" alt="meerut">
+      <img src="images/meerut.webp" alt="meerut" loading="lazy" decoding="async">
       <h3>Meerut</h3>
       <p>Available</p>
     </div>
     <div class="city-card">
-      <img src="images/6.jpg" alt="more">
+      <img src="images/6.jpg" alt="more" loading="lazy" decoding="async">
       <p><i><b>Availabe soon in your city </b></i></p>
       
     </div>
@@ -710,7 +718,7 @@ home balloon decoration services
       <template x-for="service in services" :key="service.title">
         <div class="bg-white rounded-xl shadow p-6 text-center cursor-pointer hover:shadow-lg transition"
              @click="selected={...service,currentImage:0};openModal=true">
-          <img :src="service.images[0]" :alt="service.title" class="rounded mb-4 w-full h-48 object-cover" loading="lazy">
+          <img :src="service.images[0]" :alt="service.title" class="rounded mb-4 w-full h-48 object-cover" loading="lazy" decoding="async">
           <h4 class="text-xl font-bold mb-2" x-text="service.title"></h4>
           <p class="text-pink-600 font-bold">₹<span x-text="service.price"></span></p>
           <div class="mt-6 inline-block bg-pink-500 text-white font-semibold px-5 py-3 rounded-xl hover:bg-pink-100 transition hover:text-black transition">
@@ -731,7 +739,7 @@ home balloon decoration services
 
         <!-- Image Carousel -->
         <div class="relative">
-          <img :src="selected.images[selected.currentImage]" class="rounded-lg shadow-md w-full max-h-[60vh] object-contain bg-gray-100">
+          <img :src="selected.images[selected.currentImage]" class="rounded-lg shadow-md w-full max-h-[60vh] object-contain bg-gray-100" loading="lazy" decoding="async">
           <button @click="selected.currentImage=(selected.currentImage-1+selected.images.length)%selected.images.length"
                   class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow">‹</button>
           <button @click="selected.currentImage=(selected.currentImage+1)%selected.images.length"
@@ -764,7 +772,7 @@ home balloon decoration services
         <div class="flex space-x-4 overflow-x-auto pb-4">
           <template x-for="activity in activities" :key="activity.title">
             <div class="bg-[#faf5f6] rounded-lg p-3 w-40 flex-shrink-0 text-center shadow">
-              <img :src="activity.img" class="rounded mb-2 h-20 w-full object-cover">
+              <img :src="activity.img" class="rounded mb-2 h-20 w-full object-cover" loading="lazy" decoding="async">
               <p class="font-semibold text-sm" x-text="activity.title"></p>
               <p class="text-pink-600 text-sm">₹<span x-text="activity.price"></span></p>
 
@@ -852,7 +860,7 @@ home balloon decoration services
     <div class="flex space-x-6 overflow-x-auto pb-4">
       <template x-for="activity in activities" :key="activity.name">
         <div class="min-w-[220px] bg-white rounded-xl shadow-md p-4 text-center flex-shrink-0">
-          <img :src="activity.img" class="w-full h-32 object-cover rounded-lg mb-3" loading="lazy">
+          <img :src="activity.img" class="w-full h-32 object-cover rounded-lg mb-3" loading="lazy" decoding="async">
           <h4 class="font-semibold" x-text="activity.name"></h4>
           <p class="text-pink-600 font-bold">₹<span x-text="activity.price"></span></p>
 
@@ -892,9 +900,9 @@ home balloon decoration services
     <p class="text-gray-600 mb-6">A glimpse of our decoration work.</p>
 
     <div class="grid grid-cols-3 gap-3 mb-6">
-      <img src="images/2.jpg" alt="Gallery 1" class="rounded shadow w-full h-24 object-cover">
-      <img src="images/birthday1.jpg" alt="Gallery 2" class="rounded shadow w-full h-24 object-cover">
-      <img src="images/birthday3.jpg" alt="Gallery 3" class="rounded shadow w-full h-24 object-cover">
+      <img src="images/2.jpg" alt="Gallery 1" class="rounded shadow w-full h-24 object-cover" loading="lazy" decoding="async">
+      <img src="images/birthday1.jpg" alt="Gallery 2" class="rounded shadow w-full h-24 object-cover" loading="lazy" decoding="async">
+      <img src="images/birthday3.jpg" alt="Gallery 3" class="rounded shadow w-full h-24 object-cover" loading="lazy" decoding="async">
     </div>
 
     <a href="gallery.html" class="text-pink-600 font-semibold hover:underline">

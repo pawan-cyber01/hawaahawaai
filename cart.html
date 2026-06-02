@@ -1,246 +1,458 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <link rel="canonical" href="https://hawaahawaai.com/cart.html"/>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Hawaa Hawai – Cart</title>
-  
-  <!-- SEO Meta Description -->
-  <meta name="description" content="Hawaa Hawai offers premium balloon decoration services in Delhi NCR, Gurugram, Gurgaon, Noida, Meerut, Haryana & Uttar Pradesh. Perfect for birthdays, weddings, baby showers, surprises & corporate events.">
-  
-  <!-- SEO Keywords -->
-  <meta name="keywords" content="cart for balloon decoration | Hawaa Hawaai Decor">
+  <title>Your Decoration Cart – Hawaa Hawaai</title>
+  <meta name="keywords" content="balloon decoration near me, balloon decoration, premium birthday decoration, party decorators, balloon decor">
+  <meta name="description" content="Review and checkout your selected balloon decoration packages from Hawaa Hawaai.">
   <link rel="icon" type="image/png" href="favicon.png">
-
-  <!-- Social Media SEO (Open Graph) -->
-  <meta property="og:title" content="Hawaa Hawai – Balloon Decoration in Delhi NCR">
-  <meta property="og:description" content="Premium balloon decoration services in Delhi NCR & nearby cities for birthdays, weddings, and events.">
-  <meta property="og:image" content="https://hawaahawaai.com/banner-image.jpg">
-  <meta property="og:type" content="website">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-
-
-  <!-- Google Fonts: Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="premium.css">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+</head>
+<body>
 
+<div class="luxury-bg"></div>
+<div class="luxury-bg-noise"></div>
+<div id="mouse-glow"></div>
 
-  </head>
-<body class="bg-[#faf5f6] text-gray-800 font-['Outfit'] pb-20">
-
-  <!-- Navbar -->
-  <header class="bg-white shadow-md sticky top-0 z-40" x-data="{ open: false }" @keydown.escape="open = false">
-  <div class="container mx-auto flex items-center py-3 px-4">
-
-    <!-- Logo -->
-    <img src="favicon.ico" alt="logo" style="width:60px;height:60px;">
-    <h2 class="text-xl font-bold text-pink-600">Hawaa Hawaai Decor </h2>
-
-    <!-- Desktop Nav -->
-    <nav class="hidden md:flex ml-auto space-x-6 text-base font-semibold">
-      <a href="index.html" class="hover:text-pink-500">Home</a>
-      <a href="index.html#services " class="hover:text-pink-500">Services</a>
-      <a href="gallery.html" class="hover:text-pink-500">Gallery</a>
-      <a href="about.html" class="hover:text-pink-500">About</a>
-      <a href="contact.html" class="hover:text-pink-500">Contact</a>
-    </nav>
+<!-- Marquee Background Layer (Fixed) -->
+<div class="marquee-bg-layer" id="mainMarqueeLayer">
+  <div class="marquee-3d-section">
+    <div class="marquee-3d-container">
+      <div class="marquee-3d-track">
+        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+      </div>
+      <div class="marquee-3d-track" style="margin-left:30px;">
+        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+        <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+      </div>
+    </div>
   </div>
-
-<!-- Bottom Navigation Bar (Transparent BG) -->
-<div class="fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-xl border-t border-pink-100 shadow-[0_-10px_15px_-3px_rgba(0,0,0,0.1)] flex justify-around items-center py-2 px-4 md:hidden z-[9999] m-0 pb-[env(safe-area-inset-bottom)]" style="height: 65px;">
-
-  <!-- Home -->
-  <a href="index.html" class="nav-link flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-yellow-500 transition w-full" data-page="index.html">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mb-1" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M3 12l9-9 9 9v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9z"/>
-    </svg>
-    <span class="text-xs font-medium">Home</span>
-  </a>
-
-  <!-- Services -->
-  <a href="index.html#services" class="nav-link flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-yellow-500 transition w-full" data-page="services.html">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mb-1" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h10v2H4z"/>
-    </svg>
-    <span class="text-xs font-medium">Services</span>
-  </a>
-
-  <!-- Gallery -->
-  <a href="gallery.html" class="nav-link flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-yellow-500 transition w-full" data-page="index.html#services">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mb-1" fill="currentColor" viewBox="0 0 24 24">
-      <rect x="3" y="4" width="18" height="16" rx="3" ry="3" fill="none" stroke="currentColor" stroke-width="2"/>
-      <path d="M8 15l3-3 4 4 3-3 3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-      <circle cx="9" cy="9" r="1.5" fill="currentColor"/>
-    </svg>
-    <span class="text-xs font-medium">Gallery</span>
-  </a>
-
-  <!-- About -->
-  <a href="about.html" class="nav-link flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-yellow-500 transition w-full" data-page="about.html">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mb-1" fill="currentColor" viewBox="0 0 24 24">
-      <path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/>
-    </svg>
-    <span class="text-xs font-medium">About</span>
-  </a>
-
-  <!-- Contact -->
-  <a href="contact.html" class="nav-link flex flex-col items-center justify-center p-2 rounded-xl text-gray-400 hover:text-yellow-500 transition w-full" data-page="contact.html">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-            d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.68l1.52 4.55a1 1 0 01-.5 1.21l-2.28 1.14a11.05 11.05 0 005.52 5.52l1.14-2.28a1 1 0 011.21-.5l4.55 1.52a1 1 0 01.68.95V19a2 2 0 01-2 2H19C9.16 21 2 13.84 2 5V5z"/>
-    </svg>
-    <span class="text-xs font-medium">Contact</span>
-  </a>
 </div>
 
-<script>
-  // Highlight active nav link based on current URL
-  const currentPath = window.location.pathname.split("/").pop() + window.location.hash;
-  document.querySelectorAll(".nav-link").forEach(link => {
-    if (link.getAttribute("data-page") === currentPath || link.getAttribute("href") === currentPath) {
-      link.classList.remove("text-gray-400");
-      link.classList.add("text-yellow-500");
-    }
-  });
-</script>
+<div class="particles-container" id="particlesContainer"></div>
 
+<div id="preloader">
+  <div class="preloader-logo">Hawaa Hawaai</div>
+  <div class="preloader-ring"></div>
+</div>
 
+<!-- Navbar -->
+<nav class="nav-luxury" id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <img src="favicon.png" alt="Hawaa Hawaai Logo" loading="lazy" decoding="async">
+    <span class="nav-logo-text">Hawaa Hawaai</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link-item">Home</a>
+    <a href="gallery.html" class="nav-link-item">Gallery</a>
+    <a href="about.html" class="nav-link-item">About</a>
+    <a href="contact.html" class="nav-link-item">Contact</a>
+    <a href="cart.html" class="nav-cart-btn active">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6h12.8l1.2-6H7z"/></svg>
+      Cart <span class="cart-badge" id="cartCountDesktop">0</span>
+    </a>
+  </div>
+  <a href="index.html" class="nav-cta">+ Add More</a>
+</nav>
 
-  <!-- Lock body scroll when open -->
-  <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('nav', () => ({
-        open: false,
-        init() {
-          this.$watch('open', value => {
-            document.body.style.overflow = value ? 'hidden' : '';
-          });
-        }
-      }));
-    });
-  </script>
-</header>
+<!-- Mobile Bottom Nav -->
+<nav class="mobile-nav">
+  <a href="index.html" class="mobile-nav-item ripple-btn">
+    <svg fill="currentColor" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9z"/></svg>
+    <span>Home</span>
+  </a>
+  <a href="cart.html" class="mobile-nav-item active ripple-btn" style="position:relative;">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6h12.8l1.2-6H7z"/></svg>
+    <span>Cart</span>
+    <span class="mobile-cart-badge" id="cartCountMobile">0</span>
+  </a>
+  <button type="button" class="mobile-nav-item ripple-btn" id="mobileMenuBtn" style="background:none;border:none;font-family:inherit;">
+    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    <span>Menu</span>
+  </button>
+</nav>
 
-
-
-
-  <!-- Push content below navbar -->
-  <div class="h-16"></div>
-
-  <!-- Cart -->
-  <main class="flex-1 container mx-auto px-4 py-6">
-    <div class="bg-white rounded-2xl shadow-xl p-5 sm:p-8">
-      <h2 class="text-2xl font-bold mb-6 text-center text-pink-600" style="font-family:cursive;">🛒 Your Cart</h2>
-      <div id="cartItems" class="space-y-4"></div>
+<!-- Page Hero -->
+<section class="hero-section" id="heroSection" style="min-height:30vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:100px 24px 40px;position:relative;">
+  <div style="position:absolute;top:40%;left:50%;transform:translateX(-50%);width:300px;height:150px;background:radial-gradient(ellipse,rgba(168,85,247,0.08),transparent 70%);pointer-events:none;"></div>
+  
+  <!-- 3D Orbiting Hero Rings -->
+  <div class="hero-orbit-container">
+    <div class="hero-orbit-ring ring-1">
+      <div class="orbit-planet" style="background:#a855f7;box-shadow:0 0 20px #a855f7;"></div>
     </div>
-  </main>
-
-  <!-- Desktop Checkout -->
-  <div class="hidden md:flex justify-between items-center container mx-auto px-4 mt-4 mb-6" style="border-radius: 20px; border: 2px solid rgb(240, 74, 148); padding: 10px; background-color: white;">
-    <p class="font-bold text-lg">Total: <span id="cartTotal">₹0</span></p>
-    <a id="checkoutBtn" target="_blank"
-       class="bg-pink-600 text-white px-6 py-3 rounded-xl hover:bg-pink-200 hover:text-black transition shadow-md">
-      ✅ Checkout on WhatsApp
-    </a>
+    <div class="hero-orbit-ring ring-2">
+      <div class="orbit-planet" style="background:#ec4899;box-shadow:0 0 20px #ec4899;width:15px;height:15px;top:-7.5px;"></div>
+    </div>
+    <div class="hero-orbit-ring ring-3">
+      <div class="orbit-planet" style="background:#60a5fa;box-shadow:0 0 20px #60a5fa;width:25px;height:25px;top:-12.5px;"></div>
+    </div>
   </div>
 
-  <!-- Mobile Sticky Checkout -->
-  <div class="md:hidden fixed bottom-16 left-0 right-0 bg-white/95 border-t shadow-lg p-4 flex justify-between items-center z-30" style="border-radius: 20px; border: 2px solid rgb(240, 74, 148);">
-    <p class="font-bold text-lg">Total: <span id="cartTotalMobile">₹0</span></p>
-    <a id="checkoutBtnMobile" target="_blank"
-       class="bg-pink-500 text-white px-5 py-2 rounded-xl hover:bg-pink-600 transition shadow-md">
-      ✅ Book Now
-    </a>
+  <div style="position:relative;z-index:1;" class="hero-content-3d">
+    <span class="section-label">🛒 Your Selection</span>
+    <h1 class="section-title" style="font-size:clamp(28px,5vw,56px);margin-bottom:8px;">Event <span class="grad">Cart</span></h1>
+    <p style="color:var(--text-secondary);font-size:15px;">Review your selected packages and send your booking to WhatsApp</p>
   </div>
+</section>
 
+<!-- Cart Alpine Component -->
+<div x-data="{
+  cart:[],
+  name:'',phone:'',date:'',notes:'',
+  init(){this.loadCart();},
+  loadCart(){
+    const raw=JSON.parse(localStorage.getItem('cart'))||[];
+    this.cart=raw.map(i=>({...i,qty:i.qty||1}));
+    this.updateBadges();
+  },
+  get total(){return this.cart.reduce((s,i)=>s+i.price*i.qty,0);},
+  get itemCount(){return this.cart.reduce((s,i)=>s+i.qty,0);},
+  changeQty(item,delta){
+    item.qty=Math.max(0,item.qty+delta);
+    if(item.qty===0){this.cart=this.cart.filter(i=>i.name!==item.name);}
+    this.saveCart();
+  },
+  removeItem(item){this.cart=this.cart.filter(i=>i.name!==item.name);this.saveCart();},
+  clearCart(){if(confirm('Clear entire cart?')){this.cart=[];this.saveCart();}},
+  saveCart(){localStorage.setItem('cart',JSON.stringify(this.cart));this.updateBadges();},
+  updateBadges(){
+    const c=this.cart.reduce((s,i)=>s+i.qty,0);
+    ['cartCountDesktop','cartCountMobile'].forEach(id=>{
+      const el=document.getElementById(id);if(el)el.textContent=c;
+    });
+  },
+  sendToWA(){
+    if(!this.cart.length){alert('Your cart is empty!');return;}
+    if(!this.name||!this.phone||!this.date){alert('Please fill in your name, phone number, and event date.');return;}
+    let msg='Hi Hawaa Hawaai! 🎈 I want to book the following:\n\n';
+    this.cart.forEach(item=>{msg+=`• ${item.name} x${item.qty} = ₹${(item.price*item.qty).toLocaleString()}\n`;});
+    msg+=`\n💰 Total: ₹${this.total.toLocaleString()}\n\n👤 Name: ${this.name}\n📞 Phone: ${this.phone}\n📅 Event Date: ${this.date}`;
+    if(this.notes)msg+=`\n📝 Notes: ${this.notes}`;
+    window.open('https://wa.me/919389835280?text='+encodeURIComponent(msg),'_blank');
+  }
+}" x-init="init()" style="max-width:1200px;margin:0 auto;padding:0 24px 80px;display:grid;grid-template-columns:1fr 380px;gap:28px;align-items:start;" id="cartComponent">
 
-  <script>
-  function loadCart() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    let container = document.getElementById('cartItems');
-    let total = 0;
-    container.innerHTML = '';
+  <!-- Cart Items Column -->
+  <div>
+    <!-- Empty State -->
+    <div x-show="!cart.length" style="text-align:center;padding:80px 24px;">
+      <div style="font-size:64px;margin-bottom:20px;opacity:0.5;">🎈</div>
+      <h2 style="font-size:22px;font-weight:700;color:var(--text-secondary);margin-bottom:12px;">Your cart is empty</h2>
+      <p style="color:var(--text-muted);font-size:14px;margin-bottom:28px;">Browse our amazing decoration packages and add them to your cart!</p>
+      <a href="index.html#services" class="btn-primary" style="margin:0 auto;">✨ Explore Services</a>
+    </div>
 
-    if (cart.length === 0) {
-      container.innerHTML = '<p class="text-gray-500 text-center">Your cart is empty.</p>';
-    }
+    <!-- Cart Items -->
+    <div x-show="cart.length" style="display:flex;flex-direction:column;gap:12px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+        <h2 style="font-weight:700;font-size:18px;" x-text="`${itemCount} item${itemCount!==1?'s':''} selected`"></h2>
+        <button @click="clearCart()" style="font-size:12px;color:var(--accent-pink);background:none;border:none;cursor:pointer;padding:6px 12px;border-radius:20px;border:1px solid rgba(236,72,153,0.2);">🗑 Clear All</button>
+      </div>
 
-    cart.forEach((item, i) => {
-      // ✅ Fix: use item.title instead of item.name
-      let subTotal = item.price * item.qty;
-      total += subTotal;
-
-      container.innerHTML += `
-        <div class="bg-[#faf5f6] rounded-xl shadow-md p-4 flex justify-between items-center">
-          <div>
-            <p class="font-semibold text-gray-800">${item.name}</p>
-            <p class="text-sm text-gray-500">₹${item.price} x ${item.qty} = <b>₹${subTotal}</b></p>
+      <template x-for="item in cart" :key="item.name">
+        <div class="cart-item-luxury">
+          <!-- Thumbnail -->
+          <div style="width:72px;height:72px;border-radius:12px;overflow:hidden;flex-shrink:0;background:rgba(168,85,247,0.1);border:1px solid var(--border-subtle);">
+            <img :src="item.img||''" :alt="item.name" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none'" loading="lazy" decoding="async">
           </div>
-          <div class="flex space-x-2 items-center">
-            <button onclick="changeQty(${i},-1)" class="px-3 py-1 bg-gray-300 text-gray-800 rounded-lg">-</button>
-            <span class="font-bold">${item.qty}</span>
-            <button onclick="changeQty(${i},1)" class="px-3 py-1 bg-pink-500 text-white rounded-lg">+</button>
-            <button onclick="removeItem(${i})" class="ml-2 px-3 py-1 bg-red-500 text-white rounded-lg">🗑</button>
+
+          <!-- Info -->
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:700;font-size:15px;color:var(--text-primary);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" x-text="item.name"></div>
+            <div style="font-size:13px;color:var(--text-secondary);">₹<span x-text="item.price.toLocaleString()"></span> each</div>
+          </div>
+
+          <!-- Qty Controls -->
+          <div class="qty-control" style="gap:10px;flex-shrink:0;">
+            <button @click="changeQty(item,-1)" class="qty-btn">−</button>
+            <span class="qty-value" x-text="item.qty"></span>
+            <button @click="changeQty(item,1)" class="qty-btn">+</button>
+          </div>
+
+          <!-- Line Total -->
+          <div style="min-width:90px;text-align:right;flex-shrink:0;">
+            <div style="font-weight:800;font-size:16px;" class="text-grad">₹<span x-text="(item.price*item.qty).toLocaleString()"></span></div>
+            <button @click="removeItem(item)" style="font-size:11px;color:var(--text-muted);background:none;border:none;cursor:pointer;margin-top:4px;">Remove</button>
           </div>
         </div>
-      `;
+      </template>
+
+      <!-- Continue Shopping -->
+      <div style="margin-top:12px;">
+        <a href="index.html#services" class="btn-glass" style="width:100%;justify-content:center;">
+          ← Continue Adding Items
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout Panel -->
+  <div x-show="cart.length" style="position:sticky;top:90px;">
+    <!-- Order Summary -->
+    <div class="glass-card tilt-card" style="border-color:rgba(168,85,247,0.2);margin-bottom:16px;"><div class="tilt-shine"></div>
+      <h3 style="font-weight:700;font-size:16px;margin-bottom:16px;color:var(--text-primary);">Order Summary</h3>
+
+      <template x-for="item in cart" :key="item.name">
+        <div style="display:flex;justify-content:space-between;font-size:13px;color:var(--text-secondary);margin-bottom:8px;gap:8px;">
+          <span x-text="`${item.name} ×${item.qty}`" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;"></span>
+          <span style="flex-shrink:0;font-weight:600;color:var(--text-primary);">₹<span x-text="(item.price*item.qty).toLocaleString()"></span></span>
+        </div>
+      </template>
+
+      <div class="gradient-divider" style="margin:12px 0;"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-weight:700;color:var(--text-primary);">Total</span>
+        <span style="font-size:22px;font-weight:900;" class="text-grad">₹<span x-text="total.toLocaleString()"></span></span>
+      </div>
+      <p style="font-size:11px;color:var(--text-muted);margin-top:8px;">Final price subject to confirmation after site visit.</p>
+    </div>
+
+    <!-- Booking Details Form -->
+    <div class="glass-card tilt-card" style="border-color:rgba(168,85,247,0.2);margin-bottom:16px;"><div class="tilt-shine"></div>
+      <h3 style="font-weight:700;font-size:16px;margin-bottom:16px;color:var(--text-primary);">Your Details</h3>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div>
+          <label class="input-label">Your Name *</label>
+          <input type="text" x-model="name" placeholder="Full name" class="input-luxury">
+        </div>
+        <div>
+          <label class="input-label">Phone / WhatsApp *</label>
+          <input type="tel" x-model="phone" placeholder="+91 XXXXXXXXXX" class="input-luxury">
+        </div>
+        <div>
+          <label class="input-label">Event Date *</label>
+          <input type="date" x-model="date" class="input-luxury">
+        </div>
+        <div>
+          <label class="input-label">Additional Notes</label>
+          <textarea x-model="notes" placeholder="Event address, theme preferences, time..." class="input-luxury" style="height:70px;"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Checkout Button -->
+    <button @click="sendToWA()" class="btn-wa" style="width:100%;justify-content:center;font-size:16px;padding:16px;">
+      <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20.52 3.48A11.9 11.9 0 0012 0C5.37 0 .06 5.31 0 11.93c0 2.1.55 4.17 1.59 5.99L0 24l6.3-1.65a12 12 0 0011.4-2.86c5.05-5.05 5.05-13.26 0-18.31z"/></svg>
+      Send Booking to WhatsApp
+    </button>
+
+    <div style="text-align:center;margin-top:12px;display:flex;align-items:center;gap:6px;justify-content:center;">
+      <span style="font-size:11px;color:var(--text-muted);">🔒 Secure &amp; Private</span>
+      <span style="color:var(--border-glass);">·</span>
+      <span style="font-size:11px;color:var(--text-muted);">No payment until confirmed</span>
+    </div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer-luxury">
+  <div class="footer-glow">
+    <div class="footer-brand">Hawaa Hawaai Decor</div>
+    <div class="footer-tagline">Delhi NCR's Premium Balloon Decoration Studio</div>
+    <div class="footer-links">
+      <a href="index.html" class="footer-link">Home</a>
+      <a href="gallery.html" class="footer-link">Gallery</a>
+      <a href="about.html" class="footer-link">About</a>
+      <a href="contact.html" class="footer-link">Contact</a>
+    </div>
+    <div class="footer-copy">© 2025 Hawaa Hawaai Decors. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- Mobile Bottom Drawer -->
+<div class="mobile-drawer-overlay" id="drawerOverlay"></div>
+<div class="mobile-drawer" id="bottomDrawer">
+  <div class="drawer-drag-handle"></div>
+  <div style="margin-bottom:20px;text-align:center;">
+    <h3 style="margin:0;font-size:18px;font-weight:700;">Quick Menu</h3>
+  </div>
+  <div class="drawer-menu-grid">
+    <a href="gallery.html" class="drawer-menu-item ripple-btn">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 15l3-3 4 4 3-3 3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="1.5"/></svg>
+      Gallery
+    </a>
+    <a href="about.html" class="drawer-menu-item ripple-btn">
+      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></svg>
+      About Us
+    </a>
+    <a href="contact.html" class="drawer-menu-item ripple-btn">
+      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.68l1.52 4.55a1 1 0 01-.5 1.21l-2.28 1.14a11.05 11.05 0 005.52 5.52l1.14-2.28a1 1 0 011.21-.5l4.55 1.52a1 1 0 01.68.95V19a2 2 0 01-2 2H19C9.16 21 2 13.84 2 5V5z"/></svg>
+      Contact
+    </a>
+    <a href="https://wa.me/919389835280" target="_blank" class="drawer-menu-item ripple-btn" style="background:rgba(37,211,102,0.1);border-color:rgba(37,211,102,0.3);">
+      <svg width="24" height="24" fill="#25D366" viewBox="0 0 24 24"><path d="M20.52 3.48A11.9 11.9 0 0012 0C5.37 0 .06 5.31 0 11.93c0 2.1.55 4.17 1.59 5.99L0 24l6.3-1.65a12 12 0 0011.4-2.86c5.05-5.05 5.05-13.26 0-18.31z"/></svg>
+      <span style="color:#25D366;">WhatsApp</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  @media (max-width:768px) {
+    #cartComponent { grid-template-columns:1fr; }
+    .cart-item-luxury { 
+      flex-wrap: wrap; 
+      gap: 12px;
+      padding: 12px;
+    }
+    .cart-item-luxury > div:nth-child(2) { 
+      flex: 1 1 50%; 
+    }
+    .cart-item-luxury > div:nth-child(3) { 
+      margin-left: auto; 
+    }
+    .cart-item-luxury > div:nth-child(4) { 
+      width: 100%; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-top: 1px solid rgba(255,255,255,0.06); 
+      padding-top: 8px; 
+    }
+    .cart-item-luxury > div:nth-child(4) > div {
+      font-size: 18px !important;
+    }
+    .cart-item-luxury > div:nth-child(4) > button {
+      margin-top: 0 !important;
+    }
+  }
+</style>
+
+<script>
+window.addEventListener('load',()=>{const p=document.getElementById('preloader');if(p){p.classList.add('fade-out');setTimeout(()=>p.style.display='none',600);}});
+function updateCartCount(){const cart=JSON.parse(localStorage.getItem('cart'))||[];const c=cart.reduce((s,i)=>s+i.qty,0);['cartCountDesktop','cartCountMobile'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=c;});}
+updateCartCount();window.addEventListener('storage',updateCartCount);
+const nav=document.getElementById('mainNav');window.addEventListener('scroll',()=>{if(nav)nav.classList.toggle('scrolled',window.scrollY>80);});
+const glowEl=document.getElementById('mouse-glow');if(glowEl)document.addEventListener('mousemove',e=>{glowEl.style.left=e.clientX+'px';glowEl.style.top=e.clientY+'px';});
+const pc=document.getElementById('particlesContainer');if(pc){for(let i=0;i<8;i++){const p=document.createElement('div');p.className='particle';const s=Math.random()*3+1;const c=['rgba(168,85,247,0.4)','rgba(236,72,153,0.4)'];p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;background:${c[Math.floor(Math.random()*c.length)]};`;pc.appendChild(p);}}
+
+/* ── Mobile Touch Ripple Effect ── */
+document.querySelectorAll('.ripple-btn, .btn-primary, .btn-luxury, .btn-glass, .btn-wa, .qty-btn').forEach(btn => {
+  btn.addEventListener('click', function(e) {
+    let ripple = document.createElement('span');
+    ripple.classList.add('ripple');
+    this.appendChild(ripple);
+    let rect = this.getBoundingClientRect();
+    let size = Math.max(rect.width, rect.height);
+    let x = e.clientX ? e.clientX - rect.left - size/2 : rect.width/2 - size/2;
+    let y = e.clientY ? e.clientY - rect.top - size/2 : rect.height/2 - size/2;
+    ripple.style.width = ripple.style.height = `${size}px`;
+    ripple.style.left = `${x}px`;
+    ripple.style.top = `${y}px`;
+    setTimeout(() => ripple.remove(), 600);
+  });
+});
+
+/* ── Mobile Bottom Drawer ── */
+(function(){
+  const btn = document.getElementById('mobileMenuBtn');
+  const overlay = document.getElementById('drawerOverlay');
+  const drawer = document.getElementById('bottomDrawer');
+  if(btn && overlay && drawer){
+    const openDrawer = () => { overlay.classList.add('active'); drawer.classList.add('active'); };
+    const closeDrawer = () => { overlay.classList.remove('active'); drawer.classList.remove('active'); };
+    btn.addEventListener('click', openDrawer);
+    overlay.addEventListener('click', closeDrawer);
+    let startY = 0;
+    drawer.addEventListener('touchstart', e => startY = e.touches[0].clientY);
+    drawer.addEventListener('touchmove', e => {
+      const y = e.touches[0].clientY;
+      if (y - startY > 50) closeDrawer();
     });
+  }
+})();
 
-    // ✅ Update Total in both Desktop + Mobile
-    document.getElementById('cartTotal').innerText = '₹' + total;
-    if (document.getElementById('cartTotalMobile')) {
-      document.getElementById('cartTotalMobile').innerText = '₹' + total;
-    }
+/* ── Scroll to End Marquee Layer ── */
+(function(){
+  const marqueeLayer = document.getElementById('mainMarqueeLayer');
+  if(marqueeLayer){
+    window.addEventListener('scroll', () => {
+      const scrolledToBottom = (window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 50);
+      if(scrolledToBottom) marqueeLayer.classList.add('forward');
+      else marqueeLayer.classList.remove('forward');
+    }, { passive: true });
+  }
+})();
 
-    // ✅ WhatsApp message
-    let whatsappMsg = encodeURIComponent(
-      'I want to book the following:\n' +
-      cart.map(i => `${i.name} - ₹${i.price} x ${i.qty} = ₹${i.price * i.qty}`).join('\n') +
-      `\n\nTotal: ₹${total}`
-    );
-
-    if (document.getElementById('checkoutBtn')) {
-      document.getElementById('checkoutBtn').href = "https://wa.me/9389835280?text=" + whatsappMsg;
-    }
-    if (document.getElementById('checkoutBtnMobile')) {
-      document.getElementById('checkoutBtnMobile').href = "https://wa.me/9389835280?text=" + whatsappMsg;
-    }
+/* ── Hero & 3D Card Tilt ── */
+(function(){
+  const heroContent = document.querySelector('.hero-content-3d');
+  const heroSection = document.getElementById('heroSection');
+  if(heroSection && heroContent){
+    heroSection.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20; 
+      const y = -(e.clientY / window.innerHeight - 0.5) * 20; 
+      heroContent.style.transform = `perspective(1000px) rotateY(${x}deg) rotateX(${y}deg) translateZ(20px)`;
+    });
+    heroSection.addEventListener('mouseleave', () => {
+      heroContent.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0)`;
+    });
   }
 
-  function changeQty(i, delta) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart[i].qty += delta;
-    if (cart[i].qty <= 0) {
-      cart.splice(i, 1);
-    }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    loadCart();
+  function applyTilt(card, e){
+    const rect  = card.getBoundingClientRect();
+    const cx    = rect.left + rect.width  / 2;
+    const cy    = rect.top  + rect.height / 2;
+    const mx    = e.clientX - cx;
+    const my    = e.clientY - cy;
+    const maxT  = 14; 
+    const tiltY =  (mx / (rect.width  / 2)) * maxT;
+    const tiltX = -(my / (rect.height / 2)) * maxT;
+    card.style.transform = `perspective(900px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) scale3d(1.03,1.03,1.03)`;
+    card.style.boxShadow = `${-tiltY * 1.5}px ${tiltX * 1.5}px 40px rgba(168,85,247,0.25), 0 30px 60px rgba(0,0,0,0.5)`;
+    const shine = card.querySelector('.tilt-shine');
+    if(shine){ shine.style.setProperty('--shine-x', ((e.clientX - rect.left) / rect.width * 100).toFixed(1)+'%'); shine.style.setProperty('--shine-y', ((e.clientY - rect.top) / rect.height * 100).toFixed(1)+'%'); }
   }
+  function resetTilt(card){ card.style.transform = ''; card.style.boxShadow = ''; }
+  
+  document.addEventListener('mousemove', e => {
+    document.querySelectorAll('.tilt-card').forEach(card => {
+      const rect = card.getBoundingClientRect();
+      if(e.clientX >= rect.left && e.clientX <= rect.right && e.clientY >= rect.top && e.clientY <= rect.bottom){
+        applyTilt(card, e);
+      }
+    });
+  });
+  document.addEventListener('mouseleave', () => document.querySelectorAll('.tilt-card').forEach(resetTilt));
 
-  function removeItem(i) {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    cart.splice(i, 1);
-    localStorage.setItem('cart', JSON.stringify(cart));
-    loadCart();
+  if (window.DeviceOrientationEvent) {
+    window.addEventListener('deviceorientation', (e) => {
+      if(e.beta === null || e.gamma === null) return;
+      let x = Math.max(-20, Math.min(20, e.gamma)); 
+      let y = Math.max(-20, Math.min(20, e.beta - 45)); 
+      if(heroContent) heroContent.style.transform = `perspective(1000px) rotateY(${x * 0.5}deg) rotateX(${-y * 0.5}deg) translateZ(20px)`;
+      document.querySelectorAll('.tilt-card').forEach(card => {
+        card.style.transform = `perspective(900px) rotateY(${x * 0.5}deg) rotateX(${-y * 0.5}deg) scale3d(1.03,1.03,1.03)`;
+      });
+    });
   }
-
-  window.onload = loadCart;
+})();
 </script>
-
-
-
-  <!-- Footer -->
-  <footer class="bg-white text-center py-6"style="margin-top: 20px;margin-bottom:45px;padding:-10px;">
-        <p class="text-gray-500">&copy; 2025 Hawaa Hawaai Decors. All rights reserved.</p>
-  </footer>
-
-  <!-- AOS Animation Script -->
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>AOS.init();</script>
 </body>
 </html>
