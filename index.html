@@ -338,6 +338,194 @@
     </div>
   </section>
 
+  <!-- ═══ SERVICES SECTION ═══ -->
+  <section id="services" style="padding:80px 24px;">
+    <div style="max-width:1280px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:48px;" class="reveal">
+        <span class="section-label">🎈 Our Collection</span>
+        <h2 class="section-title">Premium Decoration <span class="grad">Services</span></h2>
+        <p class="section-subtitle" style="margin:0 auto;">Handcrafted balloon experiences for every occasion</p>
+      </div>
+
+      <!-- Alpine Component -->
+      <div x-data="{
+      openModal:false,
+      selected:{title:'',price:0,desc:'',features:[],images:[],currentImage:0,qty:0},
+      services:[],
+      activities:[],
+      activeFilter:'all',
+      async init(){
+        this.services = await _getServices();
+        this.activities = await _getActivities();
+      },
+      get filtered(){
+        if(this.activeFilter==='all') return this.services;
+        return this.services.filter(s=>s.category===this.activeFilter);
+      },
+      addToCart(item){
+        let cart=JSON.parse(localStorage.getItem('cart'))||[];
+        let existing=cart.find(i=>i.name===item.title);
+        if(existing){existing.qty++;item.qty=existing.qty;}
+        else{cart.push({name:item.title,price:item.price,qty:1,img:item.images?item.images[0]:item.img});item.qty=1;}
+        localStorage.setItem('cart',JSON.stringify(cart));
+        updateCartCount();
+      },
+      updateQty(item,delta){
+        let cart=JSON.parse(localStorage.getItem('cart'))||[];
+        let existing=cart.find(i=>i.name===item.title);
+        if(existing){
+          existing.qty+=delta;
+          if(existing.qty<=0){cart=cart.filter(i=>i.name!==item.title);item.qty=0;}
+          else{item.qty=existing.qty;}
+          localStorage.setItem('cart',JSON.stringify(cart));
+          updateCartCount();
+        }
+      },
+      removeItem(item){
+        let cart=JSON.parse(localStorage.getItem('cart'))||[];
+        cart=cart.filter(i=>i.name!==item.title);
+        item.qty=0;
+        localStorage.setItem('cart',JSON.stringify(cart));
+        updateCartCount();
+      }
+    }">
+
+        <!-- Filter Buttons -->
+        <div class="filter-group" style="margin-bottom:36px;" x-init="">
+          <button class="filter-btn" :class="activeFilter==='all'?'active':''" @click="activeFilter='all'">All</button>
+          <button class="filter-btn" :class="activeFilter==='birthday'?'active':''" @click="activeFilter='birthday'">🎂
+            Birthday</button>
+          <button class="filter-btn" :class="activeFilter==='anniversary'?'active':''"
+            @click="activeFilter='anniversary'">💍 Anniversary</button>
+          <button class="filter-btn" :class="activeFilter==='babyshower'?'active':''"
+            @click="activeFilter='babyshower'">👶 Baby Shower</button>
+          <button class="filter-btn" :class="activeFilter==='kids'?'active':''" @click="activeFilter='kids'">🧸 Kids
+            Theme</button>
+          <button class="filter-btn" :class="activeFilter==='other'?'active':''" @click="activeFilter='other'">✨
+            Other</button>
+        </div>
+
+        <!-- Service Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
+          <template x-for="service in filtered" :key="service.title">
+            <div class="service-card tilt-card" @click="service.customLink ? window.location.href = service.customLink : (selected={...service,currentImage:0}, openModal=true)">
+              <!-- Shine overlay for tilt effect -->
+              <div class="tilt-shine"></div>
+              <div style="overflow:hidden;height:220px;position:relative;">
+                <img :src="service.images[0]" :alt="service.title" class="service-card-img" loading="lazy" decoding="async">
+                <!-- Gradient overlay on image -->
+                <div
+                  style="position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,rgba(12,12,24,0.9),transparent);pointer-events:none;">
+                </div>
+              </div>
+              <div class="service-card-body">
+                <div class="service-card-title" x-text="service.title"></div>
+                <div class="price-tag-3d">₹<span x-text="service.price.toLocaleString()"></span></div>
+                <button class="btn-primary btn-sm" style="width:100%;justify-content:center;">
+                  📩 View & Book
+                </button>
+              </div>
+            </div>
+          </template>
+        </div>
+
+        <!-- Modal -->
+        <div x-show="openModal" x-transition.opacity style="display:none;" class="modal-overlay"
+          @click.self="openModal=false">
+          <div class="modal-box" x-show="openModal" @click.away="openModal=false">
+            <button class="modal-close" @click="openModal=false">✕</button>
+
+            <div style="padding:28px;">
+              <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;"
+                x-text="selected.title"></h2>
+              <div class="service-card-price" style="margin-bottom:16px;">₹<span
+                  x-text="selected.price.toLocaleString()"></span></div>
+
+              <!-- Image Carousel -->
+              <div style="position:relative;border-radius:16px;overflow:hidden;margin-bottom:20px;">
+                <img :src="selected.images[selected.currentImage]"
+                  style="width:100%;max-height:320px;object-fit:contain;background:#0a0a14;display:block;" loading="lazy" decoding="async">
+                <button
+                  @click="selected.currentImage=(selected.currentImage-1+selected.images.length)%selected.images.length"
+                  style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;">‹</button>
+                <button @click="selected.currentImage=(selected.currentImage+1)%selected.images.length"
+                  style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;">›</button>
+              </div>
+
+              <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;line-height:1.7;"
+                x-text="selected.desc"></p>
+
+              <div style="margin-bottom:20px;">
+                <div
+                  style="font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">
+                  What's Included</div>
+                <template x-for="feat in selected.features" :key="feat">
+                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+                    <span
+                      style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#ec4899);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;">✓</span>
+                    <span style="font-size:14px;color:var(--text-secondary);" x-text="feat"></span>
+                  </div>
+                </template>
+              </div>
+
+              <!-- Cart Controls -->
+              <div x-show="!selected.qty" style="display:flex;gap:10px;">
+                <button @click.stop="addToCart(selected)" class="btn-primary" style="flex:1;justify-content:center;">
+                  🛒 Add to Cart
+                </button>
+                <a :href="'https://wa.me/919389835280?text='+encodeURIComponent('Hi! I want to book '+selected.title+' for ₹'+selected.price)"
+                  target="_blank" class="btn-wa">
+                  <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
+                    <path
+                      d="M20.52 3.48A11.9 11.9 0 0012 0C5.37 0 .06 5.31 0 11.93c0 2.1.55 4.17 1.59 5.99L0 24l6.3-1.65a12 12 0 0011.4-2.86c5.05-5.05 5.05-13.26 0-18.31z" />
+                  </svg>
+                  Book Now
+                </a>
+              </div>
+              <div x-show="selected.qty" class="qty-control" style="justify-content:center;flex-wrap:wrap;gap:12px;">
+                <button @click.stop="updateQty(selected,-1)" class="qty-btn">−</button>
+                <span class="qty-value" x-text="selected.qty"></span>
+                <button @click.stop="updateQty(selected,1)" class="qty-btn">+</button>
+                <button @click.stop="removeItem(selected)"
+                  style="padding:8px 14px;border-radius:20px;background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.3);color:#ec4899;cursor:pointer;font-size:13px;">Remove</button>
+              </div>
+
+              <!-- Add-on Activities -->
+              <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);">
+                <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:14px;">✨ Add-on
+                  Activities</div>
+                <div class="activities-scroll">
+                  <template x-for="activity in activities" :key="activity.title">
+                    <div class="activity-card">
+                      <img :src="activity.img" :alt="activity.title" loading="lazy" decoding="async">
+                      <div class="activity-card-body">
+                        <div class="activity-card-title" x-text="activity.title"></div>
+                        <div class="activity-card-price">₹<span x-text="activity.price.toLocaleString()"></span><span
+                            x-show="activity.unit"
+                            style="font-size:10px;color:var(--text-muted);font-weight:400;-webkit-text-fill-color:initial;background:none;"
+                            x-text="' / '+activity.unit"></span></div>
+                        <div x-show="!activity.qty" style="margin-top:8px;">
+                          <button @click.stop="addToCart(activity)" class="btn-primary btn-sm"
+                            style="width:100%;justify-content:center;padding:6px 12px;font-size:12px;">Add</button>
+                        </div>
+                        <div x-show="activity.qty" class="qty-control" style="margin-top:8px;gap:8px;">
+                          <button @click.stop="updateQty(activity,-1)" class="qty-btn"
+                            style="width:26px;height:26px;font-size:14px;">−</button>
+                          <span class="qty-value" style="font-size:14px;" x-text="activity.qty"></span>
+                          <button @click.stop="updateQty(activity,1)" class="qty-btn"
+                            style="width:26px;height:26px;font-size:14px;">+</button>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
   <!-- ═══ STATS — 3D FLIP ═══ -->
   <section style="padding:48px 24px;" class="reveal">
     <div style="max-width:1280px;margin:0 auto;">
@@ -650,194 +838,6 @@
     </div>
   </section>
 
-  <!-- ═══ SERVICES SECTION ═══ -->
-  <section id="services" style="padding:80px 24px;">
-    <div style="max-width:1280px;margin:0 auto;">
-      <div style="text-align:center;margin-bottom:48px;" class="reveal">
-        <span class="section-label">🎈 Our Collection</span>
-        <h2 class="section-title">Premium Decoration <span class="grad">Services</span></h2>
-        <p class="section-subtitle" style="margin:0 auto;">Handcrafted balloon experiences for every occasion</p>
-      </div>
-
-      <!-- Alpine Component -->
-      <div x-data="{
-      openModal:false,
-      selected:{title:'',price:0,desc:'',features:[],images:[],currentImage:0,qty:0},
-      services:[],
-      activities:[],
-      activeFilter:'all',
-      async init(){
-        this.services = await _getServices();
-        this.activities = await _getActivities();
-      },
-      get filtered(){
-        if(this.activeFilter==='all') return this.services;
-        return this.services.filter(s=>s.category===this.activeFilter);
-      },
-      addToCart(item){
-        let cart=JSON.parse(localStorage.getItem('cart'))||[];
-        let existing=cart.find(i=>i.name===item.title);
-        if(existing){existing.qty++;item.qty=existing.qty;}
-        else{cart.push({name:item.title,price:item.price,qty:1,img:item.images?item.images[0]:item.img});item.qty=1;}
-        localStorage.setItem('cart',JSON.stringify(cart));
-        updateCartCount();
-      },
-      updateQty(item,delta){
-        let cart=JSON.parse(localStorage.getItem('cart'))||[];
-        let existing=cart.find(i=>i.name===item.title);
-        if(existing){
-          existing.qty+=delta;
-          if(existing.qty<=0){cart=cart.filter(i=>i.name!==item.title);item.qty=0;}
-          else{item.qty=existing.qty;}
-          localStorage.setItem('cart',JSON.stringify(cart));
-          updateCartCount();
-        }
-      },
-      removeItem(item){
-        let cart=JSON.parse(localStorage.getItem('cart'))||[];
-        cart=cart.filter(i=>i.name!==item.title);
-        item.qty=0;
-        localStorage.setItem('cart',JSON.stringify(cart));
-        updateCartCount();
-      }
-    }">
-
-        <!-- Filter Buttons -->
-        <div class="filter-group" style="margin-bottom:36px;" x-init="">
-          <button class="filter-btn" :class="activeFilter==='all'?'active':''" @click="activeFilter='all'">All</button>
-          <button class="filter-btn" :class="activeFilter==='birthday'?'active':''" @click="activeFilter='birthday'">🎂
-            Birthday</button>
-          <button class="filter-btn" :class="activeFilter==='anniversary'?'active':''"
-            @click="activeFilter='anniversary'">💍 Anniversary</button>
-          <button class="filter-btn" :class="activeFilter==='babyshower'?'active':''"
-            @click="activeFilter='babyshower'">👶 Baby Shower</button>
-          <button class="filter-btn" :class="activeFilter==='kids'?'active':''" @click="activeFilter='kids'">🧸 Kids
-            Theme</button>
-          <button class="filter-btn" :class="activeFilter==='other'?'active':''" @click="activeFilter='other'">✨
-            Other</button>
-        </div>
-
-        <!-- Service Grid -->
-        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
-          <template x-for="service in filtered" :key="service.title">
-            <div class="service-card tilt-card" @click="service.customLink ? window.location.href = service.customLink : (selected={...service,currentImage:0}, openModal=true)">
-              <!-- Shine overlay for tilt effect -->
-              <div class="tilt-shine"></div>
-              <div style="overflow:hidden;height:220px;position:relative;">
-                <img :src="service.images[0]" :alt="service.title" class="service-card-img" loading="lazy" decoding="async">
-                <!-- Gradient overlay on image -->
-                <div
-                  style="position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,rgba(12,12,24,0.9),transparent);pointer-events:none;">
-                </div>
-              </div>
-              <div class="service-card-body">
-                <div class="service-card-title" x-text="service.title"></div>
-                <div class="price-tag-3d">₹<span x-text="service.price.toLocaleString()"></span></div>
-                <button class="btn-primary btn-sm" style="width:100%;justify-content:center;">
-                  📩 View & Book
-                </button>
-              </div>
-            </div>
-          </template>
-        </div>
-
-        <!-- Modal -->
-        <div x-show="openModal" x-transition.opacity style="display:none;" class="modal-overlay"
-          @click.self="openModal=false">
-          <div class="modal-box" x-show="openModal" @click.away="openModal=false">
-            <button class="modal-close" @click="openModal=false">✕</button>
-
-            <div style="padding:28px;">
-              <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;"
-                x-text="selected.title"></h2>
-              <div class="service-card-price" style="margin-bottom:16px;">₹<span
-                  x-text="selected.price.toLocaleString()"></span></div>
-
-              <!-- Image Carousel -->
-              <div style="position:relative;border-radius:16px;overflow:hidden;margin-bottom:20px;">
-                <img :src="selected.images[selected.currentImage]"
-                  style="width:100%;max-height:320px;object-fit:contain;background:#0a0a14;display:block;" loading="lazy" decoding="async">
-                <button
-                  @click="selected.currentImage=(selected.currentImage-1+selected.images.length)%selected.images.length"
-                  style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;">‹</button>
-                <button @click="selected.currentImage=(selected.currentImage+1)%selected.images.length"
-                  style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color:white;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;">›</button>
-              </div>
-
-              <p style="color:var(--text-secondary);font-size:14px;margin-bottom:16px;line-height:1.7;"
-                x-text="selected.desc"></p>
-
-              <div style="margin-bottom:20px;">
-                <div
-                  style="font-size:12px;font-weight:700;color:var(--text-muted);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:10px;">
-                  What's Included</div>
-                <template x-for="feat in selected.features" :key="feat">
-                  <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-                    <span
-                      style="width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#a855f7,#ec4899);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;">✓</span>
-                    <span style="font-size:14px;color:var(--text-secondary);" x-text="feat"></span>
-                  </div>
-                </template>
-              </div>
-
-              <!-- Cart Controls -->
-              <div x-show="!selected.qty" style="display:flex;gap:10px;">
-                <button @click.stop="addToCart(selected)" class="btn-primary" style="flex:1;justify-content:center;">
-                  🛒 Add to Cart
-                </button>
-                <a :href="'https://wa.me/919389835280?text='+encodeURIComponent('Hi! I want to book '+selected.title+' for ₹'+selected.price)"
-                  target="_blank" class="btn-wa">
-                  <svg width="16" height="16" fill="white" viewBox="0 0 24 24">
-                    <path
-                      d="M20.52 3.48A11.9 11.9 0 0012 0C5.37 0 .06 5.31 0 11.93c0 2.1.55 4.17 1.59 5.99L0 24l6.3-1.65a12 12 0 0011.4-2.86c5.05-5.05 5.05-13.26 0-18.31z" />
-                  </svg>
-                  Book Now
-                </a>
-              </div>
-              <div x-show="selected.qty" class="qty-control" style="justify-content:center;flex-wrap:wrap;gap:12px;">
-                <button @click.stop="updateQty(selected,-1)" class="qty-btn">−</button>
-                <span class="qty-value" x-text="selected.qty"></span>
-                <button @click.stop="updateQty(selected,1)" class="qty-btn">+</button>
-                <button @click.stop="removeItem(selected)"
-                  style="padding:8px 14px;border-radius:20px;background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.3);color:#ec4899;cursor:pointer;font-size:13px;">Remove</button>
-              </div>
-
-              <!-- Add-on Activities -->
-              <div style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06);">
-                <div style="font-size:14px;font-weight:700;color:var(--text-primary);margin-bottom:14px;">✨ Add-on
-                  Activities</div>
-                <div class="activities-scroll">
-                  <template x-for="activity in activities" :key="activity.title">
-                    <div class="activity-card">
-                      <img :src="activity.img" :alt="activity.title" loading="lazy" decoding="async">
-                      <div class="activity-card-body">
-                        <div class="activity-card-title" x-text="activity.title"></div>
-                        <div class="activity-card-price">₹<span x-text="activity.price.toLocaleString()"></span><span
-                            x-show="activity.unit"
-                            style="font-size:10px;color:var(--text-muted);font-weight:400;-webkit-text-fill-color:initial;background:none;"
-                            x-text="' / '+activity.unit"></span></div>
-                        <div x-show="!activity.qty" style="margin-top:8px;">
-                          <button @click.stop="addToCart(activity)" class="btn-primary btn-sm"
-                            style="width:100%;justify-content:center;padding:6px 12px;font-size:12px;">Add</button>
-                        </div>
-                        <div x-show="activity.qty" class="qty-control" style="margin-top:8px;gap:8px;">
-                          <button @click.stop="updateQty(activity,-1)" class="qty-btn"
-                            style="width:26px;height:26px;font-size:14px;">−</button>
-                          <span class="qty-value" style="font-size:14px;" x-text="activity.qty"></span>
-                          <button @click.stop="updateQty(activity,1)" class="qty-btn"
-                            style="width:26px;height:26px;font-size:14px;">+</button>
-                        </div>
-                      </div>
-                    </div>
-                  </template>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <!-- ═══ ACTIVITIES SECTION ═══ -->
   <section id="activities" style="padding:64px 24px;" x-data="{
