@@ -668,6 +668,7 @@
       async init(){
         this.services = await _getServices();
         this.activities = await _getActivities();
+        this.$watch('openModal', val => document.body.style.overflow = val ? 'hidden' : '');
       },
       get filtered(){
         if(this.activeFilter==='all') return this.services;
@@ -741,8 +742,9 @@
         </div>
 
         <!-- Modal -->
-        <div x-show="openModal" x-transition.opacity style="display:none;" class="modal-overlay"
-          @click.self="openModal=false">
+        <template x-teleport="body">
+          <div x-show="openModal" x-transition.opacity style="display:none;" class="modal-overlay"
+            @click.self="openModal=false">
           <div class="modal-box" x-show="openModal" @click.away="openModal=false">
             <button class="modal-close" @click="openModal=false">✕</button>
 
@@ -834,6 +836,7 @@
             </div>
           </div>
         </div>
+        </template>
       </div>
     </div>
   </section>
