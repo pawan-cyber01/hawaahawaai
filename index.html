@@ -7,7 +7,18 @@
   <link rel="canonical" href="https://hawaahawaai.com/" />
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#eab308">
-
+  <script>
+    (function() {
+      const theme = localStorage.getItem('hh_theme') || 'default';
+      document.documentElement.setAttribute('data-theme', theme);
+      const bg = localStorage.getItem('hh_themeBgColor');
+      if (bg) {
+        document.documentElement.style.setProperty('--bg-void', bg);
+        document.documentElement.style.setProperty('--bg-deep', bg);
+        document.documentElement.style.setProperty('--bg-dark', bg);
+      }
+    })();
+  </script>
   <title>Hawaa Hawaai – Best Balloon Decoration in Delhi NCR | Birthday & Events</title>
   <meta name="description"
     content="Hawaa Hawaai provides premium balloon decoration and event planning services in Delhi NCR, Gurugram, Noida & Meerut. Perfect for birthdays, weddings, baby showers & corporate events. Book top decorators today!">
@@ -47,6 +58,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
     rel="stylesheet">
   <link rel="preload" href="images/2.jpg" as="image" fetchpriority="high">
+  <!-- Hero image preload with media hint for fast LCP -->
+  <link rel="preload" href="images/2.jpg" as="image" fetchpriority="high" type="image/jpeg">
   <link rel="stylesheet" href="premium.css">
   <script src="https://kit.fontawesome.com/a2e0e6bb99.js" crossorigin="anonymous" defer></script>
 
@@ -66,7 +79,21 @@
     const _db = getFirestore(_fbApp);
     window._fbGetSiteData = async function () {
       const snap = await getDoc(doc(_db, 'siteData', 'main'));
-      return snap.exists() ? snap.data() : null;
+      if (snap.exists()) {
+        const data = snap.data();
+        if (data.theme) {
+          localStorage.setItem('hh_theme', data.theme);
+          document.documentElement.setAttribute('data-theme', data.theme);
+        }
+        if (data.themeBgColor) {
+          localStorage.setItem('hh_themeBgColor', data.themeBgColor);
+          document.documentElement.style.setProperty('--bg-void', data.themeBgColor);
+          document.documentElement.style.setProperty('--bg-deep', data.themeBgColor);
+          document.documentElement.style.setProperty('--bg-dark', data.themeBgColor);
+        }
+        return data;
+      }
+      return null;
     };
   </script>
 
@@ -168,32 +195,32 @@
     <div class="marquee-3d-section">
       <div class="marquee-3d-container">
         <div class="marquee-3d-track">
-          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
         </div>
         <div class="marquee-3d-track" style="margin-left:30px;">
-          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
-          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async"></div>
+          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/birthday.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby1.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/corperate.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/birthday3.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
+          <div class="marquee-3d-item"><img src="images/baby2.jpg" alt="Decoration" loading="lazy" decoding="async" fetchpriority="low"></div>
         </div>
       </div>
     </div>
@@ -225,10 +252,10 @@
     </a>
 
     <div class="nav-links">
-      <a href="index.html" class="nav-link-item active">Home</a>
-      <a href="gallery.html" class="nav-link-item">Gallery</a>
-      <a href="about.html" class="nav-link-item">About</a>
-      <a href="contact.html" class="nav-link-item">Contact</a>
+      <a href="index.html" class="nav-link-item active" data-text="Home"><span>Home</span></a>
+      <a href="gallery.html" class="nav-link-item" data-text="Gallery"><span>Gallery</span></a>
+      <a href="about.html" class="nav-link-item" data-text="About"><span>About</span></a>
+      <a href="contact.html" class="nav-link-item" data-text="Contact"><span>Contact</span></a>
       <a href="cart.html" class="nav-cart-btn" id="navCartLink">
         <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
           <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6h12.8l1.2-6H7z" />
@@ -269,7 +296,10 @@
 
   <!-- ═══ HERO SECTION ═══ -->
   <section class="hero-section" id="heroSection">
-    <div class="hero-bg-image" id="heroBgImage" style="background-image:url('images/2.jpg');"></div>
+    <!-- Hero background img - fetchpriority=high for instant LCP -->
+    <div class="hero-bg-image" id="heroBgImage" aria-hidden="true">
+      <img src="images/2.jpg" alt="" id="heroBgImg" fetchpriority="high" decoding="sync" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;pointer-events:none;transition:opacity 0.6s ease;">
+    </div>
     <div class="hero-overlay"></div>
 
     <!-- Floating balloon orbs -->
@@ -335,140 +365,6 @@
         <div class="gradient-divider" style="flex:1;"></div>
       </div>
       <div class="offers-scroll" id="offerScroll"></div>
-    </div>
-  </section>
-
-  <!-- ═══ STATS — 3D FLIP ═══ -->
-  <section style="padding:48px 24px;" class="reveal">
-    <div style="max-width:1280px;margin:0 auto;">
-      <div
-        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:24px;overflow:hidden;">
-        <div class="stat-item-3d">
-          <div class="stat-inner-3d">
-            <div class="stat-number">5000+</div>
-            <div class="stat-label">Events Decorated</div>
-          </div>
-        </div>
-        <div class="stat-item-3d">
-          <div class="stat-inner-3d">
-            <div class="stat-number">7+</div>
-            <div class="stat-label">Cities Served</div>
-          </div>
-        </div>
-        <div class="stat-item-3d">
-          <div class="stat-inner-3d">
-            <div class="stat-number">4.9★</div>
-            <div class="stat-label">Customer Rating</div>
-          </div>
-        </div>
-        <div class="stat-item-3d">
-          <div class="stat-inner-3d" style="border-right:none;">
-            <div class="stat-number">24/7</div>
-            <div class="stat-label">Support Available</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ 3D ROTATING IMAGE CUBE ═══ -->
-  <section class="cube-showcase reveal">
-    <div class="cube-showcase-inner">
-
-      <!-- Text Side -->
-      <div>
-        <span class="section-label">🎲 Our Work in 3D</span>
-        <h2 class="section-title" style="margin-bottom:20px;">Every Celebration<br><span class="grad">Beautifully
-            Crafted</span></h2>
-        <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:28px;">From dreamy balloon
-          arches to magical themed setups — we transform ordinary spaces into extraordinary moments. Each cube face
-          showcases a real decoration we've created for our clients.</p>
-
-        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div
-              style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(168,85,247,0.2),rgba(124,58,237,0.1));border:1px solid rgba(168,85,247,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">
-              🎈</div>
-            <div>
-              <div style="font-weight:700;font-size:14px;color:var(--text-primary);">Premium Latex & Foil Balloons</div>
-              <div style="font-size:12px;color:var(--text-muted);">Only finest quality materials used</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div
-              style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(219,39,119,0.1));border:1px solid rgba(236,72,153,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">
-              🎨</div>
-            <div>
-              <div style="font-weight:700;font-size:14px;color:var(--text-primary);">Fully Custom Themes</div>
-              <div style="font-size:12px;color:var(--text-muted);">Tailored to your vision & venue</div>
-            </div>
-          </div>
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div
-              style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(96,165,250,0.2),rgba(59,130,246,0.1));border:1px solid rgba(96,165,250,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">
-              ⚡</div>
-            <div>
-              <div style="font-weight:700;font-size:14px;color:var(--text-primary);">Same-Day Setup Available</div>
-              <div style="font-size:12px;color:var(--text-muted);">Fast execution across Delhi NCR</div>
-            </div>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="#services" class="btn-primary">🎉 Browse All Setups</a>
-          <a href="gallery.html" class="btn-glass">View Gallery →</a>
-        </div>
-      </div>
-
-      <!-- Cube Side -->
-      <div class="cube-scene-wrap">
-        <!-- Ambient glow rings -->
-        <div
-          style="position:absolute;width:380px;height:380px;border-radius:50%;border:1px solid rgba(168,85,247,0.08);animation:balloon-float 8s ease-in-out infinite;">
-        </div>
-        <div
-          style="position:absolute;width:440px;height:440px;border-radius:50%;border:1px solid rgba(168,85,247,0.04);animation:balloon-float 12s ease-in-out infinite reverse;">
-        </div>
-
-        <div>
-          <!-- Ground shadow -->
-          <div style="position:relative;">
-            <div class="cube-scene" id="cubeScene">
-              <div class="cube-3d" id="cube3d">
-                <div class="cube-face cube-face-front">
-                  <img src="images/2.jpg" alt="Balloon decoration Delhi" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
-                </div>
-                <div class="cube-face cube-face-back">
-                  <img src="img/112.jpeg" alt="Anniversary decoration" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
-                </div>
-                <div class="cube-face cube-face-right">
-                  <img src="images/birthday1.jpg" alt="Birthday balloon decoration" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
-                </div>
-                <div class="cube-face cube-face-left">
-                  <img src="img/ring.jpeg" alt="Ring balloon setup" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
-                </div>
-                <div class="cube-face cube-face-top">
-                  <img src="img/b1.jpeg" alt="Fairy decoration setup" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
-                </div>
-                <div class="cube-face cube-face-bottom">
-                  <img src="img/102.jpeg" alt="Baby shower decoration" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
-                </div>
-              </div>
-            </div>
-            <div class="cube-shadow"></div>
-          </div>
-
-          <!-- Dot Navigation -->
-          <div class="cube-nav-dots" id="cubeDots">
-            <div class="cube-dot active" data-angle="0" title="Front"></div>
-            <div class="cube-dot" data-angle="90" title="Right"></div>
-            <div class="cube-dot" data-angle="180" title="Back"></div>
-            <div class="cube-dot" data-angle="270" title="Left"></div>
-          </div>
-          <div class="cube-hint">↔ Drag to rotate · Hover to pause</div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -887,32 +783,173 @@
     </div>
   </section>
 
-  <!-- ═══ GALLERY TEASER ═══ -->
-  <section style="padding:64px 24px;" class="reveal">
+  <!-- ═══ STATS — 3D FLIP ═══ -->
+  <section style="padding:48px 24px;" class="reveal">
     <div style="max-width:1280px;margin:0 auto;">
       <div
-        style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:16px;">
-        <div>
-          <span class="section-label">📸 Our Work</span>
-          <h2 class="section-title" style="margin:8px 0 0;">Showcase <span class="grad">Gallery</span></h2>
-        </div>
-        <a href="gallery.html" class="btn-glass">View All Photos →</a>
-      </div>
-      <div class="gallery-grid">
-        <div class="gallery-item-wrap"><img src="images/2.jpg" alt="Balloon decoration" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><span style="color:white;font-size:13px;font-weight:600;">View Setup</span></div>
-        </div>
-        <div class="gallery-item-wrap"><img src="images/birthday1.jpg" alt="Birthday decoration" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><span style="color:white;font-size:13px;font-weight:600;">Birthday Decor</span>
+        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:2px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:24px;overflow:hidden;">
+        <div class="stat-item-3d">
+          <div class="stat-inner-3d">
+            <div class="stat-number">5000+</div>
+            <div class="stat-label">Events Decorated</div>
           </div>
         </div>
-        <div class="gallery-item-wrap"><img src="images/birthday3.jpg" alt="Balloon arch" loading="lazy" decoding="async">
-          <div class="gallery-overlay"><span style="color:white;font-size:13px;font-weight:600;">Balloon Arch</span>
+        <div class="stat-item-3d">
+          <div class="stat-inner-3d">
+            <div class="stat-number">7+</div>
+            <div class="stat-label">Cities Served</div>
+          </div>
+        </div>
+        <div class="stat-item-3d">
+          <div class="stat-inner-3d">
+            <div class="stat-number">4.9★</div>
+            <div class="stat-label">Customer Rating</div>
+          </div>
+        </div>
+        <div class="stat-item-3d">
+          <div class="stat-inner-3d" style="border-right:none;">
+            <div class="stat-number">24/7</div>
+            <div class="stat-label">Support Available</div>
           </div>
         </div>
       </div>
     </div>
   </section>
+
+  <!-- ═══ 3D ROTATING IMAGE CUBE ═══ -->
+  <section class="cube-showcase reveal">
+    <div class="cube-showcase-inner">
+
+      <!-- Text Side -->
+      <div>
+        <span class="section-label">🎲 Our Work in 3D</span>
+        <h2 class="section-title" style="margin-bottom:20px;">Every Celebration<br><span class="grad">Beautifully
+            Crafted</span></h2>
+        <p style="color:var(--text-secondary);font-size:16px;line-height:1.8;margin-bottom:28px;">From dreamy balloon
+          arches to magical themed setups — we transform ordinary spaces into extraordinary moments. Each cube face
+          showcases a real decoration we've created for our clients.</p>
+
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:32px;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(168,85,247,0.2),rgba(124,58,237,0.1));border:1px solid rgba(168,85,247,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">
+              🎈</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:var(--text-primary);">Premium Latex & Foil Balloons</div>
+              <div style="font-size:12px;color:var(--text-muted);">Only finest quality materials used</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(236,72,153,0.2),rgba(219,39,119,0.1));border:1px solid rgba(236,72,153,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">
+              🎨</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:var(--text-primary);">Fully Custom Themes</div>
+              <div style="font-size:12px;color:var(--text-muted);">Tailored to your vision & venue</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div
+              style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,rgba(96,165,250,0.2),rgba(59,130,246,0.1));border:1px solid rgba(96,165,250,0.3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">
+              ⚡</div>
+            <div>
+              <div style="font-weight:700;font-size:14px;color:var(--text-primary);">Same-Day Setup Available</div>
+              <div style="font-size:12px;color:var(--text-muted);">Fast execution across Delhi NCR</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="#services" class="btn-primary">🎉 Browse All Setups</a>
+          <a href="gallery.html" class="btn-glass">View Gallery →</a>
+        </div>
+      </div>
+
+      <!-- Cube Side -->
+      <div class="cube-scene-wrap">
+        <!-- Ambient glow rings -->
+        <div
+          style="position:absolute;width:380px;height:380px;border-radius:50%;border:1px solid rgba(168,85,247,0.08);animation:balloon-float 8s ease-in-out infinite;">
+        </div>
+        <div
+          style="position:absolute;width:440px;height:440px;border-radius:50%;border:1px solid rgba(168,85,247,0.04);animation:balloon-float 12s ease-in-out infinite reverse;">
+        </div>
+
+        <div>
+          <!-- Ground shadow -->
+          <div style="position:relative;">
+            <div class="cube-scene" id="cubeScene">
+              <div class="cube-3d" id="cube3d">
+                <div class="cube-face cube-face-front">
+                  <img src="images/2.jpg" alt="Balloon decoration Delhi" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
+                </div>
+                <div class="cube-face cube-face-back">
+                  <img src="img/112.jpeg" alt="Anniversary decoration" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
+                </div>
+                <div class="cube-face cube-face-right">
+                  <img src="images/birthday1.jpg" alt="Birthday balloon decoration" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
+                </div>
+                <div class="cube-face cube-face-left">
+                  <img src="img/ring.jpeg" alt="Ring balloon setup" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
+                </div>
+                <div class="cube-face cube-face-top">
+                  <img src="img/b1.jpeg" alt="Fairy decoration setup" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
+                </div>
+                <div class="cube-face cube-face-bottom">
+                  <img src="img/102.jpeg" alt="Baby shower decoration" loading="lazy" decoding="async" draggable="false" oncontextmenu="return false;" style="user-select:none;-webkit-user-select:none;pointer-events:none;">
+                </div>
+              </div>
+            </div>
+            <div class="cube-shadow"></div>
+          </div>
+
+          <!-- Dot Navigation -->
+          <div class="cube-nav-dots" id="cubeDots">
+            <div class="cube-dot active" data-angle="0" title="Front"></div>
+            <div class="cube-dot" data-angle="90" title="Right"></div>
+            <div class="cube-dot" data-angle="180" title="Back"></div>
+            <div class="cube-dot" data-angle="270" title="Left"></div>
+          </div>
+          <div class="cube-hint">↔ Drag to rotate · Hover to pause</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+
+  <!-- ═══ GRIDMOTION GALLERY ═══ -->
+  <section style="position:relative; width:100%; height:100vh; min-height:800px; background:radial-gradient(circle at center, #5227FF 0%, var(--bg-void) 70%); overflow:hidden; display:flex; align-items:center; justify-content:center; margin: 40px 0;" class="reveal">
+    <!-- Fade overlays -->
+    <div style="position:absolute; inset:0; background:linear-gradient(to bottom, var(--bg-void) 0%, transparent 20%, transparent 80%, var(--bg-void) 100%); z-index:2; pointer-events:none;"></div>
+    
+    <!-- Title Overlay -->
+    <div style="position:absolute; z-index:3; text-align:center; top: 50%; left: 50%; transform: translate(-50%, -50%); background: rgba(0,0,0,0.4); padding: 40px; border-radius: 20px; backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1);">
+      <span class="section-label">📸 Our Work</span>
+      <h2 class="section-title" style="margin:8px 0 20px; color:white; font-size:3rem; text-shadow:0 4px 20px rgba(0,0,0,0.5);">Showcase <span style="color:#a855f7;">Gallery</span></h2>
+      <a href="gallery.html" class="btn-primary" style="pointer-events:auto; font-size:1.1rem; padding: 14px 32px;">View All Photos →</a>
+    </div>
+
+    <!-- 3D Grid Container -->
+    <div id="gridMotionContainer" style="display:flex; gap:20px; width:150vw; height:250vh; transform: perspective(1000px) rotateX(45deg) rotateZ(-15deg); transform-origin:center center; opacity:0.8;">
+      <div class="gm-col gm-down" style="display:flex; flex-direction:column; gap:20px; width:25%;">
+        <img src="images/2.jpg" class="gm-img"><img src="images/birthday1.jpg" class="gm-img"><img src="images/birthday3.jpg" class="gm-img"><img src="images/2.jpg" class="gm-img"><img src="images/birthday1.jpg" class="gm-img">
+      </div>
+      <div class="gm-col gm-up" style="display:flex; flex-direction:column; gap:20px; width:25%; transform: translateY(-500px);">
+        <img src="images/birthday3.jpg" class="gm-img"><img src="images/2.jpg" class="gm-img"><img src="images/birthday1.jpg" class="gm-img"><img src="images/birthday3.jpg" class="gm-img"><img src="images/2.jpg" class="gm-img">
+      </div>
+      <div class="gm-col gm-down" style="display:flex; flex-direction:column; gap:20px; width:25%; transform: translateY(-200px);">
+        <img src="images/birthday1.jpg" class="gm-img"><img src="images/birthday3.jpg" class="gm-img"><img src="images/2.jpg" class="gm-img"><img src="images/birthday1.jpg" class="gm-img"><img src="images/birthday3.jpg" class="gm-img">
+      </div>
+      <div class="gm-col gm-up" style="display:flex; flex-direction:column; gap:20px; width:25%; transform: translateY(-800px);">
+        <img src="images/2.jpg" class="gm-img"><img src="images/birthday1.jpg" class="gm-img"><img src="images/birthday3.jpg" class="gm-img"><img src="images/2.jpg" class="gm-img"><img src="images/birthday1.jpg" class="gm-img">
+      </div>
+    </div>
+  </section>
+  <style>
+    .gm-img { width: 100%; border-radius: 16px; box-shadow: 0 10px 40px rgba(0,0,0,0.5); filter: contrast(1.1) saturate(1.2); }
+  </style>
 
   <!-- ═══ REVIEWS ═══ -->
   <section style="padding:80px 24px;" class="reveal" id="reviewsSection">
@@ -1006,6 +1043,237 @@
   </section>
 
 
+
+  <!-- ═══ GOOGLE REVIEWS WIDGET ═══ -->
+  <section style="padding:60px 0; background:transparent; overflow:hidden;" class="reveal">
+    <div style="max-width:1280px; margin:0 auto; padding:0 24px; display:flex; align-items:center; justify-content:space-between; margin-bottom:30px; flex-wrap:wrap; gap:16px;">
+      <div style="display:flex; align-items:center; gap:16px;">
+        <svg width="40" height="40" viewBox="0 0 48 48">
+          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+        </svg>
+        <div>
+          <h2 style="font-size:24px; font-weight:800; margin:0; line-height:1.2; color:#fff;">Excellent</h2>
+          <div style="display:flex; align-items:center; gap:8px; margin-top:4px;">
+            <div style="color:#FBBC04; font-size:18px; letter-spacing:2px;">★★★★★</div>
+            <span style="font-size:13px; color:var(--text-secondary);">4.9 Rating</span>
+          </div>
+        </div>
+      </div>
+      <a href="https://share.google/z5jxDEFL9RD1UNcC4" target="_blank" style="background:var(--accent-purple); color:white; text-decoration:none; padding:10px 24px; border-radius:24px; font-weight:600; font-size:14px; transition:0.3s; box-shadow:0 4px 15px rgba(168,85,247,0.4);" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">Write a review</a>
+    </div>
+
+    <!-- Scrolling Marquee of Reviews -->
+    <div class="google-reviews-marquee">
+            <div class="google-reviews-track">
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#4285F4;">M</div>
+            <div>
+              <div class="google-name">mr Alex</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">Very good experience</p>
+        </div>
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#EA4335;">V</div>
+            <div>
+              <div class="google-name">Vishal Rathore</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">Gorgeous decorations 💖</p>
+        </div>
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#34A853;">V</div>
+            <div>
+              <div class="google-name">Vivek Kumar</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">good finishing in decoration</p>
+        </div>
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#FBBC05;">H</div>
+            <div>
+              <div class="google-name">Happy Customer</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">Excellent service and beautiful decorations!</p>
+        </div>
+        <!-- Duplicates for seamless scrolling -->
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#4285F4;">M</div>
+            <div>
+              <div class="google-name">mr Alex</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">Very good experience</p>
+        </div>
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#EA4335;">V</div>
+            <div>
+              <div class="google-name">Vishal Rathore</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">Gorgeous decorations 💖</p>
+        </div>
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#34A853;">V</div>
+            <div>
+              <div class="google-name">Vivek Kumar</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">good finishing in decoration</p>
+        </div>
+        <div class="google-review-card">
+          <div class="google-review-header">
+            <div class="google-avatar" style="background:#FBBC05;">H</div>
+            <div>
+              <div class="google-name">Happy Customer</div>
+              <div class="google-date">Local Guide</div>
+            </div>
+            <svg class="google-icon" width="20" height="20" viewBox="0 0 48 48"><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/></svg>
+          </div>
+          <div class="google-stars">★★★★★</div>
+          <p class="google-text">Excellent service and beautiful decorations!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+  /* Google Reviews CSS */
+  .google-reviews-marquee {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+  }
+  .google-reviews-marquee::before, .google-reviews-marquee::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 80px;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .google-reviews-marquee::before {
+    left: 0;
+    background: linear-gradient(to right, #09090b, transparent);
+  }
+  .google-reviews-marquee::after {
+    right: 0;
+    background: linear-gradient(to left, #09090b, transparent);
+  }
+  .google-reviews-track {
+    display: flex;
+    gap: 20px;
+    animation: scrollGoogle 25s linear infinite;
+    padding: 10px 0;
+    width: max-content;
+  }
+  .google-reviews-track:hover {
+    animation-play-state: paused;
+  }
+  .google-review-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    width: 350px;
+    flex-shrink: 0;
+    transition: 0.3s;
+  }
+  .google-review-card:hover {
+    background: rgba(255, 255, 255, 0.06);
+    transform: translateY(-5px);
+    border-color: rgba(255, 255, 255, 0.15);
+  }
+  .google-review-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .google-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  .google-name {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .google-date {
+    color: var(--text-muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+  .google-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+  .google-stars {
+    color: #FBBC04;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+    font-size: 16px;
+  }
+  .google-text {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  @keyframes scrollGoogle {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(calc(-350px * 4 - 20px * 4)); }
+  }
+  @media (max-width: 768px) {
+    .google-review-card { width: 300px; padding: 20px; }
+    @keyframes scrollGoogle {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-300px * 4 - 20px * 4)); }
+    }
+  }
+  </style>
 
   <!-- SEO Internal Links (hidden visually but accessible) -->
   <div style="padding:0 24px 20px;max-width:1280px;margin:0 auto;display:flex;flex-wrap:wrap;gap:8px;">
@@ -1230,6 +1498,11 @@
       </div>`).join('');
 
         window._heroBackgrounds = list.map(h => h.img);
+        // Preload images to prevent late loading
+        window._heroBackgrounds.forEach(src => {
+          const img = new Image();
+          img.src = src;
+        });
         initHeroSlider();
       }
 
@@ -1255,8 +1528,17 @@
             void bg.offsetWidth; // trigger reflow
             bg.classList.add('hero-img-3d-anim');
             setTimeout(() => {
-              bg.style.backgroundImage = `url('${window._heroBackgrounds[heroIdx]}')`;
-            }, 600); // Wait until halfway through the flip to change the image
+              const bgImg = document.getElementById('heroBgImg');
+              if (bgImg) {
+                bgImg.style.opacity = '0';
+                setTimeout(() => {
+                  bgImg.src = window._heroBackgrounds[heroIdx];
+                  bgImg.onload = () => { bgImg.style.opacity = '1'; };
+                  // Fallback if already cached
+                  if (bgImg.complete) bgImg.style.opacity = '1';
+                }, 200);
+              }
+            }, 400); // Wait until halfway through the flip to change the image
           }
           slides[heroIdx].classList.replace('hidden', 'active');
         }, 4500);
@@ -1274,15 +1556,15 @@
     .hero-slide.hidden { opacity: 0; pointer-events: none; position: absolute; inset: 0; }
     .hero-slide.active { opacity: 1; position: relative; animation: fade-up 0.9s ease forwards; }
     
-    /* Simple Fade Animation */
+    /* Premium Cinematic Animation */
     @keyframes heroImgFade {
-      0% { opacity: 1; }
-      49% { opacity: 0; }
-      50% { opacity: 0; }
-      100% { opacity: 1; }
+      0% { opacity: 1; filter: blur(0px); transform: scale(1); }
+      49% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
+      50% { opacity: 0; filter: blur(10px); transform: scale(1.05); }
+      100% { opacity: 1; filter: blur(0px); transform: scale(1); }
     }
     .hero-img-3d-anim {
-      animation: heroImgFade 1.2s ease-in-out forwards;
+      animation: heroImgFade 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
     }
   `;
       document.head.appendChild(s);
@@ -1617,6 +1899,250 @@
     });
   }
 </script>
+<style>
+  /* Balloon Cursor */
+  *, html, body, a, button, .service-card, .gallery-item-wrap, .btn-primary {
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><defs><linearGradient id='lg' x1='0%25' y1='0%25' x2='100%25' y2='100%25'><stop offset='0%25' stop-color='rgba(255,255,255,0.9)'/><stop offset='40%25' stop-color='rgba(236,72,153,0.2)'/><stop offset='100%25' stop-color='rgba(236,72,153,0.8)'/></linearGradient></defs><path d='M6,4 L6,24 C6,26 8,27 9,25 L13,19 L19,25 C21,27 23,26 22,24 L16,17 L22,17 C25,17 25,14 23,12 L9,2 C7,0 6,1 6,4 Z' fill='url(%23lg)' stroke='rgba(255,255,255,1)' stroke-width='1.5' stroke-linejoin='round'/><path d='M8.5,7 L8.5,17' stroke='rgba(255,255,255,0.8)' stroke-width='1.5' stroke-linecap='round' fill='none'/></svg>") 6 4, auto !important;
+  }
+
+  /* Balloon String Parts */
+  .balloon-string-part {
+    position: fixed;
+    width: 2px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 999998;
+    transform-origin: top center;
+  }
+
+  /* Water Splash / Ripple */
+  .water-splash {
+    position: fixed;
+    width: 12px;
+    height: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999997;
+    transform: translate(-50%, -50%);
+    animation: rippleSplash 0.5s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes rippleSplash {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; border-width: 2px; }
+    100% { transform: translate(-50%, -50%) scale(3); opacity: 0; border-width: 0px; }
+  }
+</style>
+<script>
+  (function() {
+    // Hide old effects
+    const oldGlow = document.getElementById('mouse-glow');
+    if (oldGlow) oldGlow.style.display = 'none';
+
+    // Create string physics
+    const numParts = 12;
+    const parts = [];
+    for(let i=0; i<numParts; i++) {
+      let d = document.createElement('div');
+      d.className = 'balloon-string-part';
+      document.body.appendChild(d);
+      parts.push({ el: d, x: -100, y: -100, lastX: -100, lastY: -100 });
+    }
+
+    let targetX = -100;
+    let targetY = -100;
+
+    let lastSplash = 0;
+    window.addEventListener('mousemove', (e) => {
+      targetX = e.clientX + 10;
+      targetY = e.clientY + 16; // attach string to the bottom tail of the puffy arrow
+
+      const now = Date.now();
+      if (now - lastSplash > 40) {
+        lastSplash = now;
+        const splash = document.createElement('div');
+        splash.className = 'water-splash';
+        splash.style.left = e.clientX + 'px';
+        splash.style.top = e.clientY + 'px';
+        document.body.appendChild(splash);
+        setTimeout(() => splash.remove(), 500);
+      }
+    });
+
+    function animate() {
+      let prevX = targetX;
+      let prevY = targetY;
+
+      for(let i=0; i<numParts; i++) {
+        let p = parts[i];
+        
+        // Simple easing physics
+        p.x += (prevX - p.x) * 0.45;
+        p.y += (prevY - p.y) * 0.45;
+        
+        // Add some gravity and sway
+        p.y += 2; // gravity
+        p.x += Math.sin(Date.now() / 300 + i) * 0.5; // slight sway
+
+        // Calculate rotation to point to previous part
+        let dx = prevX - p.x;
+        let dy = prevY - p.y;
+        let angle = Math.atan2(dy, dx) * 180 / Math.PI - 90;
+
+        p.el.style.transform = `translate(${p.x}px, ${p.y}px) rotate(${angle}deg)`;
+        
+        prevX = p.x;
+        prevY = p.y + 4; // link distance
+      }
+      requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+
+  // Mobile Liquid Touch & Haptics Engine
+  (function() {
+    let lastBubble = 0;
+    
+    function createBubble(x, y, isTap = false) {
+      const b = document.createElement('div');
+      b.className = 'touch-bubble';
+      const size = isTap ? (Math.random() * 20 + 20) : (Math.random() * 12 + 8);
+      b.style.width = size + 'px';
+      b.style.height = size + 'px';
+      b.style.left = (x + (Math.random() * 20 - 10)) + 'px';
+      b.style.top = (y + (Math.random() * 20 - 10)) + 'px';
+      document.body.appendChild(b);
+      setTimeout(() => b.remove(), 800);
+    }
+
+    window.addEventListener('touchmove', (e) => {
+      const now = Date.now();
+      if (now - lastBubble < 40) return;
+      lastBubble = now;
+      createBubble(e.touches[0].clientX, e.touches[0].clientY);
+    }, {passive: true});
+
+    window.addEventListener('touchstart', (e) => {
+      createBubble(e.touches[0].clientX, e.touches[0].clientY, true);
+      // Haptics for interactive elements
+      if (e.target.closest('button, a, .glass-card, .service-card, .mobile-nav-item')) {
+        if (navigator.vibrate) navigator.vibrate(15);
+      }
+    }, {passive: true});
+    // Universal Droplet Click/Tap System
+    let audioCtx;
+    function playDropletSound() {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+      const osc = audioCtx.createOscillator();
+      const gain = audioCtx.createGain();
+      osc.connect(gain);
+      gain.connect(audioCtx.destination);
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0, audioCtx.currentTime);
+      gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
+      osc.start(audioCtx.currentTime);
+      osc.stop(audioCtx.currentTime + 0.2);
+    }
+
+    function createDropletSpread(x, y) {
+      for(let i=0; i<5; i++) {
+        const drop = document.createElement('div');
+        drop.className = 'water-drop-spread';
+        drop.style.left = x + 'px';
+        drop.style.top = y + 'px';
+        const tx = (Math.random() - 0.5) * 80;
+        const ty = (Math.random() - 0.5) * 80;
+        drop.style.setProperty('--tx', tx + 'px');
+        drop.style.setProperty('--ty', ty + 'px');
+        document.body.appendChild(drop);
+        setTimeout(() => drop.remove(), 600);
+      }
+    }
+
+    let lastDropTime = 0;
+    function handleDropEvent(x, y) {
+      const now = Date.now();
+      // 400ms debounce prevents mobile browsers from double-firing due to synthetic mousedown events
+      if (now - lastDropTime < 400) return;
+      lastDropTime = now;
+      playDropletSound();
+      createDropletSpread(x, y);
+    }
+
+    window.addEventListener('mousedown', (e) => {
+      handleDropEvent(e.clientX, e.clientY);
+    });
+
+    window.addEventListener('touchstart', (e) => {
+      handleDropEvent(e.touches[0].clientX, e.touches[0].clientY);
+    }, {passive: true});
+  })();
+
+  // ═══ GRIDMOTION ANIMATION ENGINE ═══
+  (function() {
+    const colsDown = document.querySelectorAll('.gm-down');
+    const colsUp = document.querySelectorAll('.gm-up');
+    let scrollY = 0;
+    
+    function animateGrid() {
+      scrollY += 0.8;
+      if(scrollY > 1000) scrollY = 0; // reset for loop
+      
+      colsDown.forEach(col => {
+        col.style.transform = `translateY(${scrollY}px)`;
+      });
+      colsUp.forEach(col => {
+        col.style.transform = `translateY(-${scrollY + 300}px)`;
+      });
+      requestAnimationFrame(animateGrid);
+    }
+    if (document.getElementById('gridMotionContainer')) {
+      animateGrid();
+    }
+  })();
+</script>
+<style>
+  /* Mobile Touch Bubbles */
+  .touch-bubble {
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8), rgba(255,255,255,0.1));
+    box-shadow: inset 0 0 4px rgba(255,255,255,0.5), 0 0 10px rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 999999;
+    transform: translate(-50%, -50%) scale(0);
+    animation: bubblePop 0.8s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes bubblePop {
+    0% { transform: translate(-50%, -50%) scale(0.2); opacity: 1; }
+    50% { transform: translate(-50%, -100%) scale(1.2); opacity: 0.8; }
+    100% { transform: translate(-50%, -200%) scale(0); opacity: 0; }
+  }
+
+  /* Droplet Click Spread */
+  .water-drop-spread {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.9), rgba(255,255,255,0.2));
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 999999;
+    box-shadow: inset 0 0 4px rgba(255,255,255,0.8), 0 4px 10px rgba(0,0,0,0.2);
+    animation: dropSpread 0.6s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+  }
+  @keyframes dropSpread {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.5); opacity: 0; }
+  }
+</style>
 </body>
 
 </html>

@@ -1658,6 +1658,9 @@
         <div class="nav-item" onclick="showPage('gallery',this)">
           <span class="nav-icon">📸</span> Gallery <span class="count-badge" id="galleryCountBadge">0</span>
         </div>
+        <div class="nav-item" onclick="showPage('themes',this)">
+          <span class="nav-icon">🎭</span> Site Themes
+        </div>
         <div class="nav-group-label">Tools</div>
         <div class="nav-item" onclick="showPage('export',this)">
           <span class="nav-icon">📦</span> Export / Import
@@ -1964,8 +1967,34 @@
         </div>
       </div>
 
-      <!-- ── EXPORT/IMPORT ──────────────────────────────────────────── -->
-      <div class="page-section" id="page-export">
+    <!-- Themes Section -->
+    <div class="page-section" id="page-themes">
+      <div class="section-header">
+        <h2>Site Themes</h2>
+        <button class="btn-primary" onclick="saveTheme()">Save Theme</button>
+      </div>
+      <div class="card">
+        <h3>Select Active Theme</h3>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:20px;">Choose a theme to apply to the main website for all users.</p>
+        
+        <select id="themeSelect" class="input-style" style="margin-bottom:20px;">
+          <option value="default">Default (Dark Luxury)</option>
+          <option value="independence">Independence Day (Tricolor)</option>
+          <option value="rakshabandhan">Rakshabandhan (Festive Red/Gold)</option>
+          <option value="ganesh">Ganesh Chaturthi (Vermillion/Gold)</option>
+        </select>
+        
+        <h3>Custom Background Color</h3>
+        <p style="color:var(--text-muted); font-size:14px; margin-bottom:10px;">Select a custom body background color for the main site (overrides theme defaults).</p>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <input type="color" id="themeBgColor" value="#040804" style="width:50px; height:40px; border:none; border-radius:8px; cursor:pointer; background:none;">
+          <button class="btn-secondary" onclick="document.getElementById('themeBgColor').value='#040804'">Reset to Default</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export / Import Section -->
+    <div class="page-section" id="page-export">
         <div class="page-header">
           <div>
             <h2 class="page-title"><span>Export</span> / Import</h2>
@@ -2539,6 +2568,7 @@
     // STORAGE  (Firebase Firestore — syncs across ALL devices)
     // ──────────────────────────────────────────────────────────────────
     async function loadData() {
+      await loadThemeSettings();
       try {
         const data = await window._fbLoad();
         if (data && data.services) {
@@ -2585,6 +2615,42 @@
         console.error('Firebase save error:', err);
         toast('❌ Failed to save to cloud. Check your internet connection.', 'error');
       }
+    }
+
+    // THEME LOGIC
+    async function loadThemeSettings() {
+      try {
+        const data = window._siteData || (await window._fbLoad());
+        if (data && data.theme) {
+          document.getElementById('themeSelect').value = data.theme;
+        } else {
+          document.getElementById('themeSelect').value = 'default';
+        }
+        if (data && data.themeBgColor) {
+          document.getElementById('themeBgColor').value = data.themeBgColor;
+        }
+      } catch(e) {
+        console.warn('Could not load theme:', e);
+      }
+    }
+
+    async function saveTheme() {
+      const btn = event.target;
+      const og = btn.innerHTML;
+      btn.innerHTML = 'Saving...';
+      try {
+        const theme = document.getElementById('themeSelect').value;
+        const themeBgColor = document.getElementById('themeBgColor').value;
+        const data = window._siteData || (await window._fbLoad()) || {};
+        data.theme = theme;
+        data.themeBgColor = themeBgColor;
+        await window._fbSave(data);
+        window._siteData = data;
+        toast('Theme saved successfully!');
+      } catch(e) {
+        alert('Error saving theme: ' + e.message);
+      }
+      btn.innerHTML = og;
     }
 
     function updateBadges() {
