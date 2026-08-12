@@ -15,6 +15,7 @@
   <script type="module">
     import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
     import { getFirestore, doc, getDoc, setDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    import { getStorage, ref, uploadString, getDownloadURL } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-storage.js';
 
     const firebaseConfig = {
       apiKey: "AIzaSyC3HLLxdZG9tBW1uqRZcu3_8l2F7SEpV94",
@@ -28,6 +29,13 @@
 
     const _fbApp = initializeApp(firebaseConfig);
     const _db   = getFirestore(_fbApp);
+    const _storage = getStorage(_fbApp);
+
+    window._fbUploadImage = async function(base64Str, path) {
+      const storageRef = ref(_storage, path);
+      await uploadString(storageRef, base64Str, 'data_url');
+      return await getDownloadURL(storageRef);
+    };
 
     // Expose helpers on window so the non-module script below can call them
     window._fbSave = async function(data) {
@@ -50,6 +58,7 @@
 
     window._firebaseReady = true;
   </script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>tailwind.config = { darkMode: 'class' }</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1583,9 +1592,12 @@
       white-space: pre-wrap;
     }
   </style>
+  <link rel="stylesheet" href="premium-liquid.css?v=3">
+  <link rel="stylesheet" href="theme-core.css?v=1">
 </head>
 
 <body>
+  <div class="page-wrap">
 
   <div class="bg-decoration">
     <div class="bg-blob blob1"></div>
@@ -2924,7 +2936,13 @@
       const price = Number(document.getElementById('svcPrice').value);
       const desc = document.getElementById('svcDesc').value.trim();
       const category = document.getElementById('svcCategory').value;
-      const images = [...document.querySelectorAll('#svcImgPreview img')].map(img => img.src);
+      toast('Uploading images to cloud storage...', 'info', 2000);
+        const images = [];
+        for (const img of document.querySelectorAll('#svcImgPreview img')) {
+          if (img.src.startsWith('data:')) {
+            images.push(await window._fbUploadImage(img.src, `services/${Date.now()}_${Math.random().toString(36).substring(2)}.jpg`));
+          } else { images.push(img.src); }
+        }
       const features = [...document.querySelectorAll('#svcFeaturesList .feature-input')].map(i => i.value.trim()).filter(Boolean);
       if (!title) { toast('❌ Please enter a service title', 'error'); return; }
       if (!price || price <= 0) { toast('❌ Please enter a valid price', 'error'); return; }
@@ -3493,7 +3511,7 @@
       const imgEl = document.querySelector('#galleryImgPreview img');
       if (!imgEl) { toast('❌ Please upload an image', 'error'); return; }
       const obj = {
-        img: imgEl.src,
+        img: imgEl.src.startsWith('data:') ? (await window._fbUploadImage(imgEl.src, `gallery/${Date.now()}_${Math.random().toString(36).substring(2)}.jpg`)) : imgEl.src,
         category: document.getElementById('galleryCategory').value
       };
       gallery.push(obj);
@@ -3589,7 +3607,10 @@
       if (url) { addImgPreview(type, url); input.value = ''; }
     }
   </script>
-<script src="global-inject.js"></script>
+
+  </div>
 </body>
 
 </html>
+
+

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlEl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="canonical" href="https://hawaahawaai.com/services-gurgaon.html" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#eab308">
+  <script>
+    (function() {
+      const theme = localStorage.getItem('hh_theme') || 'default';
+      document.documentElement.setAttribute('data-theme', theme);
+      const bg = localStorage.getItem('hh_themeBgColor');
+      if (bg) {
+        document.documentElement.style.setProperty('--bg-void', bg);
+        document.documentElement.style.setProperty('--bg-deep', bg);
+        document.documentElement.style.setProperty('--bg-dark', bg);
+      }
+    })();
+  </script>
+  <title>Premium Balloon Decoration in Gurgaon | Hawaa Hawaai</title>
+  <meta name="description" content="Best balloon decoration services in Gurgaon & Gurugram for birthdays, anniversaries, baby showers and corporate events. Book expert decorators in Delhi today!">
+  <meta name="keywords" content="balloon decoration gurgaon, gurugram balloon decoration, birthday decoration gurgaon, anniversary decoration delhi, party decorators delhi">
+
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preload" href="images/gurgaon.webp" as="image" fetchpriority="high">
+  <link rel="stylesheet" href="premium.css">
+
+  <style>
+    /* Location Specific Styles */
+    .location-hero {
+      position: relative;
+      padding: 140px 24px 80px;
+      min-height: 50vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+    
+    .location-hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    
+    .location-hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.4;
+      filter: blur(2px) brightness(0.6);
+    }
+    
+    .location-hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, var(--bg-void) 0%, transparent 40%, var(--bg-void) 100%);
+      z-index: 1;
+    }
+    
+    .location-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      animation: fade-up 0.8s ease forwards;
+    }
+    
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+    
+    .breadcrumb a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    
+    .breadcrumb a:hover {
+      color: var(--text-primary);
+    }
+    
+    .location-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 30px;
+    }
+    
+    .location-tag {
+      padding: 6px 14px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+  </style>
+
+  <!-- Firebase SDK Setup -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js';
+    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js';
+    const firebaseConfig = {
+      apiKey: "AIzaSyC3HLLxdZG9tBW1uqRZcu3_8l2F7SEpV94",
+      authDomain: "hawaahawaai.firebaseapp.com",
+      projectId: "hawaahawaai",
+      storageBucket: "hawaahawaai.firebasestorage.app",
+      messagingSenderId: "650317857849",
+      appId: "1:650317857849:web:80d834962413fe5a6df9e8"
+    };
+    const _fbApp = initializeApp(firebaseConfig);
+    const _db = getFirestore(_fbApp);
+    
+    window._siteDataPromise = (async function() {
+      try {
+        const snap = await getDoc(doc(_db, 'siteData', 'main'));
+        if (snap.exists()) {
+          const data = snap.data();
+          if (data.theme) {
+            localStorage.setItem('hh_theme', data.theme);
+            document.documentElement.setAttribute('data-theme', data.theme);
+          }
+          if (data.themeBgColor) {
+            localStorage.setItem('hh_themeBgColor', data.themeBgColor);
+            document.documentElement.style.setProperty('--bg-void', data.themeBgColor);
+          }
+          return data;
+        }
+      } catch (e) {
+        console.warn('Firebase fetch failed:', e);
+      }
+      return null;
+    })();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  
+  <!-- Fallback Data & Fetchers -->
+  <script>
+    const _DEFAULT_SERVICES = [
+      { title: 'Haldi & Mehendi Specials', price: 3999, desc: 'Premium yellow chrome balloons and floral fusion decor for pre-wedding events.', features: ['Marigold Garland Backgrounds', 'Yellow & Gold Chrome Arches', 'Premium Seating Setup'], images: ['img/haldi.webp'], category: 'other' },
+      { title: 'Birthday Decoration', price: 12000, desc: 'Make birthdays memorable with vibrant and festive balloon decorations.', features: ['Theme-based balloon arches', 'LED backdrop with fairy lights', 'Cake table decoration'], images: ['img/111.jpeg'], category: 'birthday' },
+      { title: 'Anniversary Setup', price: 9999, desc: 'Romantic anniversary balloon & floral setup to celebrate your love.', features: ['Heart-shaped balloon arch', 'Romantic LED lighting', 'Customized name initial foils'], images: ['img/112.jpeg', 'img/1122.jpeg'], category: 'anniversary' },
+      { title: 'Baby Shower Centerpiece', price: 8999, desc: 'Beautiful baby shower balloon setups to welcome your little one.', features: ["Oh Baby / It's a Boy/Girl foil", 'Pastel balloon centerpieces', 'Free delivery & installation'], images: ['img/102.jpeg'], category: 'babyshower' },
+      { title: 'Mickey Mouse Theme', price: 49000, desc: 'Magical Disney themed balloon decoration featuring your favorite characters.', features: ['Mickey/Minnie cutout props', 'Red, Black & Yellow balloons', 'Customized theme setup'], images: ['img/02.jpeg'], category: 'kids' }
+    ];
+
+    async function _getServices() {
+      const data = await Promise.race([window._siteDataPromise, new Promise(resolve => setTimeout(() => resolve(null), 1500))]);
+      const list = (data && data.services && data.services.length) ? data.services : _DEFAULT_SERVICES;
+      return list.map(s => ({ ...s, images: Array.isArray(s.images) && s.images.length ? s.images : [''], features: Array.isArray(s.features) ? s.features : [], qty: 0 })).sort((a, b) => a.price - b.price);
+    }
+  </script>
+  <link rel="stylesheet" href="premium-liquid.css?v=3">
+  <link rel="stylesheet" href="theme-core.css?v=1">
+</head>
+
+<body>
+  <div class="page-wrap">
+  <!-- Global Nav (same as index) -->
+  <nav class="nav-luxury scrolled" id="mainNav">
+    
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-text">Hawaa <span>Hawaai</span></div>
+    <div class="nav-logo-sub">- DECOR -</div>
+    <img src="images/favicon.png" alt="balloons" class="nav-logo-balloons" onerror="this.style.display='none'">
+  </a>
+
+    <div class="nav-links">
+      <a href="index.html" class="nav-link-item" data-text="Home"><span>Home</span></a>
+      <a href="gallery.html" class="nav-link-item" data-text="Gallery"><span>Gallery</span></a>
+      <a href="about.html" class="nav-link-item" data-text="About"><span>About</span></a>
+      <a href="contact.html" class="nav-link-item" data-text="Contact"><span>Contact</span></a>
+      <a href="cart.html" class="nav-cart-btn">
+        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6h12.8l1.2-6H7z" /></svg>
+        Cart
+        <span class="cart-badge" id="cartCountDesktop">0</span>
+      </a>
+    </div>
+    <a href="#services" class="nav-cta">Book Now ✨</a>
+  </nav>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-nav">
+    <a href="index.html" class="mobile-nav-item ripple-btn"><svg fill="currentColor" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9v9a1 1 0 01-1 1h-5v-6H9v6H4a1 1 0 01-1-1v-9z" /></svg><span>Home</span></a>
+    <a href="cart.html" class="mobile-nav-item ripple-btn" style="position:relative;"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6h12.8l1.2-6H7z" /></svg><span>Cart</span><span class="mobile-cart-badge" id="cartCountMobile">0</span></a>
+    <button type="button" class="mobile-nav-item ripple-btn" id="mobileMenuBtn" style="background:none;border:none;font-family:inherit;"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" /></svg><span>Menu</span></button>
+  </nav>
+
+  <!-- Location Hero -->
+  <section class="location-hero">
+    <div class="location-hero-bg">
+      <img src="images/gurgaon.webp" alt="Delhi Balloon Decoration">
+    </div>
+    <div class="location-hero-overlay"></div>
+    
+    <div class="location-hero-content">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> <span>/</span> 
+        <a href="services-all.html">Locations</a> <span>/</span> 
+        <span style="color:var(--text-primary);">Delhi</span>
+      </div>
+      
+      <span class="section-label">📍 Available in Delhi</span>
+      <h1 class="hero-title" style="font-size: 3.5rem;">Balloon Decoration Services<br>in <span class="grad-text">Gurgaon</span></h1>
+      <p class="hero-subtitle">Make your celebrations in Gurgaon & Gurugram unforgettable with our bespoke balloon setups for birthdays, anniversaries, and corporate events.</p>
+      
+      <div class="location-tags">
+        <span class="location-tag">South Delhi</span>
+        <span class="location-tag">North Delhi</span>
+        <span class="location-tag">West Delhi</span>
+        <span class="location-tag">East Delhi</span>
+        <span class="location-tag">Central Delhi</span>
+        <span class="location-tag">Dwarka</span>
+        <span class="location-tag">Rohini</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Section -->
+  <section id="services" style="padding:40px 24px 80px;">
+    <div style="max-width:1280px;margin:0 auto;" x-data="{
+      openModal:false,
+      selected:{title:'',price:0,desc:'',features:[],images:[],currentImage:0,qty:0},
+      services:[],
+      activeFilter:'all',
+      init(){
+
+      this.services = (typeof _DEFAULT_SERVICES !== 'undefined' ? _DEFAULT_SERVICES : []).map(s => ({ ...s, images: Array.isArray(s.images) && s.images.length ? s.images : [''], features: Array.isArray(s.features) ? s.features : [], qty: 0 })).sort((a, b) => a.price - b.price);
+      this.activities = (typeof _DEFAULT_ACTIVITIES !== 'undefined' ? _DEFAULT_ACTIVITIES : []);
+      if(typeof _getServices === 'function') _getServices().then(res => { this.services = res; });
+      if(typeof _getActivities === 'function') _getActivities().then(res => { this.activities = res; });
+        this.$watch('openModal', val => document.body.style.overflow = val ? 'hidden' : '');
+      },
+      get filtered(){
+        if(this.activeFilter==='all') return this.services;
+        return this.services.filter(s=>s.category===this.activeFilter);
+      },
+      addToCart(item){
+        let cart=JSON.parse(localStorage.getItem('cart'))||[];
+        let existing=cart.find(i=>i.name===item.title);
+        if(existing){existing.qty++;item.qty=existing.qty;}
+        else{cart.push({name:item.title,price:item.price,qty:1,img:item.images?item.images[0]:item.img});item.qty=1;}
+        localStorage.setItem('cart',JSON.stringify(cart));
+        updateCartCount();
+      },
+      updateQty(item,delta){
+        let cart=JSON.parse(localStorage.getItem('cart'))||[];
+        let existing=cart.find(i=>i.name===item.title);
+        if(existing){
+          existing.qty+=delta;
+          if(existing.qty<=0){cart=cart.filter(i=>i.name!==item.title);item.qty=0;}
+          else{item.qty=existing.qty;}
+          localStorage.setItem('cart',JSON.stringify(cart));
+          updateCartCount();
+        }
+      },
+      removeItem(item){
+        let cart=JSON.parse(localStorage.getItem('cart'))||[];
+        cart=cart.filter(i=>i.name!==item.title);
+        item.qty=0;
+        localStorage.setItem('cart',JSON.stringify(cart));
+        updateCartCount();
+      }
+    }">
+      
+      <!-- Filter Buttons -->
+      <div class="filter-group" style="margin-bottom:36px;">
+        <button class="filter-btn" :class="activeFilter==='all'?'active':''" @click="activeFilter='all'">All Setups</button>
+        <button class="filter-btn" :class="activeFilter==='birthday'?'active':''" @click="activeFilter='birthday'">🎂 Birthday</button>
+        <button class="filter-btn" :class="activeFilter==='anniversary'?'active':''" @click="activeFilter='anniversary'">💍 Anniversary</button>
+        <button class="filter-btn" :class="activeFilter==='babyshower'?'active':''" @click="activeFilter='babyshower'">👶 Baby Shower</button>
+        <button class="filter-btn" :class="activeFilter==='kids'?'active':''" @click="activeFilter='kids'">🧸 Kids Theme</button>
+      </div>
+
+      <!-- Service Grid -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px;">
+        <template x-for="service in filtered" :key="service.title">
+          <div class="service-card tilt-card" @click="service.customLink ? window.location.href = service.customLink : (selected={...service,currentImage:0}, openModal=true)">
+            <div class="tilt-shine"></div>
+            <div style="overflow:hidden;height:220px;position:relative;">
+              <img :src="service.images[0]" :alt="service.title" class="service-card-img" loading="lazy">
+              <div style="position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(to top,rgba(12,12,24,0.9),transparent);pointer-events:none;"></div>
+            </div>
+            <div class="service-card-body">
+              <div class="service-card-title" x-text="service.title"></div>
+              <div class="price-tag-3d">₹<span x-text="service.price.toLocaleString()"></span></div>
+              <button class="btn-primary btn-sm" style="width:100%;justify-content:center;">📩 View & Book in Delhi</button>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <!-- Modal -->
+      <template x-teleport="body">
+        <div x-show="openModal" x-transition.opacity style="display:none;" class="modal-overlay" :class="{'open': openModal}" @click.self="openModal=false">
+          <div class="modal-box" x-show="openModal" @click.away="openModal=false">
+            <button class="modal-close" @click="openModal=false">✕</button>
+            <div style="padding:28px;">
+              <h2 style="font-size:22px;font-weight:800;letter-spacing:-0.02em;margin-bottom:6px;" x-text="selected.title"></h2>
+              <div class="service-card-price" style="margin-bottom:16px;">₹<span x-text="selected.price.toLocaleString()"></span></div>
+
+              <!-- Image Carousel -->
+              <div style="position:relative;border-radius:16px;overflow:hidden;margin-bottom:20px;">
+                <img :src="selected.images[selected.currentImage]" style="width:100%;max-height:320px;object-fit:contain;background:#0a0a14;display:block;" loading="lazy">
+                <button @click="selected.currentImage=(selected.currentImage-1+selected.images.length)%selected.images.length" style="position:absolute;left:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color: #000;cursor:pointer;">‹</button>
+                <button @click="selected.currentImage=(selected.currentImage+1)%selected.images.length" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.15);color: #000;cursor:pointer;">›</button>
+              </div>
+
+              <p style="color:#000; font-weight: 500;font-size:14px;margin-bottom:16px;line-height:1.7;" x-text="selected.desc"></p>
+
+              <!-- Cart Controls -->
+              <div x-show="!selected.qty" style="display:flex;gap:10px;margin-top:20px;">
+                <button @click.stop="addToCart(selected)" class="btn-primary" style="flex:1;justify-content:center;">🛒 Add to Cart</button>
+                <a :href="'https://wa.me/919389835280?text='+encodeURIComponent('Hi! I want to book '+selected.title+' in Gurgaon for ₹'+selected.price)" target="_blank" class="btn-wa">Book in Delhi</a>
+              </div>
+              <div x-show="selected.qty" class="qty-control" style="justify-content:center;margin-top:20px;">
+                <button @click.stop="updateQty(selected,-1)" class="qty-btn">−</button>
+                <span class="qty-value" x-text="selected.qty"></span>
+                <button @click.stop="updateQty(selected,1)" class="qty-btn">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer-luxury">
+    <div class="footer-glow">
+      <div class="footer-brand">Hawaa Hawaai Decor</div>
+      <div class="footer-tagline">Gurgaon's Premium Balloon Decoration Studio</div>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="services-all.html" class="footer-link">All Services</a>
+        <a href="contact.html" class="footer-link">Contact</a>
+      </div>
+      <div class="footer-copy">© 2025 Hawaa Hawaai Decors. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((s, i) => s + i.qty, 0);
+      ['cartCountDesktop', 'cartCountMobile'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = count;
+      });
+    }
+    updateCartCount();
+    window.addEventListener('storage', updateCartCount);
+  </script>
+<script id="hide-preloader-fallback">setTimeout(()=>{const p=document.getElementById('preloader');if(p&&p.style.display!=='none'){p.classList.add('fade-out');setTimeout(()=>p.style.display='none',600);}},2000);</script>
+  </div>
+</body>
+</html>
+
+
+
+
+
+
+

@@ -18,21 +18,12 @@
   <link rel="stylesheet" href="premium.css">
   <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
 
+  <link rel="stylesheet" href="premium-liquid.css?v=3">
+  <link rel="stylesheet" href="theme-core.css?v=1">
 </head>
 <body>
-  <div class="luxury-bg"></div>
-  <div class="luxury-bg-noise"></div>
-  <div class="orbit-3d-bg">
-    <div class="ring-1"><div class="dot"></div></div>
-    <div class="ring-2"><div class="dot"></div></div>
-  </div>
-<div id="mouse-glow"></div>
-
-
-
-<div class="particles-container" id="particlesContainer"></div>
-
-<!-- Preloader -->
+  <div class="page-wrap">
+  <!-- Preloader -->
 <div id="preloader">
   <div class="preloader-logo">Hawaa Hawaai</div>
   <div class="preloader-ring"></div>
@@ -45,10 +36,13 @@
 
 <!-- Navbar -->
 <nav class="nav-luxury" id="mainNav">
+  
   <a href="index.html" class="nav-logo">
-    <img src="favicon.png" alt="Hawaa Hawaai Logo" loading="lazy" decoding="async">
-    <span class="nav-logo-text">Hawaa Hawaai</span>
+    <div class="nav-logo-text">Hawaa <span>Hawaai</span></div>
+    <div class="nav-logo-sub">- DECOR -</div>
+    <img src="images/favicon.png" alt="balloons" class="nav-logo-balloons" onerror="this.style.display='none'">
   </a>
+
   <div class="nav-links">
     <a href="index.html" class="nav-link-item">Home</a>
     <a href="gallery.html" class="nav-link-item">Gallery</a>
@@ -278,31 +272,26 @@
 </footer>
 
 <!-- Mobile Bottom Drawer -->
+
+<!-- Drawer Overlay -->
+
+<!-- Drawer Overlay -->
 <div class="mobile-drawer-overlay" id="drawerOverlay"></div>
-<div class="mobile-drawer" id="bottomDrawer">
-  <div class="drawer-drag-handle"></div>
-  <div style="margin-bottom:20px;text-align:center;">
-    <h3 style="margin:0;font-size:18px;font-weight:700;">Quick Menu</h3>
-  </div>
-  <div class="drawer-menu-grid">
-    <a href="gallery.html" class="drawer-menu-item ripple-btn">
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 15l3-3 4 4 3-3 3 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="9" r="1.5"/></svg>
-      Gallery
-    </a>
-    <a href="about.html" class="drawer-menu-item ripple-btn" style="background:rgba(255,255,255,0.05);border-color:var(--accent-purple);">
-      <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v2h20v-2c0-3.3-6.7-5-10-5z"/></svg>
-      About Us
-    </a>
-    <a href="contact.html" class="drawer-menu-item ripple-btn">
-      <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.95.68l1.52 4.55a1 1 0 01-.5 1.21l-2.28 1.14a11.05 11.05 0 005.52 5.52l1.14-2.28a1 1 0 011.21-.5l4.55 1.52a1 1 0 01.68.95V19a2 2 0 01-2 2H19C9.16 21 2 13.84 2 5V5z"/></svg>
-      Contact
-    </a>
-    <a href="https://wa.me/919389835280" target="_blank" class="drawer-menu-item ripple-btn" style="background:rgba(37,211,102,0.1);border-color:rgba(37,211,102,0.3);">
-      <svg width="24" height="24" fill="#25D366" viewBox="0 0 24 24"><path d="M20.52 3.48A11.9 11.9 0 0012 0C5.37 0 .06 5.31 0 11.93c0 2.1.55 4.17 1.59 5.99L0 24l6.3-1.65a12 12 0 0011.4-2.86c5.05-5.05 5.05-13.26 0-18.31z"/></svg>
-      <span style="color:#25D366;">WhatsApp</span>
-    </a>
+
+<!-- Mobile Drawer -->
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-handle"></div>
+  <div class="drawer-grid">
+    <a href="services-all.html" class="drawer-item">✨ All Services</a>
+    <a href="gallery.html" class="drawer-item">📸 Gallery</a>
+    <a href="contact.html" class="drawer-item">📞 Contact</a>
+    <a href="https://wa.me/919389835280" target="_blank" class="drawer-item" style="color:#25D366;">💬 WhatsApp</a>
+    <a href="about.html" class="drawer-item">🌟 About Us</a>
+    <a href="cart.html" class="drawer-item">🛍️ My Cart</a>
   </div>
 </div>
+
+
 
 <script>
 window.addEventListener('load',()=>{const p=document.getElementById('preloader');if(p){p.classList.add('fade-out');setTimeout(()=>p.style.display='none',600);}});
@@ -313,41 +302,27 @@ const glowEl=document.getElementById('mouse-glow');if(glowEl)document.addEventLi
 const pc=document.getElementById('particlesContainer');if(pc){for(let i=0;i<10;i++){const p=document.createElement('div');p.className='particle';const s=Math.random()*3+1.5;const c=['rgba(168,85,247,0.5)','rgba(236,72,153,0.5)','rgba(96,165,250,0.4)'];p.style.cssText=`width:${s}px;height:${s}px;left:${Math.random()*100}%;animation-duration:${Math.random()*15+10}s;animation-delay:${Math.random()*10}s;background:${c[Math.floor(Math.random()*c.length)]};`;pc.appendChild(p);}}
 const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.12});document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 
-/* ── Mobile Touch Ripple Effect ── */
-document.querySelectorAll('.ripple-btn, .btn-primary, .btn-luxury, .btn-glass').forEach(btn => {
-  btn.addEventListener('click', function(e) {
-    let ripple = document.createElement('span');
-    ripple.classList.add('ripple');
-    this.appendChild(ripple);
-    let rect = this.getBoundingClientRect();
-    let size = Math.max(rect.width, rect.height);
-    let x = e.clientX ? e.clientX - rect.left - size/2 : rect.width/2 - size/2;
-    let y = e.clientY ? e.clientY - rect.top - size/2 : rect.height/2 - size/2;
-    ripple.style.width = ripple.style.height = `${size}px`;
-    ripple.style.left = `${x}px`;
-    ripple.style.top = `${y}px`;
-    setTimeout(() => ripple.remove(), 600);
-  });
-});
 
-/* ── Mobile Bottom Drawer ── */
-(function(){
-  const btn = document.getElementById('mobileMenuBtn');
-  const overlay = document.getElementById('drawerOverlay');
-  const drawer = document.getElementById('bottomDrawer');
-  if(btn && overlay && drawer){
-    const openDrawer = () => { overlay.classList.add('active'); drawer.classList.add('active'); };
-    const closeDrawer = () => { overlay.classList.remove('active'); drawer.classList.remove('active'); };
-    btn.addEventListener('click', openDrawer);
-    overlay.addEventListener('click', closeDrawer);
+  
+  /* ✨ Mobile Bottom Drawer ✨ */
+  (function(){
+    const btn = document.getElementById('mobileMenuBtn');
+    const overlay = document.getElementById('drawerOverlay');
+    const drawer = document.getElementById('mobileDrawer');
+    if (!btn || !overlay || !drawer) return;
+    const open = () => { overlay.classList.add('open'); drawer.classList.add('open'); document.body.style.overflow = 'hidden'; };
+    const close = () => { overlay.classList.remove('open'); drawer.classList.remove('open'); document.body.style.overflow = ''; };
+    btn.addEventListener('click', open);
+    overlay.addEventListener('click', close);
     let startY = 0;
     drawer.addEventListener('touchstart', e => startY = e.touches[0].clientY);
     drawer.addEventListener('touchmove', e => {
       const y = e.touches[0].clientY;
-      if (y - startY > 50) closeDrawer();
+      if (y - startY > 50) close();
     });
-  }
-})();
+  })();
+
+
 
 /* ── Scroll to End Marquee Layer ── */
 (function(){
@@ -416,5 +391,9 @@ document.querySelectorAll('.ripple-btn, .btn-primary, .btn-luxury, .btn-glass').
 })();
 </script>
 <script src="global-inject.js"></script>
+  </div>
 </body>
 </html>
+
+
+
